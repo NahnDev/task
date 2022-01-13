@@ -1,14 +1,13 @@
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 import { ApiProperty, ApiOkResponse } from '@nestjs/swagger';
-import { Document } from 'mongoose';
-import { StringOrObjectId } from 'src/types/StringOrObjectId';
+import { Document, SchemaTypes, Types } from 'mongoose';
 import { USER_ROLES } from '../enums/user-role.enum';
-import { Exclude, plainToClass } from 'class-transformer';
+import { Exclude, plainToClass, Transform } from 'class-transformer';
 
 @Schema()
 export class User {
   @ApiProperty({ type: 'string' })
-  _id: StringOrObjectId;
+  _id: string;
 
   @ApiProperty()
   @Prop({
@@ -46,5 +45,5 @@ export type UserDocument = User & Document;
 export const UserSchema = SchemaFactory.createForClass(User);
 
 UserSchema.methods.toJSON = function () {
-  return plainToClass(User, this.toObject());
+  return plainToClass(User, JSON.parse(JSON.stringify(this.toObject()))); // warning : hieu suat
 };

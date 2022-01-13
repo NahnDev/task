@@ -2,7 +2,6 @@ import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 import { ApiProperty, ApiPropertyOptions } from '@nestjs/swagger';
 import { plainToClass } from 'class-transformer';
 import { SchemaTypes } from 'mongoose';
-import { StringOrObjectId } from 'src/types/StringOrObjectId';
 import { User } from 'src/users/schemas/user.schema';
 import { PROJECT_ROLE } from '../enums/project-role.enum';
 
@@ -25,7 +24,7 @@ export const project_permission_open_api_options: ApiPropertyOptions = {
 @Schema()
 export class Project {
   @ApiProperty({ type: 'string' })
-  _id: StringOrObjectId;
+  _id: string;
 
   @ApiProperty()
   @Prop({})
@@ -36,7 +35,7 @@ export class Project {
     type: SchemaTypes.ObjectId,
     ref: User.name,
   })
-  author: StringOrObjectId;
+  author: string;
 
   @ApiProperty(project_permission_open_api_options)
   @Prop({
@@ -56,11 +55,11 @@ export class Project {
       },
     ],
   })
-  permission: { user: StringOrObjectId; role: PROJECT_ROLE }[];
+  permission: { user: string; role: PROJECT_ROLE }[];
 }
 
 export type ProjectDocument = Project & Document;
 export const ProjectSchema = SchemaFactory.createForClass(Project);
 ProjectSchema.methods.toJSON = function () {
-  return plainToClass(Project, this.toObject());
+  return plainToClass(Project, JSON.parse(JSON.stringify(this.toObject())));
 };

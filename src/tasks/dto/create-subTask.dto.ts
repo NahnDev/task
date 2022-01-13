@@ -1,12 +1,18 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { StringOrObjectId } from 'src/types/StringOrObjectId';
+import { IsMongoId, IsString } from 'class-validator';
 
 export class CreateSubTaskDTo {
-  readonly __t: 'SubTask';
+  readonly __t: 'SubTask' = 'SubTask';
+
+  @IsString()
   @ApiProperty()
   name: string;
+
+  @IsMongoId()
   @ApiProperty({ type: 'string' })
-  project: StringOrObjectId;
+  project: string;
+
+  @IsMongoId()
   @ApiProperty({ type: 'string' })
-  parent: StringOrObjectId;
+  parent: string;
 }

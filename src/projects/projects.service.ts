@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { AbilityFactory } from 'src/ability/ability-factory';
-import { StringOrObjectId } from 'src/types/StringOrObjectId';
 import { CreateProjectDto } from './dto/create-project.dto';
 import { UpdateProjectDto } from './dto/update-project.dto';
 import { Project, ProjectDocument } from './schemas/project.schema';
@@ -14,6 +13,7 @@ export class ProjectsService {
     private abilityFactory: AbilityFactory,
   ) {}
   async create(createProjectDto: CreateProjectDto) {
+    console.dir(createProjectDto.name);
     const projectDocument = new this.projectModel(createProjectDto);
     await projectDocument.save();
     return projectDocument.toJSON();
@@ -23,16 +23,16 @@ export class ProjectsService {
     return (await this.projectModel.find()).map((el) => el.toJSON());
   }
 
-  async findOne(id: StringOrObjectId) {
+  async findOne(id: string) {
     return await this.projectModel.findById(id).lean();
   }
 
-  async update(id: StringOrObjectId, updateProjectDto: UpdateProjectDto) {
+  async update(id: string, updateProjectDto: UpdateProjectDto) {
     await this.projectModel.updateOne({ _id: id }, updateProjectDto);
     return await this.findOne(id);
   }
 
-  async remove(id: StringOrObjectId) {
+  async remove(id: string) {
     return await this.projectModel.deleteOne({ _id: id });
   }
 }

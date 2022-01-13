@@ -1,5 +1,5 @@
 import { Controller, Get, Post, UseGuards, Query, Body } from '@nestjs/common';
-import { ApiBody, ApiOkResponse } from '@nestjs/swagger';
+import { ApiBody, ApiOkResponse, ApiQuery } from '@nestjs/swagger';
 import { PublicAPI } from 'src/decorators/public.decorator';
 import { RequestUser } from 'src/decorators/request-user.decorator';
 import { User } from 'src/users/schemas/user.schema';
@@ -22,7 +22,7 @@ export class AuthController {
   })
   @Get('token')
   async getToken(@Query('refreshToken') refreshToken: string) {
-    return await this.authService.getTokenWithRefresh(refreshToken);
+    return await this.authService.getTokenWithRefreshToken(refreshToken);
   }
 
   @ApiBody({
@@ -46,6 +46,16 @@ export class AuthController {
     return await this.authService.getToken(user);
   }
 
+  @ApiQuery({ schema: { type: 'string' } })
+  @ApiOkResponse({
+    schema: {
+      type: 'object',
+      properties: {
+        accessToken: { type: 'string' },
+        refreshToken: { type: 'string' },
+      },
+    },
+  })
   @UseGuards(GoogleAuthGuard)
   @Get('google-login')
   async googleLogin(@RequestUser() user: User) {

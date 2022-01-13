@@ -35,6 +35,7 @@ export class UsersController {
   @ApiOkResponse({ type: User })
   @Get(':id')
   async findOne(@Param('id', ParseObjectIdPipe) id: string) {
+    console.log(id);
     return await this.usersService.findOne(null, id);
   }
 

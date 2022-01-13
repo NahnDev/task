@@ -1,11 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User, UserDocument } from './schemas/user.schema';
 import { compare, hash } from 'bcryptjs';
-import { StringOrObjectId } from 'src/types/StringOrObjectId';
 
 @Injectable()
 export class UsersService {
@@ -13,6 +12,7 @@ export class UsersService {
   async create(createUserDto: CreateUserDto) {
     console.log(createUserDto);
     const userDocument = new this.userModel(createUserDto);
+    userDocument.password = await this.hashPassword(userDocument.password);
     await userDocument.save();
     return userDocument.toJSON();
   }
@@ -22,11 +22,16 @@ export class UsersService {
     return users;
   }
 
-  async findOne(actor: User, id: StringOrObjectId): Promise<User> {
-    return (await this.userModel.findById(id)).toJSON();
+  async findOne(actor: User, id: string): Promise<User> {
+    try {
+      return (await this.userModel.findOne({ _id: id })).toJSON();
+    } catch {
+      throw new NotFoundException();
+    }
   }
 
-  async update(id: StringOrObjectId, updateUserDto: UpdateUserDto) {
+  async update(id: string, updateUserDto: UpdateUserDto) {
+    updateUserDto.password = await this.hashPassword(updateUserDto.password);
     await this.userModel.updateOne({ _id: id }, updateUserDto);
     return await this.findOne(null, id);
   }
@@ -42,13 +47,15 @@ export class UsersService {
     return user;
   }
 
-  async verifyPassword(
-    id: StringOrObjectId,
-    password: string,
-  ): Promise<boolean> {
-    const userDocument = (
-      await this.userModel.findById(id, { password: 1 })
-    ).toJSON();
+  async verifyPassword(id: string, password: string): Promise<boolean> {
+    const userDocument = await this.userModel.findOne(
+      { _id: id },
+      { password: 1 },
+    );
+    console.log(await compare(password, userDocument.password));
     return await compare(password, userDocument.password);
+  }
+  async hashPassword(password: string) {
+    return await hash(password, 1);
   }
 }

@@ -22,6 +22,7 @@ export class ProjectsController {
   @ApiOkResponse({ type: Project })
   @Post()
   async create(@Body() createProjectDto: CreateProjectDto) {
+    console.log(createProjectDto);
     return await this.projectsService.create(createProjectDto);
   }
 

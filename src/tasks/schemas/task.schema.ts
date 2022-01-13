@@ -1,14 +1,14 @@
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 import { ApiProperty } from '@nestjs/swagger';
-import { plainToClass } from 'class-transformer';
+import { plainToClass, Transform } from 'class-transformer';
 import { SchemaTypes } from 'mongoose';
 import { Project } from 'src/projects/schemas/project.schema';
-import { StringOrObjectId } from 'src/types/StringOrObjectId';
 
 @Schema()
 export class Task {
+  @Transform(({ value }) => value.toString())
   @ApiProperty({ type: 'string' })
-  _id: StringOrObjectId;
+  _id: string;
   @ApiProperty()
   __t: 'PrimaryTask' | 'SubTask';
 
@@ -24,6 +24,7 @@ export class Task {
   })
   complete: boolean;
 
+  @Transform(({ value }) => value.toString())
   @ApiProperty({ type: 'string' })
   @Prop({
     type: SchemaTypes.ObjectId,
@@ -31,12 +32,12 @@ export class Task {
     ref: Project.name,
     immutable: true,
   })
-  project: StringOrObjectId;
+  project: string;
 }
 export type TaskDocument = Task & Document;
 export const TaskSchema = SchemaFactory.createForClass(Task);
 TaskSchema.methods.toJSON = function () {
-  return plainToClass(Task, this.toObject());
+  return plainToClass(Task, JSON.parse(JSON.stringify(this.toObject())));
 };
 
 @Schema()
@@ -61,33 +62,28 @@ export class PrimaryTask extends Task {
     },
   })
   dueDate: Date;
-
-  @ApiProperty({ type: 'array', items: { type: 'string' } })
-  @Prop({
-    type: [{ type: SchemaTypes.ObjectId, ref: Task.name }],
-  })
-  dependencies: StringOrObjectId[];
 }
 
 export type PrimaryTaskDocument = PrimaryTask & Document;
 export const PrimaryTaskSchema = SchemaFactory.createForClass(PrimaryTask);
 PrimaryTaskSchema.methods.toJSON = function () {
-  return plainToClass(PrimaryTask, this.toObject());
+  return plainToClass(PrimaryTask, JSON.parse(JSON.stringify(this.toObject())));
 };
 
 @Schema()
 export class SubTask extends Task {
   @ApiProperty({ type: 'string' })
+  @Transform(({ value }) => value.toString())
   @Prop({
     type: SchemaTypes.ObjectId,
     required: true,
     ref: Task.name,
   })
-  parent: StringOrObjectId;
+  parent: string;
 }
 
 export type SubTaskDocument = SubTask & Document;
 export const SubTaskSchema = SchemaFactory.createForClass(SubTask);
 SubTaskSchema.methods.toJSON = function () {
-  return plainToClass(SubTask, this.toObject());
+  return plainToClass(SubTask, JSON.parse(JSON.stringify(this.toObject())));
 };

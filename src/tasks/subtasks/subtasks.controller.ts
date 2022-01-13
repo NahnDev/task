@@ -10,7 +10,6 @@ import {
 } from '@nestjs/common';
 import { ApiOkResponse } from '@nestjs/swagger';
 import { PublicAPI } from 'src/decorators/public.decorator';
-import { StringOrObjectId } from 'src/types/StringOrObjectId';
 import { CreateSubTaskDTo } from '../dto/create-subTask.dto';
 import { UpdateSubTaskDto } from '../dto/update-subTask.dto';
 import { SubTask } from '../schemas/task.schema';
@@ -29,13 +28,13 @@ export class SubtasksController {
 
   @Get()
   @ApiOkResponse({ type: [SubTask] })
-  async findAll(@Query('parent') parent: StringOrObjectId) {
+  async findAll(@Query('parent') parent: string) {
     return await this.subTaskService.findAllInParentTask(parent);
   }
 
   @Get(':id')
   @ApiOkResponse({ type: SubTask })
-  async findOne(@Param() id: StringOrObjectId) {
+  async findOne(@Param() id: string) {
     return await this.subTaskService.findOne(id);
   }
 

@@ -8,6 +8,7 @@ import { PassportModule } from '@nestjs/passport';
 import { JwtAuthGuard } from './jwt-auth.guard';
 import { LocalAuthGuard } from './local-auth.guard';
 import { GoogleAuthGuard } from './google-auth.guard';
+import { GoogleStrategy } from './google.strategy';
 
 @Module({
   imports: [UsersModule, PassportModule],
@@ -21,6 +22,7 @@ import { GoogleAuthGuard } from './google-auth.guard';
       useClass: JwtAuthGuard,
     },
     LocalAuthGuard,
+    GoogleStrategy,
     GoogleAuthGuard,
   ],
 })
