@@ -1,0 +1,5 @@
+export enum USER_ACTIVE {
+  ACTIVE = 'ACTIVE',
+  BLOCK = 'BLOCK',
+  NOT_ACTIVE = 'NOT_ACTIVE',
+}
