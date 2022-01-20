@@ -28,6 +28,10 @@ export class User {
     default: USER_ACTIVE.NOT_ACTIVE,
   })
   active: USER_ACTIVE;
+
+  role: {
+    [key: string]: any;
+  };
 }
 
 export type UserDoc = User & Document;

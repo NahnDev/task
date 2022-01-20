@@ -7,11 +7,10 @@ import { User } from 'src/user/schemas/user.schema';
 
 @Injectable()
 export class JwtAuthGuard extends AuthGuard('jwt') {
-  constructor(private reflector: Reflector) {
+  constructor(protected reflector: Reflector) {
     super();
   }
   canActivate(context: ExecutionContext) {
-    console.log('-----');
     const isPublicApi = this.reflector.getAllAndOverride(PUBLIC_API_KEY, [
       context.getHandler(),
       context.getClass(),

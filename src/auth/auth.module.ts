@@ -13,19 +13,22 @@ import { GoogleAuthGuard } from './guards/google-auth.guard';
 import { ActiveJwtGuard } from './guards/active-jwt.guard';
 import { ActiveJwtStrategy } from './strategies/active-jwt.strategy';
 import { MailModule } from 'src/mail/mail.module';
+import { PoliciesGuard } from './guards/policies.guard';
+import { ProjectModule } from 'src/project/project.module';
 
 @Module({
-  imports: [PassportModule, UserModule, MailModule],
+  imports: [PassportModule, UserModule, MailModule, ProjectModule],
   controllers: [AuthController],
   providers: [
     AuthService,
     {
       provide: APP_GUARD,
-      useClass: JwtAuthGuard,
+      useClass: PoliciesGuard,
     },
     LocalAuthGuard,
     LocalStrategy,
     JwtStrategy,
+    JwtAuthGuard,
     GoogleStrategy,
     GoogleAuthGuard,
     ActiveJwtGuard,

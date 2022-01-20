@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { ProjectService } from './project.service';
 import { CreateProjectDto } from './dto/create-project.dto';
@@ -14,6 +15,9 @@ import { ApiBearerAuth, ApiOkResponse } from '@nestjs/swagger';
 import { Project } from './schemas/project.schema';
 import { User } from 'src/user/schemas/user.schema';
 import { RequestUser } from 'src/decorators/request-user.decorator';
+import { PID } from 'src/constants/PID';
+import { CheckPolicies } from 'src/decorators/check-policies.decorator';
+import { Actions } from 'src/casl/casl-ability.factory';
 
 @ApiBearerAuth()
 @Controller('projects')
@@ -37,19 +41,22 @@ export class ProjectController {
   }
 
   @ApiOkResponse({ type: Project })
-  @Get(':id')
-  findOne(@Param('id') id: string) {
+  @CheckPolicies((ability) => ability.can(Actions.Read, Project))
+  @Get(`:${PID}`)
+  findOne(@Param(PID) id: string) {
     return this.projectService.findOne(id);
   }
 
+  @CheckPolicies((ability) => ability.can(Actions.Update, Project))
   @ApiOkResponse({ type: Project })
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateProjectDto: UpdateProjectDto) {
+  @Patch(`:${PID}`)
+  update(@Param(PID) id: string, @Body() updateProjectDto: UpdateProjectDto) {
     return this.projectService.update(id, updateProjectDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
+  @CheckPolicies((ability) => ability.can(Actions.Delete, Project))
+  @Delete(`:${PID}`)
+  remove(@Param(`PID`) id: string) {
     return this.projectService.remove(id);
   }
 }

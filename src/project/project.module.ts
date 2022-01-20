@@ -24,5 +24,6 @@ import { Project, ProjectSchema } from './schemas/project.schema';
   ],
   controllers: [ProjectController, ProjectMemberController],
   providers: [ProjectService, ProjectMemberService],
+  exports: [ProjectMemberService],
 })
 export class ProjectModule {}

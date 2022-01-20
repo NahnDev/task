@@ -9,6 +9,7 @@ import configuration from './config/configuration';
 import { MongooseModule } from '@nestjs/mongoose';
 import { PassportModule } from '@nestjs/passport';
 import { MailModule } from './mail/mail.module';
+import { CaslModule } from './casl/casl.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { MailModule } from './mail/mail.module';
     UserModule,
     ProjectModule,
     AuthModule,
+    CaslModule,
   ],
   controllers: [AppController],
   providers: [AppService],
