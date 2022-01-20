@@ -10,10 +10,13 @@ import {
   ProjectMemberSchema,
 } from './member/schemas/project-member.schema';
 import { Project, ProjectSchema } from './schemas/project.schema';
+import { NotifyModule } from 'src/notify/notify.module';
+import { TaskUpdatedListener } from './listeners/task-updated.listener';
 
 @Module({
   imports: [
     TaskModule,
+    NotifyModule,
     MongooseModule.forFeature([
       {
         name: ProjectMember.name,
@@ -23,7 +26,7 @@ import { Project, ProjectSchema } from './schemas/project.schema';
     ]),
   ],
   controllers: [ProjectController, ProjectMemberController],
-  providers: [ProjectService, ProjectMemberService],
+  providers: [ProjectService, ProjectMemberService, TaskUpdatedListener],
   exports: [ProjectMemberService],
 })
 export class ProjectModule {}

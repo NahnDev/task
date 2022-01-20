@@ -29,6 +29,14 @@ export class User {
   })
   active: USER_ACTIVE;
 
+  @ApiProperty()
+  @Prop({
+    type: Boolean,
+    required: true,
+    default: false,
+  })
+  isAdmin: boolean;
+
   role: {
     [key: string]: any;
   };

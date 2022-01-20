@@ -10,6 +10,8 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { PassportModule } from '@nestjs/passport';
 import { MailModule } from './mail/mail.module';
 import { CaslModule } from './casl/casl.module';
+import { NotifyModule } from './notify/notify.module';
+import { EventEmitterModule } from '@nestjs/event-emitter';
 
 @Module({
   imports: [
@@ -27,11 +29,13 @@ import { CaslModule } from './casl/casl.module';
         };
       },
     }),
+    EventEmitterModule.forRoot(),
     MailModule,
     UserModule,
     ProjectModule,
     AuthModule,
     CaslModule,
+    NotifyModule,
   ],
   controllers: [AppController],
   providers: [AppService],

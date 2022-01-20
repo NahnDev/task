@@ -1,13 +1,18 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
+import { EventEmitter2 } from 'eventemitter2';
 import { Model } from 'mongoose';
+import { TaskUpdatedEvent } from '../events/task-updated.event';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
 import { Task, TaskDoc } from './schemas/task.schema';
 
 @Injectable()
 export class TaskService {
-  constructor(@InjectModel(Task.name) private taskModel: Model<TaskDoc>) {}
+  constructor(
+    @InjectModel(Task.name) private taskModel: Model<TaskDoc>,
+    private eventEmitter: EventEmitter2,
+  ) {}
   async create(project: string, createTaskDto: CreateTaskDto): Promise<Task> {
     const taskDoc = new this.taskModel({ ...createTaskDto, project });
     await taskDoc.save();
@@ -51,6 +56,13 @@ export class TaskService {
       await this.canComplete(project, id);
     }
     await this.taskModel.updateOne({ _id: id, project }, updateTaskDto);
+
+    console.log('------------ chuan bi emit event');
+    console.log(TaskUpdatedEvent.key);
+    this.eventEmitter.emit(
+      TaskUpdatedEvent.key,
+      new TaskUpdatedEvent(project, id, ' đã cập nhật nhiệm vụ'),
+    );
     return this.findOne(project, id);
   }
 
@@ -68,6 +80,10 @@ export class TaskService {
     task.subtask_order.map((subtask) => {
       this.remove(project, subtask).then();
     });
+    this.eventEmitter.emit(
+      TaskUpdatedEvent.key,
+      new TaskUpdatedEvent(project, id, ' deleted'),
+    );
     return await this.taskModel.deleteOne({ _id: id, project });
   }
 
@@ -77,6 +93,10 @@ export class TaskService {
     await this.taskModel.updateOne(
       { _id: id },
       { subtask_order: { $push: task._id } },
+    );
+    this.eventEmitter.emit(
+      TaskUpdatedEvent.key,
+      new TaskUpdatedEvent(project, id, ' added subtasks'),
     );
     return await this.findOne(project, task._id);
   }

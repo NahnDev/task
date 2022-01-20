@@ -11,6 +11,7 @@ import { JwtAuthGuard } from './jwt-auth.guard';
 import { CHECK_POLICIES_KEY } from 'src/constants/CHECK_POLICIES_KEY';
 import { PolicyHandler } from 'src/casl/policy-handler';
 import { AppAbility, CaslAbilityFactory } from 'src/casl/casl-ability.factory';
+import { USER_ROLE } from 'src/roles/user.role';
 @Injectable()
 export class PoliciesGuard extends JwtAuthGuard implements CanActivate {
   constructor(
@@ -32,6 +33,7 @@ export class PoliciesGuard extends JwtAuthGuard implements CanActivate {
 
     const req = context.switchToHttp().getRequest();
     const user = req.user as User;
+    console.log(user);
     if (!user) return false;
 
     // detect project id and pass role to user
@@ -39,6 +41,10 @@ export class PoliciesGuard extends JwtAuthGuard implements CanActivate {
     if (pId) {
       const role = (await this.memberService.findOne(pId, user._id))?.role;
       if (role) req.user.role = { project: role, ...(req.user.role || {}) };
+    }
+    // detech system role
+    if (user.isAdmin) {
+      user.role = { user: USER_ROLE.ADMIN, ...(req.user.role || {}) };
     }
 
     const policyHandlers =
