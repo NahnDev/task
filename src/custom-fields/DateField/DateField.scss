@@ -1,0 +1,17 @@
+@import '../../assets/style/colors';
+
+.date-field {
+    width: 100%;
+    padding: 0.25rem 1rem;
+    color: $color_eerie_black;
+    border-color: rgba($color_eerie_black, $alpha: 0.5);
+    border-radius: 10px;
+    border: none;
+
+    &:hover,
+    &:focus,
+    &:active {
+        border-color: $color_eerie_black !important;
+        --antd-wave-shadow-color: $color_eerie_black;
+    }
+}
