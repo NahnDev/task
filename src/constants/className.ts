@@ -7,3 +7,10 @@ export const classLayout = {
     navbarCustom: 'layout-navbar-custom',
     auth: 'layout-auth',
 }
+
+// Auth
+
+export const classAuth = {
+    auth: 'auth',
+    form: 'auth__form',
+}

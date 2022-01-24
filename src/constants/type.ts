@@ -7,3 +7,9 @@ export type typeRouter = {
     role?: Array<string>
     isLogin: boolean
 }
+
+interface AntdIconProps {
+    className?: string
+    onClick?: React.MouseEventHandler<SVGSVGElement>
+    style?: React.CSSProperties
+}

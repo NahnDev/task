@@ -1,12 +1,10 @@
 export const initialValuesFormSignIn = {
-    phone: '',
+    username: '',
     password: '',
-    date: '',
-    select: '',
 }
 
 export const initialValuesFormSignUp = {
-    email: '',
-    phone: '',
+    name: '',
+    username: '',
     password: '',
 }

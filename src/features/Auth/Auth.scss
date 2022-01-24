@@ -1,0 +1,137 @@
+@import '../../assets/style/colors';
+@import '../../assets/style/screen';
+
+.auth {
+    &__bg {
+        width: 100vw;
+        height: 100vh;
+        background-image: url('../../assets/img/bg_form.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+
+        background-color: $color_eerie_black;
+    }
+
+    &__form {
+        padding: 1.25rem 2rem;
+        background-color: $color_vivid_tangerine;
+        border-radius: 25px;
+
+        &--hr {
+            margin: 1.25rem 0;
+            text-align: center;
+            background-color: $color_white;
+            height: 2px;
+        }
+
+        &--gg {
+            width: 100%;
+            padding: 0.05rem 1.5rem;
+
+            background-color: $color_white;
+
+            border: 1px solid $color_white;
+            border-radius: 20px;
+            transition: all 750ms;
+
+            &:hover,
+            &:active,
+            &:focus {
+                border: 1px solid $color_davys_grey;
+
+                background-color: $color_white;
+                transition: all 750ms;
+            }
+
+            &-icon {
+                font-size: 1.5rem;
+                margin: 0 0.5rem;
+            }
+            &-content {
+                font-size: .9rem;
+                letter-spacing: 2px;
+            }
+        }
+
+        &--header {
+            font-weight: 800;
+            font-size: 2rem;
+            letter-spacing: 0.15rem;
+            color: $color_white;
+        }
+
+        &--field {
+            &-input {
+                padding: 0.3rem 1.5rem;
+                background-color: $color_white;
+                border-radius: 20px;
+                border: 1px solid $color_white;
+
+                transition: all 750ms;
+
+                &:hover,
+                &:active,
+                &:focus {
+                    border: 1px solid $color_davys_grey;
+
+                    background-color: $color_white;
+                    transition: all 750ms;
+                }
+
+                &-field {
+                    width: 90%;
+                }
+
+                &-icon {
+                    font-size: 1.1rem;
+                }
+            }
+        }
+
+        &--btn {
+            width: 100%;
+            padding: 0.45rem 1.5rem;
+
+            background-color: $color_white;
+
+            border: 1px solid $color_white;
+            border-radius: 20px;
+            transition: all 750ms;
+
+            &:hover,
+            &:active,
+            &:focus {
+                border: 1px solid $color_davys_grey;
+
+                background-color: $color_white;
+                transition: all 750ms;
+            }
+
+            &-content {
+                font-size: 1rem;
+                font-weight: 700;
+                letter-spacing: 5px;
+            }
+        }
+
+        &--desc {
+            margin-top: 1.5rem;
+            color: $color_white;
+            letter-spacing: 2px;
+
+            font-weight: 500;
+            font-size: 1.1rem;
+        }
+
+        &--link {
+            margin: 0 0.75rem;
+            color: $color_eerie_black;
+            font-weight: 700;
+            text-decoration: solid;
+
+            &:hover {
+                text-decoration: solid;
+            }
+        }
+    }
+}

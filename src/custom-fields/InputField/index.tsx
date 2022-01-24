@@ -1,4 +1,4 @@
-import { Form, Input } from 'antd'
+import { Form, Input, Row } from 'antd'
 
 type InputFieldProps = {
     field: any
@@ -8,12 +8,13 @@ type InputFieldProps = {
     label: string
     placeholder: string
     disabled: boolean
+    icon: any
 
     className: string
 }
 
 function InputField(props: InputFieldProps) {
-    const { field, form, label, type, placeholder, disabled, className } = props
+    const { field, form, label, type, placeholder, disabled, className, icon } = props
 
     const { name } = field
 
@@ -28,19 +29,22 @@ function InputField(props: InputFieldProps) {
             validateStatus={submittedError || touchedError ? 'error' : ''}
         >
             {label && (
-                <label htmlFor={name} className={`${className}__label`}>
+                <label htmlFor={name} className={`${className}-label`}>
                     {label}
                 </label>
             )}
-            <Input
-                id={name}
-                className={`${className}__input`}
-                {...field}
-                placeholder={placeholder}
-                type={type}
-                disabled={disabled}
-                bordered={false}
-            />
+            <Row className={`${className}-input`} align={'middle'}>
+                {icon && <span className={`${className}-input-icon`}>{icon}</span>}
+                <Input
+                    id={name}
+                    className={`${className}-input-field`}
+                    {...field}
+                    placeholder={placeholder}
+                    type={type}
+                    disabled={disabled}
+                    bordered={false}
+                />
+            </Row>
         </Form.Item>
     )
 }
