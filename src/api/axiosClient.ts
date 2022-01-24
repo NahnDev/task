@@ -9,7 +9,7 @@ const axiosClient = axios.create({
     },
     paramsSerializer: (params) => queryString.stringify(params),
 })
-axiosClient.interceptors.request.use(async (config) => {
+axiosClient.interceptors.request.use(async (config: any) => {
     const token = localStorage.getItem('token') || ''
     if (token) {
         config.headers.Authorization = `${token.replace(/"/g, '')}`
