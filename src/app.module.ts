@@ -12,6 +12,7 @@ import { MailModule } from './mail/mail.module';
 import { CaslModule } from './casl/casl.module';
 import { NotifyModule } from './notify/notify.module';
 import { EventEmitterModule } from '@nestjs/event-emitter';
+import { RoleModule } from './role/role.module';
 
 @Module({
   imports: [
@@ -36,6 +37,7 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
     AuthModule,
     CaslModule,
     NotifyModule,
+    RoleModule,
   ],
   controllers: [AppController],
   providers: [AppService],
