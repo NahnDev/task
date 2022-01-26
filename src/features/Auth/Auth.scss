@@ -8,14 +8,13 @@
         background-image: url('../../assets/img/bg_form.png');
         background-size: contain;
         background-repeat: no-repeat;
-
-        background-color: $color_eerie_black;
     }
 
     &__form {
-        padding: 1.25rem 2rem;
-        background-color: $color_vivid_tangerine;
+        padding: 1.75rem 3.5rem;
+        background: $color_vivid_tangerine;
         border-radius: 25px;
+        box-shadow: $box-shadow;
 
         &--hr {
             margin: 1.25rem 0;
@@ -33,6 +32,7 @@
             border: 1px solid $color_white;
             border-radius: 20px;
             transition: all 750ms;
+            box-shadow: $box-shadow;
 
             &:hover,
             &:active,
@@ -48,15 +48,15 @@
                 margin: 0 0.5rem;
             }
             &-content {
-                font-size: .9rem;
-                letter-spacing: 2px;
+                font-size: 0.9rem;
+                letter-spacing: 1px;
             }
         }
 
         &--header {
             font-weight: 800;
             font-size: 2rem;
-            letter-spacing: 0.15rem;
+            letter-spacing: 5px;
             color: $color_white;
         }
 
@@ -66,6 +66,7 @@
                 background-color: $color_white;
                 border-radius: 20px;
                 border: 1px solid $color_white;
+                box-shadow: $box-shadow;
 
                 transition: all 750ms;
 
@@ -97,6 +98,7 @@
             border: 1px solid $color_white;
             border-radius: 20px;
             transition: all 750ms;
+            box-shadow: $box-shadow;
 
             &:hover,
             &:active,
@@ -109,28 +111,26 @@
 
             &-content {
                 font-size: 1rem;
-                font-weight: 700;
-                letter-spacing: 5px;
+                letter-spacing: 2px;
             }
         }
 
         &--desc {
             margin-top: 1.5rem;
             color: $color_white;
-            letter-spacing: 2px;
+            letter-spacing: 1px;
 
-            font-weight: 500;
             font-size: 1.1rem;
         }
 
         &--link {
             margin: 0 0.75rem;
             color: $color_eerie_black;
-            font-weight: 700;
-            text-decoration: solid;
+            transition: all 750ms;
 
             &:hover {
                 text-decoration: solid;
+                transition: all 750ms;
             }
         }
     }

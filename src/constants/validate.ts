@@ -1,13 +1,13 @@
 import * as Yup from 'yup'
 
 export const validateFormSignIn = Yup.object().shape({
-    username: Yup.string().required('This field is required'),
+    email: Yup.string().required('This field is required'),
     password: Yup.string().required('This field is required'),
 })
 
 export const validateFormSignUp = Yup.object().shape({
     name: Yup.string().required('This field is required'),
-    username: Yup.string().required('This field is required'),
+    email: Yup.string().required('This field is required'),
     password: Yup.string()
         // .matches(
         //     /(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]/,

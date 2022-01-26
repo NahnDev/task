@@ -19,7 +19,7 @@ function Auth(props: Auth) {
         >
             <Col xs={11}>
                 <Row justify={'center'}>
-                    <Col xs={20} className={`${classAuth.auth}__form`}>
+                    <Col xs={20} >
                         <Routes>
                             <Route path="*" element={<Navigate to="login" />} />
 

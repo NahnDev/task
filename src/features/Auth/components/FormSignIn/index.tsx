@@ -4,7 +4,7 @@ import { CONTENT_AUTH } from '../../../../constants/global'
 import ButtonField from '../../../../custom-fields/BtnSubmit'
 import InputField from '../../../../custom-fields/InputField'
 
-import { UserOutlined, LockOutlined } from '@ant-design/icons'
+import { MailOutlined, LockOutlined } from '@ant-design/icons'
 
 type formSignIn = {
     handleSubmit: any
@@ -15,11 +15,11 @@ function FormSignIn(props: formSignIn) {
         <Form onSubmit={props.handleSubmit}>
             <FastField
                 component={InputField}
-                name="username"
-                placeholder="Username*"
+                name="email"
+                placeholder="Email*"
                 type="text"
                 className={`${classAuth.form}--field`}
-                icon={<UserOutlined />}
+                icon={<MailOutlined />}
             />
             <FastField
                 component={InputField}
