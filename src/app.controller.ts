@@ -13,7 +13,6 @@ export class AppController {
 
   @Get()
   getHello(): string {
-    this.mailService.sendTestEmail();
-    return this.appService.getHello();
+    return 'Hello anh em';
   }
 }
