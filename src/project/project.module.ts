@@ -1,32 +1,24 @@
 import { Module } from '@nestjs/common';
 import { ProjectService } from './project.service';
 import { ProjectController } from './project.controller';
-import { ProjectMemberController } from './member/member.controller';
-import { ProjectMemberService } from './member/member.service';
 import { TaskModule } from './task/task.module';
 import { MongooseModule } from '@nestjs/mongoose';
-import {
-  ProjectMember,
-  ProjectMemberSchema,
-} from './member/schemas/project-member.schema';
+import { Member, MemberSchema } from './member/schemas/member.schema';
 import { Project, ProjectSchema } from './schemas/project.schema';
 import { NotifyModule } from 'src/notify/notify.module';
 import { TaskUpdatedListener } from './listeners/task-updated.listener';
+import { RoleModule } from './role/role.module';
+import { MemberModule } from './member/member.module';
 
 @Module({
   imports: [
     TaskModule,
+    RoleModule,
+    MemberModule,
     NotifyModule,
-    MongooseModule.forFeature([
-      {
-        name: ProjectMember.name,
-        schema: ProjectMemberSchema,
-      },
-      { name: Project.name, schema: ProjectSchema },
-    ]),
+    MongooseModule.forFeature([{ name: Project.name, schema: ProjectSchema }]),
   ],
-  controllers: [ProjectController, ProjectMemberController],
-  providers: [ProjectService, ProjectMemberService, TaskUpdatedListener],
-  exports: [ProjectMemberService],
+  controllers: [ProjectController],
+  providers: [ProjectService, TaskUpdatedListener],
 })
 export class ProjectModule {}

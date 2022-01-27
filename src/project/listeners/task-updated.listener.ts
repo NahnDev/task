@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { OnEvent } from '@nestjs/event-emitter';
 import { NotifyService } from 'src/notify/notify.service';
 import { TaskUpdatedEvent } from '../events/task-updated.event';
-import { ProjectMemberService } from '../member/member.service';
+import { MemberService } from '../member/member.service';
 import { ProjectService } from '../project.service';
 import { TaskService } from '../task/task.service';
 
@@ -10,7 +10,7 @@ import { TaskService } from '../task/task.service';
 export class TaskUpdatedListener {
   constructor(
     private projectService: ProjectService,
-    private projectMemberService: ProjectMemberService,
+    private projectMemberService: MemberService,
     private notifyService: NotifyService,
     private taskService: TaskService,
   ) {}

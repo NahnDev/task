@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { EventEmitter2 } from 'eventemitter2';
 import { Model } from 'mongoose';
 import { TaskUpdatedEvent } from '../events/task-updated.event';
+import { MemberService } from '../member/member.service';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
 import { Task, TaskDoc } from './schemas/task.schema';
@@ -11,6 +12,7 @@ import { Task, TaskDoc } from './schemas/task.schema';
 export class TaskService {
   constructor(
     @InjectModel(Task.name) private taskModel: Model<TaskDoc>,
+    private memberService: MemberService,
     private eventEmitter: EventEmitter2,
   ) {}
   async create(project: string, createTaskDto: CreateTaskDto): Promise<Task> {
@@ -19,8 +21,11 @@ export class TaskService {
     return taskDoc.toJSON();
   }
 
-  async findAll(project: string): Promise<Task[]> {
-    const taskDocs = await this.taskModel.find({ project });
+  async findAll(project: string, all?: boolean): Promise<Task[]> {
+    const taskDocs = await this.taskModel.find({
+      project,
+      ...(!all ? { parent: null } : {}),
+    });
     return taskDocs.map((taskDoc) => taskDoc.toJSON());
   }
 
@@ -50,10 +55,6 @@ export class TaskService {
         const task = await this.findOne(project, dp);
         if (!task) throw new BadRequestException(`dependencies not found`);
       }
-    }
-
-    if (updateTaskDto.complete) {
-      await this.canComplete(project, id);
     }
     await this.taskModel.updateOne({ _id: id, project }, updateTaskDto);
 
@@ -86,13 +87,50 @@ export class TaskService {
     );
     return await this.taskModel.deleteOne({ _id: id, project });
   }
+  async removeAll(project: string) {
+    await this.taskModel.deleteMany({ project });
+  }
+
+  async addAssignee(project: string, _id: string, user: string) {
+    if (!(await this.memberService.findOne(project, _id))) {
+      throw new Error('Member not found');
+    }
+    await this.taskModel.updateOne(
+      { project, user: _id },
+      { $addToSet: { assignee: user } },
+    );
+    return await this.findOne(project, _id);
+  }
+
+  async removeAssignee(
+    project: string,
+    id: string,
+    member: string,
+  ): Promise<Task> {
+    await this.taskModel.updateOne(
+      { project, _id: id },
+      { $pull: { assignee: member } },
+    );
+    return await this.findOne(project, id);
+  }
+
+  async removeAssigneeInAll(project: string, member: string) {
+    await this.taskModel.updateMany(
+      { project },
+      { $pull: { assignee: member } },
+    );
+  }
 
   async addSubTask(project: string, id: string, createTaskDto: CreateTaskDto) {
+    const parentTask = await this.findOne(project, id);
     const task = await this.create(project, createTaskDto);
-    await this.taskModel.updateOne({ _id: task._id }, { parent: id });
+    await this.taskModel.updateOne(
+      { _id: task._id },
+      { parent: id, assignee: parentTask.assignee },
+    );
     await this.taskModel.updateOne(
       { _id: id },
-      { subtask_order: { $push: task._id } },
+      { $addToSet: { subtask_order: task._id } },
     );
     this.eventEmitter.emit(
       TaskUpdatedEvent.key,
@@ -101,18 +139,23 @@ export class TaskService {
     return await this.findOne(project, task._id);
   }
 
-  async canComplete(project: string, id: string): Promise<boolean> {
+  async completeTask(project: string, id: string): Promise<Task> {
+    if (!this.canComplete(project, id))
+      throw new Error('Dp task or subtask completed yet');
+    await this.taskModel.updateOne({ project, _id: id }, { complete: true });
+    return await this.findOne(project, id);
+  }
+
+  async canComplete(project: string, id: string) {
     const task = await this.findOne(project, id);
     for (const dp of task.dependencies) {
       const dpTask = await this.findOne(project, dp);
-      if (!dpTask.complete)
-        throw new BadRequestException('All dependencies must complete');
+      if (!dpTask.complete) return false;
     }
 
     for (const subtaskId of task.subtask_order) {
       const subTask = await this.findOne(project, subtaskId);
-      if (!subTask.complete)
-        throw new BadRequestException('All subtask must complete');
+      if (!subTask.complete) return false;
     }
     return true;
   }

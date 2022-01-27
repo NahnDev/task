@@ -9,40 +9,40 @@ import {
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiOkResponse } from '@nestjs/swagger';
 import { Actions } from 'src/casl/casl-ability.factory';
-import { PID } from 'src/constants/PID';
+import { pid } from 'src/constants/PID';
 import { CheckPolicies } from 'src/decorators/check-policies.decorator';
 import { CreateMemberDto } from './dto/create-member.dto';
 import { UpdateMemberDto } from './dto/update-member.dto';
-import { ProjectMemberService } from './member.service';
-import { ProjectMember } from './schemas/project-member.schema';
+import { MemberService } from './member.service';
+import { Member } from './schemas/member.schema';
 
 @ApiBearerAuth()
-@Controller(`projects/:${PID}/members`)
-export class ProjectMemberController {
-  constructor(private memberService: ProjectMemberService) {}
+@Controller(`projects/:${pid}/members`)
+export class MemberController {
+  constructor(private memberService: MemberService) {}
 
-  @ApiOkResponse({ type: [ProjectMember] })
-  @CheckPolicies((ability) => ability.can(Actions.Read, ProjectMember))
+  @ApiOkResponse({ type: [Member] })
+  @CheckPolicies((ability) => ability.can(Actions.Read, Member))
   @Get()
-  async getAll(@Param(PID) project: string) {
+  async getAll(@Param(pid) project: string) {
     return await this.memberService.findAll(project);
   }
 
-  @ApiOkResponse({ type: ProjectMember })
+  @ApiOkResponse({ type: Member })
   @Post()
-  @CheckPolicies((ability) => ability.can(Actions.Create, ProjectMember))
+  @CheckPolicies((ability) => ability.can(Actions.Create, Member))
   async addMember(
-    @Param(PID) project: string,
+    @Param(pid) project: string,
     @Body() createMemberDto: CreateMemberDto,
   ) {
     return await this.memberService.create(project, createMemberDto);
   }
 
-  @CheckPolicies((ability) => ability.can(Actions.Update, ProjectMember))
-  @ApiOkResponse({ type: ProjectMember })
+  @CheckPolicies((ability) => ability.can(Actions.Update, Member))
+  @ApiOkResponse({ type: Member })
   @Patch(':userId')
   async updateMember(
-    @Param(PID) project: string,
+    @Param(pid) project: string,
     @Param('userId') id: string,
     @Body() UpdateMemberDto: UpdateMemberDto,
   ) {
@@ -50,9 +50,9 @@ export class ProjectMemberController {
   }
 
   @ApiOkResponse()
-  @CheckPolicies((ability) => ability.can(Actions.Delete, ProjectMember))
+  @CheckPolicies((ability) => ability.can(Actions.Delete, Member))
   @Delete(':userId')
-  async removeMember(@Param(PID) project: string, @Param('userId') id: string) {
-    return await this.memberService.removeOne(project, id);
+  async removeMember(@Param(pid) project: string, @Param('userId') id: string) {
+    return await this.memberService.remove(project, id);
   }
 }

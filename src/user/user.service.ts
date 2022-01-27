@@ -6,6 +6,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User, UserDoc } from './schemas/user.schema';
 import { compare, hash } from 'bcryptjs';
+import { USER_ROLE } from 'src/constants/user.role';
 
 @Injectable()
 export class UserService {
@@ -38,13 +39,10 @@ export class UserService {
   }
 
   async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
-    await this.userModel.updateOne(
-      { _id: id },
-      {
-        ...updateUserDto,
-        password: await this.hashPassWd(updateUserDto.password),
-      },
-    );
+    if (updateUserDto.password) {
+      updateUserDto.password = await this.hashPassWd(updateUserDto.password);
+    }
+    await this.userModel.updateOne({ _id: id }, updateUserDto);
     return await this.findOne(id);
   }
 

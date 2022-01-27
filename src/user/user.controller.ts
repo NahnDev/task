@@ -21,6 +21,7 @@ import { Actions } from 'src/casl/casl-ability.factory';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
+  @PublicApi()
   @CheckPolicies((ability) => ability.can(Actions.Create, User))
   @ApiOkResponse({ type: User })
   @Post()

@@ -1,36 +1,39 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { ClientSession, Model } from 'mongoose';
+import { ADMIN_ROLE_KEY } from 'src/constants/ADMIN_ROLE_KEY';
+import { AdminRole, RoleService } from 'src/project/role/role.service';
 import { CreateMemberDto } from './dto/create-member.dto';
 import { UpdateMemberDto } from './dto/update-member.dto';
-import {
-  ProjectMember,
-  ProjectMemberDoc,
-} from './schemas/project-member.schema';
+import { Member, MemberDoc } from './schemas/member.schema';
 
 @Injectable()
-export class ProjectMemberService {
+export class MemberService {
   constructor(
-    @InjectModel(ProjectMember.name)
-    private memberModel: Model<ProjectMemberDoc>,
+    @InjectModel(Member.name)
+    private memberModel: Model<MemberDoc>,
+    private roleService: RoleService,
   ) {}
 
   async create(
     project: string,
     createMemberDto: CreateMemberDto,
-  ): Promise<ProjectMember> {
-    console.log(createMemberDto);
+    session?: ClientSession,
+  ): Promise<Member> {
+    if (!(await this.roleService.hasRole(project, createMemberDto.role)))
+      throw new Error('not found role');
     const memberDoc = new this.memberModel({ ...createMemberDto, project });
-    await memberDoc.save();
+    await memberDoc.save({ session });
     return memberDoc.toJSON();
   }
-  async findAll(project: string): Promise<ProjectMember[]> {
+
+  async findAll(project: string): Promise<Member[]> {
     return (await this.memberModel.find({ project })).map((memberDoc) =>
       memberDoc.toJSON(),
     );
   }
 
-  async findOne(project: string, user: string): Promise<ProjectMember> {
+  async findOne(project: string, user: string): Promise<Member> {
     return await this.memberModel.findOne({ user, project });
   }
 
@@ -38,7 +41,9 @@ export class ProjectMemberService {
     project: string,
     user: string,
     updateMemberDto: UpdateMemberDto,
-  ): Promise<ProjectMember> {
+  ): Promise<Member> {
+    if (!(await this.roleService.hasRole(project, updateMemberDto.role)))
+      throw new Error('not found role');
     await this.memberModel.updateOne(
       { user: user, project: project },
       updateMemberDto,
@@ -46,11 +51,15 @@ export class ProjectMemberService {
     return await this.findOne(user, project);
   }
 
-  async removeOne(project: string, user: string) {
+  async remove(project: string, user: string) {
     await this.memberModel.remove({ user, project });
   }
 
-  async findByUser(user: string): Promise<ProjectMember[]> {
+  async removeAll(project: string) {
+    await this.memberModel.deleteMany({ project });
+  }
+
+  async findProjectHasUser(user: string): Promise<Member[]> {
     return (await this.memberModel.find({ user })).map((memberDoc) =>
       memberDoc.toJSON(),
     );

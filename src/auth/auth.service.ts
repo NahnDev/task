@@ -5,13 +5,19 @@ import { ACTIVE_TOKEN_QUERY } from 'src/constants/ACTIVE_TOKEN_QUERY';
 import { USER_ACTIVE } from 'src/enums/user-active.enum';
 import { MailService } from 'src/mail/mail.service';
 import { CreateUserDto } from 'src/user/dto/create-user.dto';
+import { UserRole } from 'src/user/schemas/user-role.class';
 import { User } from 'src/user/schemas/user.schema';
 import { UserService } from 'src/user/user.service';
+import { USER_ROLE } from 'src/constants/user.role';
+import { RoleService } from 'src/project/role/role.service';
+import { MemberService } from 'src/project/member/member.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     private userService: UserService,
+    private memberService: MemberService,
+    private roleService: RoleService,
     private configService: ConfigService,
     private mailService: MailService,
   ) {}
@@ -40,6 +46,10 @@ export class AuthService {
       await this.userService.activeUser(user._id);
       user.active = USER_ACTIVE.ACTIVE;
     }
+    return user;
+  }
+  async validateWithJWT(payload: any): Promise<User> {
+    const user = await this.userService.findOne(payload.id);
     return user;
   }
 
@@ -127,5 +137,29 @@ export class AuthService {
       await this.buildActiveLink(user),
     );
     return true;
+  }
+
+  async getUserRole(
+    user: User,
+    subject?: { project?: string },
+  ): Promise<UserRole> {
+    let uRole: UserRole = user.roles;
+
+    // detect project id and pass role to user
+    console.log(`Start detect role with project ${subject.project}`);
+    const pId = subject.project;
+    if (pId) {
+      const rId = (await this.memberService.findOne(pId, user._id))?.role;
+      if (rId) {
+        const pRole = await this.roleService.findOne(pId, rId);
+        uRole = { ...uRole, project: pRole };
+      }
+    }
+    // detech system role
+    console.log(`Start dectect role with isAdmin ${user.isAdmin}`);
+    if (user.isAdmin) {
+      uRole = { system: USER_ROLE.ADMIN, ...uRole };
+    }
+    return uRole;
   }
 }

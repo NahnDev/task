@@ -9,6 +9,10 @@ export class Task {
   _id: string;
 
   @ApiProperty()
+  @Prop({ type: [{ type: SchemaTypes.ObjectId, ref: 'Member' }] })
+  assignee: string[];
+
+  @ApiProperty()
   @Prop({ type: String, required: true })
   name: string;
 

@@ -1,9 +1,6 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { IsEnum, IsMongoId } from 'class-validator';
-import { PROJECT_ROLE } from 'src/roles/project.role';
+import { ApiProperty, OmitType, PartialType } from '@nestjs/swagger';
+import { CreateMemberDto } from './create-member.dto';
 
-export class UpdateMemberDto {
-  @ApiProperty()
-  @IsEnum(PROJECT_ROLE)
-  role: PROJECT_ROLE;
-}
+export class UpdateMemberDto extends PartialType(
+  OmitType(CreateMemberDto, ['user']),
+) {}

@@ -7,12 +7,14 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import configuration from './config/configuration';
 import { MongooseModule } from '@nestjs/mongoose';
-import { PassportModule } from '@nestjs/passport';
 import { MailModule } from './mail/mail.module';
 import { CaslModule } from './casl/casl.module';
 import { NotifyModule } from './notify/notify.module';
 import { EventEmitterModule } from '@nestjs/event-emitter';
-import { RoleModule } from './role/role.module';
+import { RoleModule } from './project/role/role.module';
+import { MemberModule } from './project/member/member.module';
+import { RoomModule } from './room/room.module';
+import { MessageModule } from './message/message.module';
 
 @Module({
   imports: [
@@ -38,6 +40,9 @@ import { RoleModule } from './role/role.module';
     CaslModule,
     NotifyModule,
     RoleModule,
+    MemberModule,
+    RoomModule,
+    MessageModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
@@ -15,9 +15,20 @@ import { ActiveJwtStrategy } from './strategies/active-jwt.strategy';
 import { MailModule } from 'src/mail/mail.module';
 import { PoliciesGuard } from './guards/policies.guard';
 import { ProjectModule } from 'src/project/project.module';
+import { RoleModule } from 'src/project/role/role.module';
+import { MemberModule } from 'src/project/member/member.module';
+import { WsPoliciesGuard } from './guards/ws-policies.guard';
 
+@Global()
 @Module({
-  imports: [PassportModule, UserModule, MailModule, ProjectModule],
+  imports: [
+    PassportModule,
+    UserModule,
+    MailModule,
+    ProjectModule,
+    RoleModule,
+    MemberModule,
+  ],
   controllers: [AuthController],
   providers: [
     AuthService,
@@ -33,6 +44,8 @@ import { ProjectModule } from 'src/project/project.module';
     GoogleAuthGuard,
     ActiveJwtGuard,
     ActiveJwtStrategy,
+    WsPoliciesGuard,
   ],
+  exports: [WsPoliciesGuard, AuthService],
 })
 export class AuthModule {}

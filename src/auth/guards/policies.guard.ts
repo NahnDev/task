@@ -1,21 +1,25 @@
-import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
-import { Observable } from 'rxjs';
-import { ProjectMemberService } from 'src/project/member/member.service';
+import {
+  CanActivate,
+  ConsoleLogger,
+  ContextType,
+  ExecutionContext,
+  Injectable,
+} from '@nestjs/common';
 import { User } from 'src/user/schemas/user.schema';
-import { Request } from 'express';
-import { PID } from 'src/constants/PID';
-import { log } from 'console';
 import { Reflector } from '@nestjs/core';
 import { PUBLIC_API_KEY } from 'src/constants/PUBLIC_API_KEY';
 import { JwtAuthGuard } from './jwt-auth.guard';
 import { CHECK_POLICIES_KEY } from 'src/constants/CHECK_POLICIES_KEY';
 import { PolicyHandler } from 'src/casl/policy-handler';
 import { AppAbility, CaslAbilityFactory } from 'src/casl/casl-ability.factory';
-import { USER_ROLE } from 'src/roles/user.role';
+import { AuthService } from '../auth.service';
+import { Request } from 'express';
+import { pid } from 'src/constants/PID';
+
 @Injectable()
 export class PoliciesGuard extends JwtAuthGuard implements CanActivate {
   constructor(
-    private memberService: ProjectMemberService,
+    private authService: AuthService,
     private caslAbilityFactory: CaslAbilityFactory,
     reflector: Reflector,
   ) {
@@ -33,19 +37,13 @@ export class PoliciesGuard extends JwtAuthGuard implements CanActivate {
 
     const req = context.switchToHttp().getRequest();
     const user = req.user as User;
+    console.log(` Xac thuc thanh cong: `);
     console.log(user);
     if (!user) return false;
 
-    // detect project id and pass role to user
-    const pId = (req as Request).params[PID];
-    if (pId) {
-      const role = (await this.memberService.findOne(pId, user._id))?.role;
-      if (role) req.user.role = { project: role, ...(req.user.role || {}) };
-    }
-    // detech system role
-    if (user.isAdmin) {
-      user.role = { user: USER_ROLE.ADMIN, ...(req.user.role || {}) };
-    }
+    user.roles = await this.authService.getUserRole(user, {
+      project: (req as Request).params[pid],
+    });
 
     const policyHandlers =
       this.reflector.get<PolicyHandler[]>(

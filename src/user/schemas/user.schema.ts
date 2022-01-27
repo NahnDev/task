@@ -2,6 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ApiProperty } from '@nestjs/swagger';
 import { Exclude, plainToClass } from 'class-transformer';
 import { USER_ACTIVE } from 'src/enums/user-active.enum';
+import { UserRole } from './user-role.class';
 
 @Schema()
 export class User {
@@ -37,9 +38,7 @@ export class User {
   })
   isAdmin: boolean;
 
-  role: {
-    [key: string]: any;
-  };
+  roles: UserRole;
 }
 
 export type UserDoc = User & Document;
