@@ -11,6 +11,7 @@ import { UserService } from 'src/user/user.service';
 import { USER_ROLE } from 'src/constants/user.role';
 import { RoleService } from 'src/project/role/role.service';
 import { MemberService } from 'src/project/member/member.service';
+import { Scope } from './scopes/scope.class';
 
 @Injectable()
 export class AuthService {
@@ -139,15 +140,12 @@ export class AuthService {
     return true;
   }
 
-  async getUserRole(
-    user: User,
-    subject?: { project?: string },
-  ): Promise<UserRole> {
+  async getUserRole(user: User, scopes?: Scope): Promise<UserRole> {
     let uRole: UserRole = user.roles;
 
     // detect project id and pass role to user
-    console.log(`Start detect role with project ${subject.project}`);
-    const pId = subject.project;
+    console.log(`Start detect role with project ${scopes.project}`);
+    const pId = scopes.project;
     if (pId) {
       const rId = (await this.memberService.findOne(pId, user._id))?.role;
       if (rId) {

@@ -1,57 +1,78 @@
-import {
-  CanActivate,
-  ConsoleLogger,
-  ContextType,
-  ExecutionContext,
-  Injectable,
-} from '@nestjs/common';
+import { PUBLIC_API_KEY } from 'src/constants/PUBLIC_API_KEY';
+import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { User } from 'src/user/schemas/user.schema';
 import { Reflector } from '@nestjs/core';
-import { PUBLIC_API_KEY } from 'src/constants/PUBLIC_API_KEY';
-import { JwtAuthGuard } from './jwt-auth.guard';
 import { CHECK_POLICIES_KEY } from 'src/constants/CHECK_POLICIES_KEY';
 import { PolicyHandler } from 'src/casl/policy-handler';
 import { AppAbility, CaslAbilityFactory } from 'src/casl/casl-ability.factory';
 import { AuthService } from '../auth.service';
 import { Request } from 'express';
 import { pid } from 'src/constants/PID';
+import { Scope } from '../scopes/scope.class';
+import { EXTRACT_DATA_KEY } from 'src/decorators/extract-scope.decorator';
+import { defaultExtractScopeCallback } from '../scopes/extract-scope-callback';
+import { JwtAuthGuard } from './jwt-auth.guard';
+import { WsAuthGuard } from './ws-auth.guard';
 
 @Injectable()
-export class PoliciesGuard extends JwtAuthGuard implements CanActivate {
+export class PoliciesGuard implements CanActivate {
   constructor(
     private authService: AuthService,
+    private jwtAuthGuard: JwtAuthGuard,
     private caslAbilityFactory: CaslAbilityFactory,
-    reflector: Reflector,
-  ) {
-    super(reflector);
-  }
+    protected reflector: Reflector,
+  ) {}
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    if (
-      this.reflector.getAllAndOverride(PUBLIC_API_KEY, [
-        context.getHandler(),
-        context.getClass(),
-      ])
-    )
-      return true;
-    if (!(await super.canActivate(context))) return false;
+    const isPublicApi = this.reflector.getAllAndOverride(PUBLIC_API_KEY, [
+      context.getHandler(),
+      context.getClass(),
+    ]);
+    if (isPublicApi) return true;
 
-    const req = context.switchToHttp().getRequest();
-    const user = req.user as User;
-    console.log(` Xac thuc thanh cong: `);
-    console.log(user);
+    let user: User;
+    let scope: Scope;
+    const hostType = context.getType();
+    switch (hostType) {
+      case 'http': {
+        if (!(await this.jwtAuthGuard.canActivate(context))) return false;
+        const req = context.switchToHttp().getRequest();
+        user = req.user as User;
+        scope = {
+          project: (req as Request).params[pid],
+        };
+        break;
+      }
+      case 'ws': {
+        const dataExtractScope =
+          this.reflector.getAllAndOverride(EXTRACT_DATA_KEY, [
+            context.getClass(),
+            context.getHandler(),
+          ]) || defaultExtractScopeCallback;
+        user = context.switchToWs().getClient().user as User;
+        scope = dataExtractScope(context.switchToWs().getData());
+        break;
+      }
+      case 'rpc': {
+        console.log(` support rpc connect yet`);
+        return false;
+      }
+      default:
+        break;
+    }
+
     if (!user) return false;
 
-    user.roles = await this.authService.getUserRole(user, {
-      project: (req as Request).params[pid],
-    });
-
+    console.log(' --------------- Authorization for user');
+    console.log(user);
+    console.log(' --------------- Authorization for scope');
+    console.log(scope);
+    user.roles = await this.authService.getUserRole(user, scope);
+    const ability = this.caslAbilityFactory.createForUser(user);
     const policyHandlers =
       this.reflector.get<PolicyHandler[]>(
         CHECK_POLICIES_KEY,
         context.getHandler(),
       ) || [];
-    const ability = this.caslAbilityFactory.createForUser(user);
-
     return policyHandlers.every((handler) =>
       this.execPolicyHandler(handler, ability),
     );

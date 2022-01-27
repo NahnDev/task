@@ -17,7 +17,7 @@ import { PoliciesGuard } from './guards/policies.guard';
 import { ProjectModule } from 'src/project/project.module';
 import { RoleModule } from 'src/project/role/role.module';
 import { MemberModule } from 'src/project/member/member.module';
-import { WsPoliciesGuard } from './guards/ws-policies.guard';
+import { WsAuthGuard } from './guards/ws-auth.guard';
 
 @Global()
 @Module({
@@ -32,6 +32,7 @@ import { WsPoliciesGuard } from './guards/ws-policies.guard';
   controllers: [AuthController],
   providers: [
     AuthService,
+    JwtAuthGuard,
     {
       provide: APP_GUARD,
       useClass: PoliciesGuard,
@@ -39,13 +40,12 @@ import { WsPoliciesGuard } from './guards/ws-policies.guard';
     LocalAuthGuard,
     LocalStrategy,
     JwtStrategy,
-    JwtAuthGuard,
     GoogleStrategy,
     GoogleAuthGuard,
     ActiveJwtGuard,
     ActiveJwtStrategy,
-    WsPoliciesGuard,
+    WsAuthGuard,
   ],
-  exports: [WsPoliciesGuard, AuthService],
+  exports: [AuthService, JwtAuthGuard, WsAuthGuard],
 })
 export class AuthModule {}

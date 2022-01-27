@@ -15,6 +15,7 @@ import { RoleModule } from './project/role/role.module';
 import { MemberModule } from './project/member/member.module';
 import { RoomModule } from './room/room.module';
 import { MessageModule } from './message/message.module';
+import { AppGateway } from './app.gateway';
 
 @Module({
   imports: [
@@ -45,6 +46,6 @@ import { MessageModule } from './message/message.module';
     MessageModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, AppGateway],
 })
 export class AppModule {}
