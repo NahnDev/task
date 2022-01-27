@@ -30,6 +30,8 @@ class ApiResponseWithToken {
   accessToken: string;
   @ApiProperty()
   refreshToken: string;
+  @ApiProperty()
+  expires: number;
 }
 
 @PublicApi()
@@ -67,7 +69,7 @@ export class AuthController {
   }
 
   @ApiOkResponse()
-  @Post('register')
+  @Post('')
   async register(@Body() createUserDto: CreateUserDto) {
     const user = await this.authService.register(createUserDto);
     return user;
