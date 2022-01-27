@@ -75,11 +75,11 @@ export class AuthService {
   async generateTokenForUser(user: User) {
     const accessTokenConfig = {
       secret: this.configService.get<string>('security.accessToken.secret'),
-      expiresIn: this.configService.get<string>('security.accessToken.expires'),
+      expiresIn: this.configService.get<number>('security.accessToken.expires'),
     };
     const refreshTokenConfig = {
       secret: this.configService.get<string>('security.refreshToken.secret'),
-      expiresIn: this.configService.get<string>(
+      expiresIn: this.configService.get<number>(
         'security.refreshToken.expires',
       ),
     };
@@ -87,6 +87,7 @@ export class AuthService {
       accessToken: sign({ id: user._id }, accessTokenConfig.secret, {
         expiresIn: accessTokenConfig.expiresIn,
       }),
+      expires: Date.now() + accessTokenConfig.expiresIn * 1000,
       refreshToken: sign(
         JSON.parse(JSON.stringify({ id: user._id, key: '213123' })),
         refreshTokenConfig.secret,

@@ -15,8 +15,8 @@ export default function () {
         expires: Number(process.env.ACCESS_TOKEN_EXPIRES) || 24 * 60 * 60,
       },
       refreshToken: {
-        secret: process.env.ACCESS_TOKEN_SECRET || 'refreshToken',
-        expires: Number(process.env.ACCESS_TOKEN_EXPIRES) || 24 * 60 * 60 * 30,
+        secret: process.env.REFRESH_TOKEN_SECRET || 'refreshToken',
+        expires: Number(process.env.REFRESH_TOKEN_EXPIRES) || 24 * 60 * 60 * 30,
       },
       activeToken: {
         secret: process.env.ACTIVE_TOKEN_SECRET || 'activeToken',
