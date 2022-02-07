@@ -25,7 +25,7 @@ export class AuthService {
   async validateWithMail(email: string, password: string): Promise<User> {
     const passWd = await this.userService.getPasswordByEmail(email);
     if (!passWd) throw new UnauthorizedException('Not found email');
-    if (!this.userService.verifyPassWd(password, passWd))
+    if (!(await this.userService.verifyPassWd(password, passWd)))
       throw new UnauthorizedException('password incorrect');
 
     const user = await this.userService.findByEmail(email);

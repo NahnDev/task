@@ -69,7 +69,7 @@ export class AuthController {
   }
 
   @ApiOkResponse()
-  @Post('')
+  @Post('register')
   async register(@Body() createUserDto: CreateUserDto) {
     const user = await this.authService.register(createUserDto);
     return user;
