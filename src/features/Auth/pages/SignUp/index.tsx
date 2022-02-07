@@ -1,41 +1,49 @@
 import { Col, Row, Spin } from 'antd'
+import { AxiosResponse } from 'axios'
 import { Formik } from 'formik'
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import authApi from '../../../../api/authApi'
-import { setUser } from '../../../../app/userSlice'
 import { CONTENT_AUTH } from '../../../../constants/global'
 import { initialValuesFormSignUp } from '../../../../constants/initialValues'
-import { typeDataRegister } from '../../../../constants/type'
 import { validateFormSignUp } from '../../../../constants/validate'
+import { openNotificationWithIcon } from '../../../../functions/global'
+import { Form, ResSignUp, TProps } from '../../../../types/auth'
 import FormSignUp from '../../components/FormSignUp'
-
-type SignUp = {
-    className: string
-}
 
 const content = CONTENT_AUTH.formSignUp
 
-function SignUp(props: SignUp) {
+function SignUp(props: TProps) {
     const [loading, setLoading] = useState(false)
-    const dispatch = useDispatch()
+    const nav = useNavigate()
 
-    const postSignUp = async (dataRequest: typeDataRegister) => {
+    const postSignUp = async (dataRequest: Form) => {
         try {
             setLoading(true)
-            const response = await authApi.postAuthRegister(dataRequest)
+            const response: AxiosResponse<ResSignUp, any> = await authApi.postAuthRegister(
+                dataRequest
+            )
             if (response) {
-                dispatch(setUser(response))
+                openNotificationWithIcon(
+                    'success',
+                    'Registered successfully!',
+                    'Please check gmail to activate the account'
+                )
                 setLoading(false)
+                nav('/auth/login')
             }
         } catch (error) {
+            console.log(error)
+            openNotificationWithIcon(
+                'warning',
+                'Registered successfully!',
+                'Please check gmail to activate the account'
+            )
             console.log(error)
         }
     }
 
-    const handleSubmit = (value: typeDataRegister) => {
-        console.log(value)
+    const handleSubmit = (value: Form) => {
         postSignUp(value)
     }
 

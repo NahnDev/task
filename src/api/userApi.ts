@@ -1,4 +1,4 @@
-import { typeDataUser } from '../constants/type'
+import { Form } from '../types/auth'
 import axiosClient from './axiosClient'
 
 const userApi = {
@@ -12,12 +12,12 @@ const userApi = {
         return axiosClient.get(url)
     },
 
-    postUser: (data: typeDataUser) => {
+    postUser: (data: Form) => {
         const url = '/user'
         return axiosClient.post(url, data)
     },
 
-    patchUser: (_id: string, data: typeDataUser) => {
+    patchUser: (_id: string, data: Form) => {
         const url = `/user/${_id}`
         return axiosClient.patch(url, data)
     },

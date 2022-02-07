@@ -5,12 +5,9 @@ import ButtonField from '../../../../custom-fields/BtnSubmit'
 import InputField from '../../../../custom-fields/InputField'
 
 import { MailOutlined, LockOutlined } from '@ant-design/icons'
+import { HandleForm } from '../../../../types/auth'
 
-type formSignIn = {
-    handleSubmit: any
-}
-
-function FormSignIn(props: formSignIn) {
+function FormSignIn(props: HandleForm) {
     return (
         <Form onSubmit={props.handleSubmit}>
             <FastField

@@ -5,16 +5,16 @@ import { useSelector } from 'react-redux'
 import { classLayout } from './constants/className'
 
 import './App.scss'
-import { typeRouter, typeUser } from './constants/type'
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { ROUTER_MAIN } from './constants/routers'
 import NavbarCustom from './components/NavbarCustom'
 import Header from './components/Header'
+import { Router, User } from './types/global'
 
 const Auth = React.lazy(() => import('./features/Auth'))
 
 function App() {
-    const user: typeUser = useSelector((state: any) => state.user)
+    const user: User = useSelector((state: any) => state.user)
 
     return (
         <Suspense
@@ -37,7 +37,7 @@ function App() {
                             <Routes>
                                 <Route path="*" element={<Navigate to="/home" />} />
 
-                                {ROUTER_MAIN.map((value: typeRouter, index: number) => {
+                                {ROUTER_MAIN.map((value: Router, index: number) => {
                                     return (
                                         <Route
                                             key={`router-main-${index}`}

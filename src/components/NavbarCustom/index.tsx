@@ -1,10 +1,7 @@
 import React from 'react'
+import { TProps } from '../../types/auth'
 
-type NavbarCustom = {
-    className: string
-}
-
-function NavbarCustom(props: NavbarCustom) {
+function NavbarCustom(props: TProps) {
     return <div>NavbarCustom</div>
 }
 
