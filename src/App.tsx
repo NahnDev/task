@@ -28,12 +28,12 @@ function App() {
         >
             {user.isLogin ? (
                 <Row className={classLayout.app}>
-                    <Col xs={5}>
-                        <NavbarCustom className={classLayout.navbarCustom} />
-                    </Col>
-                    <Col xs={19}>
-                        <Header className={classLayout.header} />
-                        <BrowserRouter>
+                    <BrowserRouter>
+                        <Col xs={5}>
+                            <NavbarCustom className={classLayout.navbarCustom} />
+                        </Col>
+                        <Col xs={19}>
+                            <Header className={classLayout.header} />
                             <Routes>
                                 <Route path="*" element={<Navigate to="/home" />} />
 
@@ -49,8 +49,8 @@ function App() {
                                     )
                                 })}
                             </Routes>
-                        </BrowserRouter>
-                    </Col>
+                        </Col>
+                    </BrowserRouter>
                 </Row>
             ) : (
                 <Row className={classLayout.app}>

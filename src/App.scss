@@ -41,12 +41,12 @@ label {
 }
 
 *::-webkit-scrollbar {
-    width: 6px;
+    width: 5px;
 }
 
 *::-webkit-scrollbar-thumb {
-    background-color: $color_cultured;
-    border-radius: 5px;
+    background-color: $color_vivid_tangerine;
+    border-radius: 10px;
 }
 
 .layout {

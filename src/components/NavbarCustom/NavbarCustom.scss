@@ -1,0 +1,124 @@
+@import '../../assets/style/colors';
+@import '../../assets/style/screen';
+@import '../../assets/style/global';
+
+.navbar {
+    height: 100%;
+    width: 100%;
+    background-color: $color_jet;
+    &__logo {
+        height: 12.5%;
+        padding: 1.5rem 1rem;
+
+        &--img > img {
+            width: 8rem;
+            height: 2rem;
+            object-fit: contain;
+        }
+
+        &--icon {
+            padding: 0.2rem 0.6rem;
+            color: $color_white;
+            font-size: 1.25rem;
+            border-radius: 50%;
+
+            cursor: pointer;
+            transition: all 750ms;
+
+            &:hover,
+            &:active,
+            &:focus {
+                background-color: $color_vivid_tangerine;
+                transition: all 750ms;
+            }
+        }
+    }
+
+    &__navigate {
+        height: 32.5%;
+        border-bottom: 1px solid $color_vivid_tangerine;
+        &--link {
+            width: 100%;
+            padding: 0.75rem 2.5rem;
+            font-size: 1rem;
+            color: $color_white;
+
+            transition: all 750ms;
+            &.active {
+                background-color: $color_vivid_tangerine;
+            }
+
+            &:hover,
+            &:active,
+            &:focus {
+                color: $color_white;
+                background-color: $color_vivid_tangerine;
+                transition: all 750ms;
+            }
+        }
+
+        &--icon {
+            margin-right: 0.6rem;
+        }
+    }
+
+    &__projects {
+        height: 47.5%;
+        padding: 1rem;
+        border-bottom: 1px solid $color_vivid_tangerine;
+
+        &--title {
+            color: $color_white;
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+            font-weight: 700;
+        }
+
+        &--list {
+            height: 90%;
+            overflow: auto;
+        }
+
+        &--item {
+            margin: 0.5rem 0;
+            padding: 1rem 1.5rem;
+            color: $color_white;
+            border: 2px solid $color_davys_grey;
+            border-radius: 15px;
+
+            &--title {
+                letter-spacing: 1px;
+                margin-bottom: 0.75rem;
+                width: 100%;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+            }
+
+            &--btn-invite {
+                padding: 0.25rem 0.75rem;
+                border-radius: 10px;
+
+                cursor: pointer;
+                transition: all 750ms;
+
+                &:hover,
+                &:focus,
+                &:active {
+                    background-color: $color_vivid_tangerine;
+                    transition: all 750ms;
+                }
+            }
+        }
+    }
+
+    &__help {
+        color: $color_white;
+        font-size: 1.1rem;
+        height: 7.5%;
+
+        &--icon {
+            margin-right: 1rem;
+        }
+    }
+}

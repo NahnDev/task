@@ -15,7 +15,6 @@ import authApi from '../../../../api/authApi'
 import { setUserLogin } from '../../../../app/userSlice'
 import { openNotificationWithIcon } from '../../../../functions/global'
 import { Form, TProps } from '../../../../types/auth'
-import { AxiosResponse } from 'axios'
 
 const content = CONTENT_AUTH.formSignIn
 
