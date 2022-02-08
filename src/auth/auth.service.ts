@@ -150,7 +150,7 @@ export class AuthService {
     if (pId) {
       const rId = (await this.memberService.findOne(pId, user._id))?.role;
       if (rId) {
-        const pRole = await this.roleService.findOne(pId, rId);
+        const pRole = await this.roleService.findOne(pId, rId._id);
         uRole = { ...uRole, project: pRole };
       }
     }

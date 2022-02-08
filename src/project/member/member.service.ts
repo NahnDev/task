@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { ClientSession, Model } from 'mongoose';
 import { ADMIN_ROLE_KEY } from 'src/constants/ADMIN_ROLE_KEY';
 import { AdminRole, RoleService } from 'src/project/role/role.service';
+import { User } from 'src/user/schemas/user.schema';
 import { CreateMemberDto } from './dto/create-member.dto';
 import { UpdateMemberDto } from './dto/update-member.dto';
 import { Member, MemberDoc } from './schemas/member.schema';
@@ -24,7 +25,7 @@ export class MemberService {
       throw new Error('not found role');
     const memberDoc = new this.memberModel({ ...createMemberDto, project });
     await memberDoc.save({ session });
-    return memberDoc.toJSON();
+    return await this.findOne(project, memberDoc._id.toHexString());
   }
 
   async findAll(project: string): Promise<Member[]> {
@@ -34,7 +35,9 @@ export class MemberService {
   }
 
   async findOne(project: string, user: string): Promise<Member> {
-    return await this.memberModel.findOne({ user, project });
+    const a = await this.memberModel.findOne({ user, project });
+    console.log(a);
+    return (await this.memberModel.findOne({ user, project })).toJSON();
   }
 
   async updateOne(

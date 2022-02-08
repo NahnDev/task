@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
+
 import { RoleModule } from 'src/project/role/role.module';
 import { TaskModule } from '../task/task.module';
 import { MemberController } from './member.controller';
@@ -9,10 +10,16 @@ import { Member, MemberSchema } from './schemas/member.schema';
 @Module({
   imports: [
     RoleModule,
-    MongooseModule.forFeature([
+    MongooseModule.forFeatureAsync([
       {
         name: Member.name,
-        schema: MemberSchema,
+        useFactory: () => {
+          const schema = MemberSchema;
+
+          // eslint-disable-next-line
+          schema.plugin(require('mongoose-autopopulate'));
+          return schema;
+        },
       },
     ]),
   ],

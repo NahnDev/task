@@ -20,15 +20,16 @@ export class TaskUpdatedListener {
     console.log('work');
     const { project, task, description, at } = payload;
     const projectName = await (await this.projectService.findOne(project)).name;
+    const taskName = (await this.taskService.findOne(project, task)).name;
+
     const members = (await this.projectMemberService.findAll(project)).map(
       (memberInfo) => memberInfo.user,
     );
-    const taskName = (await this.taskService.findOne(project, task)).name;
     for (const member of members) {
       console.log('work here');
       this.notifyService
         .create({
-          user: member,
+          user: member._id,
           content: description,
           from: projectName + ': ' + taskName,
           link: '#',

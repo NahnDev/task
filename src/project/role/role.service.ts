@@ -37,6 +37,7 @@ export class RoleService {
   }
 
   async findOne(project: string, id: string): Promise<Role | null> {
+    console.log('file one work' + project + id);
     const roleDoc = await this.roleModel.findOne({ _id: id, project });
     if (!roleDoc) return null;
     return roleDoc.toJSON();
