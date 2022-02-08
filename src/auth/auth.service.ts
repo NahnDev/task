@@ -32,7 +32,7 @@ export class AuthService {
     if (user.active === USER_ACTIVE.BLOCK)
       throw new UnauthorizedException('My account blocked');
     if (user.active === USER_ACTIVE.NOT_ACTIVE)
-      new UnauthorizedException('Not activated account');
+      throw new UnauthorizedException('Not activated account');
     return user;
   }
 
