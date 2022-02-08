@@ -16,9 +16,12 @@ import { MemberModule } from './project/member/member.module';
 import { RoomModule } from './room/room.module';
 import { MessageModule } from './message/message.module';
 import { AppGateway } from './app.gateway';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 @Module({
   imports: [
+    ServeStaticModule.forRoot({ rootPath: join(process.cwd(), 'static') }),
     ConfigModule.forRoot({
       envFilePath: ['.env'],
       load: [configuration],

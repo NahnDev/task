@@ -1,4 +1,4 @@
-import { ValidationPipe } from '@nestjs/common';
+import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory, Reflector } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
@@ -15,6 +15,12 @@ async function bootstrap() {
       'http://localhost:3030',
     ],
   });
+  // app.setGlobalPrefix('api');
+  // app.enableVersioning({
+  //   prefix: 'v',
+  //   type: VersioningType.URI,
+  //   defaultVersion: '1',
+  // });
 
   const port = app.get(ConfigService).get<number>('server.port');
   const config = new DocumentBuilder()

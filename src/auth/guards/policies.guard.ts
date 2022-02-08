@@ -29,6 +29,7 @@ export class PoliciesGuard implements CanActivate {
     ]);
     if (isPublicApi) return true;
 
+    // get user and scope from user
     let user: User;
     let scope: Scope;
     const hostType = context.getType();

@@ -43,7 +43,7 @@ export class CaslAbilityFactory {
     // project
     can(Actions.Create, Project);
     can(Actions.Read, Project);
-    const pRole = user.roles.project;
+    const pRole = user.roles?.project;
     if (pRole) {
       console.log(pRole.permission);
       console.log(PROJECT_PERMISSION.UPDATE);

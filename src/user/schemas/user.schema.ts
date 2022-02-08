@@ -14,6 +14,14 @@ export class User {
   name: string;
 
   @ApiProperty()
+  @Prop({
+    type: String,
+    required: true,
+    default: '/images/default-avatar.jpg',
+  })
+  avatar: string;
+
+  @ApiProperty()
   @Prop({ type: String, required: true })
   email: string;
 
