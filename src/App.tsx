@@ -8,7 +8,6 @@ import './App.scss'
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { ROUTER_MAIN } from './constants/routers'
 import NavbarCustom from './components/NavbarCustom'
-import Header from './components/Header'
 import { Router, User } from './types/global'
 
 const Auth = React.lazy(() => import('./features/Auth'))
@@ -33,10 +32,7 @@ function App() {
                             <NavbarCustom className={classLayout.navbarCustom} />
                         </Col>
                         <Col xs={19}>
-                            <Header className={classLayout.header} />
                             <Routes>
-                                <Route path="*" element={<Navigate to="/home" />} />
-
                                 {ROUTER_MAIN.map((value: Router, index: number) => {
                                     return (
                                         <Route

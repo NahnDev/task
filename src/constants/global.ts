@@ -50,3 +50,15 @@ export const CONTENT_AUTH = {
         textBtn: 'SIGN IN',
     },
 }
+
+export const CONTENT_HOME = {
+    title: 'Home',
+}
+export const CONTENT_INBOX = {
+    title: 'Inbox',
+    navigate: [
+        { path: 'messages', text: 'Messages' },
+        { path: 'notification', text: 'Notification' },
+    ],
+}
+export const CONTENT_PROJECT = {}

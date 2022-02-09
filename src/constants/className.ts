@@ -1,5 +1,7 @@
 export const classComponent = {
     navbarCustom: 'navbar',
+    header: 'header',
+    search: 'search',
 }
 export const classLayout = {
     app: 'layout-app',
