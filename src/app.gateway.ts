@@ -13,8 +13,8 @@ import { WsAuthGuard } from './auth/guards/ws-auth.guard';
 })
 export class AppGateway {
   @UseGuards(WsAuthGuard)
-  @SubscribeMessage('verify')
+  @SubscribeMessage('connection')
   handleVerify() {
-    console.log('verify');
+    console.log('A client connect to server');
   }
 }

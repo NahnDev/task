@@ -8,15 +8,17 @@ import { MemberService } from './member/member.service';
 import { Project, ProjectDoc } from './schemas/project.schema';
 import { RoleService } from 'src/project/role/role.service';
 import { TaskService } from './task/task.service';
+import { extend } from 'lodash';
+import { Member } from './member/schemas/member.schema';
 
 @Injectable()
-export class ProjectService {
+class OldProjectService {
   constructor(
     @InjectModel(Project.name) private projectModel: Model<ProjectDoc>,
     @InjectConnection() private connection: Connection,
-    private memberService: MemberService,
-    private roleService: RoleService,
-    private taskService: TaskService,
+    protected memberService: MemberService,
+    protected roleService: RoleService,
+    protected taskService: TaskService,
   ) {}
 
   async create(
@@ -83,5 +85,24 @@ export class ProjectService {
     this.roleService.removeAll(id).then();
     this.memberService.removeAll(id).then();
     return this.projectModel.deleteOne({ _id: id });
+  }
+}
+
+export class ProjectWithMember extends Project {
+  members?: Member[];
+}
+export class ProjectService extends OldProjectService {
+  async findAllByUser(user: string): Promise<ProjectWithMember[]> {
+    const projects = (await super.findAllByUser(user)) as ProjectWithMember[];
+    for (const project of projects) {
+      project.members = await this.memberService.findAll(project._id);
+    }
+    return projects;
+  }
+
+  async findOne(id: string): Promise<ProjectWithMember> {
+    const project = (await super.findOne(id)) as ProjectWithMember;
+    project.members = await this.memberService.findAll(project._id);
+    return project;
   }
 }

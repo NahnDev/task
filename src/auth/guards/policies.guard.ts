@@ -13,12 +13,15 @@ import { EXTRACT_DATA_KEY } from 'src/decorators/extract-scope.decorator';
 import { defaultExtractScopeCallback } from '../scopes/extract-scope-callback';
 import { JwtAuthGuard } from './jwt-auth.guard';
 import { WsAuthGuard } from './ws-auth.guard';
+import { Socket } from 'socket.io';
+import { SocketService } from 'src/socket/socket.service';
 
 @Injectable()
 export class PoliciesGuard implements CanActivate {
   constructor(
     private authService: AuthService,
     private jwtAuthGuard: JwtAuthGuard,
+    private socketService: SocketService,
     private caslAbilityFactory: CaslAbilityFactory,
     protected reflector: Reflector,
   ) {}
@@ -43,14 +46,17 @@ export class PoliciesGuard implements CanActivate {
         };
         break;
       }
+
       case 'ws': {
         const dataExtractScope =
           this.reflector.getAllAndOverride(EXTRACT_DATA_KEY, [
             context.getClass(),
             context.getHandler(),
           ]) || defaultExtractScopeCallback;
-        user = context.switchToWs().getClient().user as User;
+        const sId: string = (context.switchToWs().getClient() as Socket).id;
+        user = await this.socketService.getAuth(sId);
         scope = dataExtractScope(context.switchToWs().getData());
+        console.log('PoliciesGuard: Testing yet');
         break;
       }
       case 'rpc': {

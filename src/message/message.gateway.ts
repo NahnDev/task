@@ -20,16 +20,12 @@ import { PoliciesGuard } from 'src/auth/guards/policies.guard';
     origin: '*',
   },
 })
-export class MessageGateway implements OnGatewayConnection {
+export class MessageGateway {
   @WebSocketServer()
   server: Server;
 
-  handleConnection() {
-    console.log('///////');
-  }
-
   @SubscribeMessage('test')
-  async handleSendMessage(@MessageBody() payload: any) {
+  async handleSendMessage(@MessageBody() payload) {
     console.log('hahahahahah');
   }
 }

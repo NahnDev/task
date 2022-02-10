@@ -18,6 +18,8 @@ import { ProjectModule } from 'src/project/project.module';
 import { RoleModule } from 'src/project/role/role.module';
 import { MemberModule } from 'src/project/member/member.module';
 import { WsAuthGuard } from './guards/ws-auth.guard';
+import { AuthGateway } from './auth.gateway';
+import { SocketModule } from 'src/socket/socket.module';
 
 @Global()
 @Module({
@@ -27,6 +29,7 @@ import { WsAuthGuard } from './guards/ws-auth.guard';
     MailModule,
     ProjectModule,
     RoleModule,
+    SocketModule,
     MemberModule,
   ],
   controllers: [AuthController],
@@ -45,6 +48,7 @@ import { WsAuthGuard } from './guards/ws-auth.guard';
     ActiveJwtGuard,
     ActiveJwtStrategy,
     WsAuthGuard,
+    AuthGateway,
   ],
   exports: [AuthService, JwtAuthGuard, WsAuthGuard],
 })

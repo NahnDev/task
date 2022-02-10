@@ -161,4 +161,15 @@ export class AuthService {
     }
     return uRole;
   }
+
+  async validateWithAccessToken(token: string): Promise<User> {
+    const accessTokenSecret = this.configService.get<string>(
+      'security.accessToken.secret',
+    );
+
+    const uId = verify(token, accessTokenSecret) as string;
+    console.log(`AuthService:validateSocket - uId ${uId}`);
+    const user = await this.userService.findOne(uId);
+    return user;
+  }
 }
