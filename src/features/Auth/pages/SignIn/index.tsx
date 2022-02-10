@@ -1,7 +1,7 @@
 import { Col, Row, Spin } from 'antd'
 import { Formik } from 'formik'
 import { useState } from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 
 import { CONTENT_AUTH } from '../../../../constants/global'
@@ -21,6 +21,7 @@ const content = CONTENT_AUTH.formSignIn
 function SignIn(props: TProps) {
     const [loading, setLoading] = useState(false)
     const dispatch = useDispatch()
+    const nav = useNavigate()
 
     const postSignIn = async (dataRequest: Form) => {
         try {
@@ -31,6 +32,7 @@ function SignIn(props: TProps) {
                 setLoading(false)
                 dispatch(setUserLogin({ ...response, isLogin: true }))
                 openNotificationWithIcon('success', 'Login successfully!', '')
+                nav('/home')
             }
         } catch (error: any) {
             setLoading(false)

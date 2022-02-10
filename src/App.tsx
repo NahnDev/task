@@ -33,6 +33,8 @@ function App() {
                         </Col>
                         <Col xs={19}>
                             <Routes>
+                                <Route path="*" element={<Navigate to="/home" />} />
+
                                 {ROUTER_MAIN.map((value: Router, index: number) => {
                                     return (
                                         <Route
