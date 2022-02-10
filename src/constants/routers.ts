@@ -4,6 +4,7 @@ import { SignIn, SignUp } from '../features/Auth/pages'
 const Home = React.lazy(() => import('../features/Home'))
 const Inbox = React.lazy(() => import('../features/Inbox'))
 const Project = React.lazy(() => import('../features/Project'))
+const Chat = React.lazy(() => import('../features/Chat/Chat'))
 
 export const ROUTER_MAIN = [
     {
@@ -24,6 +25,7 @@ export const ROUTER_MAIN = [
         role: ['USER'],
         isLogin: true,
     },
+    { path: 'chat', component: Chat, role: ['USER'], isLogin: true },
 ]
 
 export const ROUTER_AUTH = [

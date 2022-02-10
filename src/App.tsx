@@ -26,12 +26,12 @@ function App() {
                 </Row>
             }
         >
-            {user.isLogin ? (
+            {!user.isLogin ? (
                 <Row className={classLayout.app}>
                     <Col xs={5}>
                         <NavbarCustom className={classLayout.navbarCustom} />
                     </Col>
-                    <Col xs={19}>
+                    <Col xs={19} style={{ display: 'grid', gridTemplateRows: 'auto 1fr', height: '100%', overflow: 'hidden'}}>
                         <Header className={classLayout.header} />
                         <BrowserRouter>
                             <Routes>
