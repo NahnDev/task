@@ -3,6 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { verify } from 'jsonwebtoken';
 import { Observable } from 'rxjs';
 import { Socket } from 'socket.io';
+import { AccessTokenPayload } from '../auth.interface';
 import { AuthService } from '../auth.service';
 
 // dung de xac thuc nguoi dung khi connect user
@@ -19,8 +20,8 @@ export class WsAuthGuard implements CanActivate {
     const payload = verify(
       token,
       this.configService.get<string>('security.accessToken.secret'),
-    );
-    const user = await this.authService.validateWithJWT(payload);
+    ) as AccessTokenPayload;
+    const user = await this.authService.verifyAccessToken(payload);
     context.switchToWs().getClient().user = user;
     return true;
   }

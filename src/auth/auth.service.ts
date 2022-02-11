@@ -12,6 +12,7 @@ import { USER_ROLE } from 'src/constants/user.role';
 import { RoleService } from 'src/project/role/role.service';
 import { MemberService } from 'src/project/member/member.service';
 import { Scope } from './scopes/scope.class';
+import { AccessTokenPayload, RefreshTokenPayload } from './auth.interface';
 
 @Injectable()
 export class AuthService {
@@ -49,7 +50,7 @@ export class AuthService {
     }
     return user;
   }
-  async validateWithJWT(payload: any): Promise<User> {
+  async verifyAccessToken(payload: AccessTokenPayload): Promise<User> {
     const user = await this.userService.findOne(payload.id);
     return user;
   }
@@ -62,11 +63,12 @@ export class AuthService {
       ),
     };
     try {
-      const payload = verify(refreshToken, refreshTokenConfig.secret) as {
-        user: User;
-        key: string;
-      };
-      return payload.user;
+      const payload = verify(
+        refreshToken,
+        refreshTokenConfig.secret,
+      ) as RefreshTokenPayload;
+      console.log(payload);
+      return await this.userService.findOne(payload.id);
     } catch (err) {
       return null;
     }
@@ -83,13 +85,18 @@ export class AuthService {
         'security.refreshToken.expires',
       ),
     };
+    const accessTokenPayload: AccessTokenPayload = { id: user._id };
+    const refreshTokenPayload: RefreshTokenPayload = {
+      id: user._id,
+      key: '1212',
+    };
     return {
-      accessToken: sign({ id: user._id }, accessTokenConfig.secret, {
+      accessToken: sign(accessTokenPayload, accessTokenConfig.secret, {
         expiresIn: accessTokenConfig.expiresIn,
       }),
       expires: Date.now() + accessTokenConfig.expiresIn * 1000,
       refreshToken: sign(
-        JSON.parse(JSON.stringify({ id: user._id, key: '213123' })),
+        JSON.parse(JSON.stringify(refreshTokenPayload)),
         refreshTokenConfig.secret,
         {
           expiresIn: refreshTokenConfig.expiresIn,

@@ -9,6 +9,7 @@ import {
   VerifiedCallback,
 } from 'passport-jwt';
 import { UserService } from 'src/user/user.service';
+import { AccessTokenPayload } from '../auth.interface';
 import { AuthService } from '../auth.service';
 
 @Injectable()
@@ -22,7 +23,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       secretOrKey: configService.get<string>('security.accessToken.secret'),
     });
   }
-  async validate(payload: any) {
-    return await this.authService.validateWithJWT(payload);
+  async validate(payload: AccessTokenPayload) {
+    return await this.authService.verifyAccessToken(payload);
   }
 }
