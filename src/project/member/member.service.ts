@@ -35,9 +35,8 @@ export class MemberService {
   }
 
   async findOne(project: string, user: string): Promise<Member> {
-    const a = await this.memberModel.findOne({ user, project });
-    console.log(a);
-    return (await this.memberModel.findOne({ user, project })).toJSON();
+    const member = await this.memberModel.findOne({ user, project });
+    return member ? member.toJSON() : null;
   }
 
   async updateOne(
