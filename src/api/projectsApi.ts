@@ -1,4 +1,5 @@
 import { DataMembers, DataProject, DataSubtasks, DataTasks } from '../types/api'
+import { Project } from '../types/global'
 import axiosClient from './axiosClient'
 
 const projectsApi = {
@@ -58,7 +59,7 @@ const projectsApi = {
     // Projects
     getProjects: () => {
         const url = `/projects`
-        return axiosClient.get(url)
+        return axiosClient.get<any, Array<Project>>(url)
     },
 
     getProjectsDetail: (_pid: string) => {

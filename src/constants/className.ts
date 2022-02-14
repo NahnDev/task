@@ -18,3 +18,7 @@ export const classAuth = {
     auth: 'auth',
     form: 'auth__form',
 }
+
+export const classHome = {
+    home: 'home',
+}

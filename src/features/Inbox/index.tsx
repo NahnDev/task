@@ -2,6 +2,7 @@ import { Col, Row } from 'antd'
 import { Navigate, Route, Routes } from 'react-router-dom'
 
 import Header from '../../components/Header'
+import { classLayout } from '../../constants/className'
 import { CONTENT_INBOX } from '../../constants/global'
 import { ROUTER_INBOX } from '../../constants/routers'
 import { Router } from '../../types/global'
@@ -16,7 +17,11 @@ function Inbox(props: Inbox) {
     return (
         <Row className={props.className}>
             <Col xs={24}>
-                <Header title={content.title} navigate={content.navigate} />
+                <Header
+                    className={classLayout.header}
+                    title={content.title}
+                    navigate={content.navigate}
+                />
                 <Routes>
                     <Route path="*" element={<Navigate to="/inbox/messages" />} />
 

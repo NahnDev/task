@@ -10,10 +10,10 @@ export type DataTasks = {
 }
 
 export type DataMembers = {
-    user?: 'string'
+    user?: string
     role: string
 }
 
 export type DataProject = {
-    name: 'string'
+    name: string
 }
