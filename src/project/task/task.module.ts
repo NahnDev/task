@@ -7,7 +7,17 @@ import { MemberModule } from '../member/member.module';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: Task.name, schema: TaskSchema }]),
+    MongooseModule.forFeatureAsync([
+      {
+        name: Task.name,
+        useFactory: function () {
+          const schema = TaskSchema;
+          // eslint-disable-next-line
+          schema.plugin(require('mongoose-autopopulate'));
+          return schema;
+        },
+      },
+    ]),
     MemberModule,
   ],
   controllers: [TaskController],

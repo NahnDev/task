@@ -26,11 +26,20 @@ export class TaskService {
       project,
       ...(!all ? { parent: null } : {}),
     });
-    return taskDocs.map((taskDoc) => taskDoc.toJSON());
+    return taskDocs.map((taskDoc) => {
+      const task = taskDoc.toJSON();
+      console.log(task);
+      task.canComplete = this.isCompletable(task);
+      return task;
+    });
   }
 
   async findOne(project: string, id: string): Promise<Task> {
-    return (await this.taskModel.findOne({ project, _id: id })).toJSON();
+    const taskDoc = await this.taskModel.findOne({ project, _id: id });
+    if (!taskDoc) return null;
+    const task = taskDoc.toJSON();
+    task.canComplete = this.isCompletable(task);
+    return task;
   }
 
   async update(
@@ -41,9 +50,11 @@ export class TaskService {
     const task = await this.findOne(project, id);
     if (updateTaskDto.subtask_order) {
       if (
-        !task.subtask_order.every((oldSubtask) => {
-          return updateTaskDto.subtask_order.includes(oldSubtask);
-        }) ||
+        !task.subtask_order
+          .map((task) => task._id)
+          .every((oldSubtaskId) => {
+            return updateTaskDto.subtask_order.includes(oldSubtaskId);
+          }) ||
         task.subtask_order.length !== updateTaskDto.subtask_order.length
       ) {
         throw new BadRequestException(`subtask order only sort`);
@@ -79,7 +90,7 @@ export class TaskService {
       .updateMany({ dependencies: id }, { $pull: { dependencies: id } })
       .then();
     task.subtask_order.map((subtask) => {
-      this.remove(project, subtask).then();
+      this.remove(project, subtask._id).then();
     });
     this.eventEmitter.emit(
       TaskUpdatedEvent.key,
@@ -140,23 +151,20 @@ export class TaskService {
   }
 
   async completeTask(project: string, id: string): Promise<Task> {
-    if (!this.canComplete(project, id))
-      throw new Error('Dp task or subtask completed yet');
+    const task = await this.findOne(project, id);
+    if (!task.canComplete) throw new Error('Dp task or subtask completed yet');
     await this.taskModel.updateOne({ project, _id: id }, { complete: true });
     return await this.findOne(project, id);
   }
 
-  async canComplete(project: string, id: string) {
-    const task = await this.findOne(project, id);
-    for (const dp of task.dependencies) {
-      const dpTask = await this.findOne(project, dp);
-      if (!dpTask.complete) return false;
-    }
-
-    for (const subtaskId of task.subtask_order) {
-      const subTask = await this.findOne(project, subtaskId);
-      if (!subTask.complete) return false;
-    }
-    return true;
+  isCompletable(task: Task) {
+    return (
+      task.subtask_order.every((subtask) => subtask.complete === true) &&
+      task.dependencies.every((dpTask) => {
+        console.log(dpTask);
+        console.log(dpTask.complete === true);
+        return dpTask.complete === true;
+      })
+    );
   }
 }
