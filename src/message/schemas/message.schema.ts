@@ -19,10 +19,21 @@ export class Message {
   from: string;
 
   @Prop({
-    type: SchemaTypes.Mixed,
+    type: {
+      t: {
+        type: String,
+        enum: ['text', 'file'],
+        required: true,
+        default: 'text',
+      },
+      data: String,
+    },
     required: true,
   })
-  content: any;
+  content: {
+    t: 'text' | 'file';
+    data: string;
+  };
 
   @Prop({
     type: Date,

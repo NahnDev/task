@@ -25,23 +25,17 @@ class OldProjectService {
     actor: User,
     createProjectDto: CreateProjectDto,
   ): Promise<Project> {
-    console.log('here');
     const session = await this.connection.startSession();
-    console.log('here');
-
     const projectDoc = new this.projectModel({
       ...createProjectDto,
       author: actor._id,
     });
     await projectDoc.save({ session });
-    console.log('here');
     // tao role Admin
     const roleDoc = await this.roleService.createInitialRole(
       projectDoc._id,
       session,
     );
-    console.log('here');
-    // them nguoi dung admin
     await this.memberService.create(
       projectDoc._id,
       {
@@ -51,7 +45,6 @@ class OldProjectService {
       session,
     );
 
-    console.log('work');
     session.endSession();
     return projectDoc.toJSON();
   }
@@ -88,20 +81,17 @@ class OldProjectService {
   }
 }
 
-export class ProjectWithMember extends Project {
-  members?: Member[];
-}
 export class ProjectService extends OldProjectService {
-  async findAllByUser(user: string): Promise<ProjectWithMember[]> {
-    const projects = (await super.findAllByUser(user)) as ProjectWithMember[];
+  async findAllByUser(user: string): Promise<Project[]> {
+    const projects = (await super.findAllByUser(user)) as Project[];
     for (const project of projects) {
       project.members = await this.memberService.findAll(project._id);
     }
     return projects;
   }
 
-  async findOne(id: string): Promise<ProjectWithMember> {
-    const project = (await super.findOne(id)) as ProjectWithMember;
+  async findOne(id: string): Promise<Project> {
+    const project = (await super.findOne(id)) as Project;
     project.members = await this.memberService.findAll(project._id);
     return project;
   }

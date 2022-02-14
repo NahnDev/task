@@ -1,7 +1,8 @@
-import { Scope } from './scope.class';
 import { pick } from 'lodash';
+import { Scope } from './scope.class';
 
-export type DataExtractScopeCallback = (data: unknown) => Scope;
-export const defaultExtractScopeCallback: DataExtractScopeCallback = (data) => {
-  return pick(data, Object.keys(Scope));
+export type ExtractScopeCallback = (data: unknown) => Scope;
+
+export const defaultExtractScopeCallback: ExtractScopeCallback = (data) => {
+  return pick(data, ['project']);
 };

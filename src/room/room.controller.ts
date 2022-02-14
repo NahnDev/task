@@ -11,8 +11,10 @@ import { RoomService } from './room.service';
 import { RequestUser } from 'src/decorators/request-user.decorator';
 import { MemberService } from 'src/project/member/member.service';
 import { User } from 'src/user/schemas/user.schema';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
-@Controller('room')
+@ApiBearerAuth()
+@Controller('rooms')
 export class RoomController {
   constructor(private readonly roomService: RoomService) {}
 

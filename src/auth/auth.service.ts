@@ -1,4 +1,8 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { sign, verify } from 'jsonwebtoken';
 import { ACTIVE_TOKEN_QUERY } from 'src/constants/ACTIVE_TOKEN_QUERY';
@@ -13,6 +17,7 @@ import { RoleService } from 'src/project/role/role.service';
 import { MemberService } from 'src/project/member/member.service';
 import { Scope } from './scopes/scope.class';
 import { AccessTokenPayload, RefreshTokenPayload } from './auth.interface';
+import { isValidObjectId } from 'mongoose';
 
 @Injectable()
 export class AuthService {
@@ -121,7 +126,6 @@ export class AuthService {
     const rootUrl = this.configService.get<string>('google.gmail.activeUrl');
     const url = new URL(rootUrl);
     url.searchParams.append(ACTIVE_TOKEN_QUERY, token);
-    console.log(url.href);
     return url.href;
   }
 
@@ -155,6 +159,9 @@ export class AuthService {
     console.log(`Start detect role with project ${scopes.project}`);
     const pId = scopes.project;
     if (pId) {
+      if (!isValidObjectId(pId)) {
+        throw new BadRequestException('Id must objectid');
+      }
       const rId = (await this.memberService.findOne(pId, user._id))?.role;
       if (rId) {
         const pRole = await this.roleService.findOne(pId, rId._id);
@@ -174,7 +181,7 @@ export class AuthService {
       'security.accessToken.secret',
     );
 
-    const uId = verify(token, accessTokenSecret) as string;
+    const uId = (verify(token, accessTokenSecret) as AccessTokenPayload).id;
     console.log(`AuthService:validateSocket - uId ${uId}`);
     const user = await this.userService.findOne(uId);
     return user;

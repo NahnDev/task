@@ -10,7 +10,10 @@ import { Request } from 'express';
 import { pid } from 'src/constants/PID';
 import { Scope } from '../scopes/scope.class';
 import { EXTRACT_DATA_KEY } from 'src/decorators/extract-scope.decorator';
-import { defaultExtractScopeCallback } from '../scopes/extract-scope-callback';
+import {
+  defaultExtractScopeCallback,
+  ExtractScopeCallback,
+} from '../scopes/extract-scope-callback';
 import { JwtAuthGuard } from './jwt-auth.guard';
 import { WsAuthGuard } from './ws-auth.guard';
 import { Socket } from 'socket.io';
@@ -38,6 +41,7 @@ export class PoliciesGuard implements CanActivate {
     const hostType = context.getType();
     switch (hostType) {
       case 'http': {
+        console.log(!(await this.jwtAuthGuard.canActivate(context)));
         if (!(await this.jwtAuthGuard.canActivate(context))) return false;
         const req = context.switchToHttp().getRequest();
         user = req.user as User;
@@ -48,15 +52,15 @@ export class PoliciesGuard implements CanActivate {
       }
 
       case 'ws': {
-        const dataExtractScope =
-          this.reflector.getAllAndOverride(EXTRACT_DATA_KEY, [
-            context.getClass(),
-            context.getHandler(),
-          ]) || defaultExtractScopeCallback;
-        const sId: string = (context.switchToWs().getClient() as Socket).id;
-        user = await this.socketService.getAuth(sId);
-        scope = dataExtractScope(context.switchToWs().getData());
-        console.log('PoliciesGuard: Testing yet');
+        const extractScopeCallback =
+          this.reflector.getAllAndOverride<ExtractScopeCallback>(
+            EXTRACT_DATA_KEY,
+            [context.getClass(), context.getHandler()],
+          ) || defaultExtractScopeCallback;
+
+        user = (context.switchToWs().getClient() as Socket & { user: User })
+          .user;
+        scope = extractScopeCallback(context.switchToWs().getData());
         break;
       }
       case 'rpc': {
@@ -67,6 +71,7 @@ export class PoliciesGuard implements CanActivate {
         break;
     }
 
+    console.log(user);
     if (!user) return false;
 
     console.log(' --------------- Authorization for user');

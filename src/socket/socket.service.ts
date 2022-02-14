@@ -1,18 +1,17 @@
 import { Injectable } from '@nestjs/common';
 import { User } from 'src/user/schemas/user.schema';
+import { SOCKET_MAP } from './socket.map';
 
 @Injectable()
 export class SocketService {
-  private static auth: { [key: string]: User };
-  async setAuth(sId: string, user: User) {
-    SocketService.auth[sId] = user;
+  registerSocketForUser(sId: string, uId: string) {
+    SOCKET_MAP[uId] = sId;
+  }
+  removeSocketForUser(sId: string, uId: string) {
+    delete SOCKET_MAP[uId];
   }
 
-  async getAuth(sId: string): Promise<User> {
-    return SocketService.auth[sId];
-  }
-
-  async removeAuth(sId: string): Promise<void> {
-    delete SocketService.auth[sId];
+  findSocketOfUser(uId: string): string {
+    return SOCKET_MAP[uId];
   }
 }

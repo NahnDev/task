@@ -59,10 +59,16 @@ export class Task {
 
   @Expose()
   @ApiProperty()
-  canComplete: boolean;
+  @Prop({ type: Boolean, default: true, required: true })
+  completable: boolean;
 }
 
-class TaskRef extends PickType(Task, ['_id', 'name', 'complete']) {}
+class TaskRef extends PickType(Task, [
+  '_id',
+  'name',
+  'complete',
+  'completable',
+]) {}
 
 export type TaskDoc = Task & Document;
 export const TaskSchema = SchemaFactory.createForClass(Task);

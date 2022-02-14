@@ -17,7 +17,6 @@ export class TaskUpdatedListener {
 
   @OnEvent(TaskUpdatedEvent.key)
   async handleTaskUpdated(payload: TaskUpdatedEvent) {
-    console.log('work');
     const { project, task, description, at } = payload;
     const projectName = await (await this.projectService.findOne(project)).name;
     const taskName = (await this.taskService.findOne(project, task)).name;
@@ -26,7 +25,6 @@ export class TaskUpdatedListener {
       (memberInfo) => memberInfo.user,
     );
     for (const member of members) {
-      console.log('work here');
       this.notifyService
         .create({
           user: member._id,

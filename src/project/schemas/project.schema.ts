@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ApiProperty } from '@nestjs/swagger';
 import { plainToClass } from 'class-transformer';
+import { Member } from '../member/schemas/member.schema';
 
 @Schema()
 export class Project {
@@ -14,6 +15,9 @@ export class Project {
   @ApiProperty()
   @Prop()
   author: string;
+
+  @ApiProperty()
+  members: Member[];
 }
 
 export type ProjectDoc = Project & Document;

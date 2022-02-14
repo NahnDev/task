@@ -15,8 +15,9 @@ export class TaskService {
     private memberService: MemberService,
     private eventEmitter: EventEmitter2,
   ) {}
-  async create(project: string, createTaskDto: CreateTaskDto): Promise<Task> {
-    const taskDoc = new this.taskModel({ ...createTaskDto, project });
+
+  async create(pId: string, createTaskDto: CreateTaskDto): Promise<Task> {
+    const taskDoc = new this.taskModel({ ...createTaskDto, project: pId });
     await taskDoc.save();
     return taskDoc.toJSON();
   }
@@ -29,75 +30,75 @@ export class TaskService {
     return taskDocs.map((taskDoc) => {
       const task = taskDoc.toJSON();
       console.log(task);
-      task.canComplete = this.isCompletable(task);
       return task;
     });
   }
 
-  async findOne(project: string, id: string): Promise<Task> {
-    const taskDoc = await this.taskModel.findOne({ project, _id: id });
+  async findOne(pId: string, id: string): Promise<Task> {
+    const taskDoc = await this.taskModel.findOne({ project: pId, _id: id });
     if (!taskDoc) return null;
     const task = taskDoc.toJSON();
-    task.canComplete = this.isCompletable(task);
     return task;
   }
 
-  async update(
-    project: string,
-    id: string,
-    updateTaskDto: UpdateTaskDto,
-  ): Promise<Task> {
-    const task = await this.findOne(project, id);
-    if (updateTaskDto.subtask_order) {
-      if (
-        !task.subtask_order
-          .map((task) => task._id)
-          .every((oldSubtaskId) => {
-            return updateTaskDto.subtask_order.includes(oldSubtaskId);
-          }) ||
-        task.subtask_order.length !== updateTaskDto.subtask_order.length
-      ) {
-        throw new BadRequestException(`subtask order only sort`);
-      }
+  async update(pId: string, id: string, data: UpdateTaskDto): Promise<Task> {
+    if (data.subtask_order) {
+      await this.updateSubtaskOrder(id, data.subtask_order);
     }
-
-    if (updateTaskDto.dependencies) {
-      for (const dp of updateTaskDto.dependencies) {
-        const task = await this.findOne(project, dp);
-        if (!task) throw new BadRequestException(`dependencies not found`);
-      }
+    if (data.dependencies) {
+      await this.updateDependencies(pId, id, data.dependencies);
     }
-    await this.taskModel.updateOne({ _id: id, project }, updateTaskDto);
+    if (data.name)
+      await this.taskModel.updateOne(
+        { _id: id, project: pId },
+        { name: data.name },
+      );
 
     console.log('------------ chuan bi emit event');
     console.log(TaskUpdatedEvent.key);
     this.eventEmitter.emit(
       TaskUpdatedEvent.key,
-      new TaskUpdatedEvent(project, id, ' đã cập nhật nhiệm vụ'),
+      new TaskUpdatedEvent(pId, id, ' đã cập nhật nhiệm vụ'),
     );
-    return this.findOne(project, id);
+    return await this.findOne(pId, id);
   }
 
-  async remove(project: string, id: string) {
-    const task = await this.findOne(project, id);
-    this.taskModel
-      .updateMany(
-        { _id: task.parent, project },
-        { $pull: { subtask_order: id } },
-      )
-      .then();
-    this.taskModel
-      .updateMany({ dependencies: id }, { $pull: { dependencies: id } })
-      .then();
-    task.subtask_order.map((subtask) => {
-      this.remove(project, subtask._id).then();
-    });
+  async remove(pId: string, id: string) {
+    const task = await this.findOne(pId, id);
+    // update parent
+    if (task.parent) {
+      await this.removeSubtask(pId, task.parent, task._id);
+    }
+
+    // update dependencies owner
+    for (const dpOwnerId of (
+      await this.taskModel.find({ dependencies: id })
+    ).map((task) => task._id)) {
+      await this.removeDependency(pId, dpOwnerId, id);
+    }
+
+    // remove object
+    await this.taskModel.deleteOne({ _id: id, project: pId });
+    for (const subtask of task.subtask_order) {
+      await this.remove(pId, subtask._id);
+    }
+
     this.eventEmitter.emit(
       TaskUpdatedEvent.key,
-      new TaskUpdatedEvent(project, id, ' deleted'),
+      new TaskUpdatedEvent(pId, id, ' deleted'),
     );
-    return await this.taskModel.deleteOne({ _id: id, project });
   }
+
+  // complete
+  async completeTask(pId: string, id: string) {
+    const task = await this.findOne(pId, id);
+    if (!task?.completable) {
+      throw new BadRequestException("Can't complete by dependencies");
+    }
+    await this.taskModel.updateOne({ _id: id }, { complete: true });
+    await this.updateCompletableDependencyTask(pId, id);
+  }
+
   async removeAll(project: string) {
     await this.taskModel.deleteMany({ project });
   }
@@ -113,16 +114,12 @@ export class TaskService {
     return await this.findOne(project, _id);
   }
 
-  async removeAssignee(
-    project: string,
-    id: string,
-    member: string,
-  ): Promise<Task> {
+  async removeAssignee(pId: string, id: string, member: string): Promise<Task> {
     await this.taskModel.updateOne(
-      { project, _id: id },
+      { project: pId, _id: id },
       { $pull: { assignee: member } },
     );
-    return await this.findOne(project, id);
+    return await this.findOne(pId, id);
   }
 
   async removeAssigneeInAll(project: string, member: string) {
@@ -132,9 +129,27 @@ export class TaskService {
     );
   }
 
-  async addSubTask(project: string, id: string, createTaskDto: CreateTaskDto) {
-    const parentTask = await this.findOne(project, id);
-    const task = await this.create(project, createTaskDto);
+  // -------------------------------------------------------------------------------------
+  //#region subtasks
+  async updateSubtaskOrder(id: string, subtasks: string[]) {
+    const task = (await this.taskModel.findById(id)).toJSON();
+
+    if (
+      !task.subtask_order
+        .map((task) => task._id)
+        .every((oldSubtaskId) => {
+          return subtasks.includes(oldSubtaskId);
+        }) ||
+      task.subtask_order.length !== subtasks.length
+    ) {
+      throw new BadRequestException(`subtask order only sort`);
+    }
+    await this.taskModel.updateOne({ _id: id }, { subtasks_order: subtasks });
+  }
+
+  async addSubTask(pId: string, id: string, createTaskDto: CreateTaskDto) {
+    const parentTask = await this.findOne(pId, id);
+    const task = await this.create(pId, createTaskDto);
     await this.taskModel.updateOne(
       { _id: task._id },
       { parent: id, assignee: parentTask.assignee },
@@ -143,28 +158,81 @@ export class TaskService {
       { _id: id },
       { $addToSet: { subtask_order: task._id } },
     );
+    await this.updateCompletable(pId, id);
+
     this.eventEmitter.emit(
       TaskUpdatedEvent.key,
-      new TaskUpdatedEvent(project, id, ' added subtasks'),
+      new TaskUpdatedEvent(pId, id, ' added subtasks'),
     );
-    return await this.findOne(project, task._id);
   }
 
-  async completeTask(project: string, id: string): Promise<Task> {
-    const task = await this.findOne(project, id);
-    if (!task.canComplete) throw new Error('Dp task or subtask completed yet');
-    await this.taskModel.updateOne({ project, _id: id }, { complete: true });
-    return await this.findOne(project, id);
+  async removeSubtask(pId: string, id: string, sId: string) {
+    await this.taskModel.updateOne(
+      { project: pId, _id: id },
+      { subtasks_order: { $pull: sId } },
+    );
+    await this.updateCompletable(pId, id);
   }
 
-  isCompletable(task: Task) {
-    return (
-      task.subtask_order.every((subtask) => subtask.complete === true) &&
-      task.dependencies.every((dpTask) => {
-        console.log(dpTask);
-        console.log(dpTask.complete === true);
-        return dpTask.complete === true;
-      })
+  //#endregion
+
+  //#region dependencies
+  async updateDependencies(pId: string, id: string, dependencies: string[]) {
+    if (
+      dependencies.length ===
+      (await this.taskModel.find({ _id: { $in: dependencies }, project: pId }))
+        .length
+    )
+      throw new BadRequestException('Dependencies must include project');
+
+    await this.taskModel.updateOne(
+      { project: pId, _id: id },
+      { dependencies: dependencies },
     );
+    await this.updateCompletable(pId, id);
+  }
+  async addDependency(pId: string, id: string, dpId: string) {
+    if (!(await this.findOne(pId, dpId))) {
+      throw new Error('Dependencies must include project');
+    }
+    await this.taskModel.updateOne(
+      { project: pId, _id: id },
+      { dependencies: { $addToSet: dpId } },
+    );
+    await this.updateCompletable(pId, id);
+  }
+  async removeDependency(pId: string, id: string, dpId: string) {
+    await this.taskModel.updateOne(
+      { project: pId, _id: id },
+      { dependencies: { $pull: dpId } },
+    );
+    await this.updateCompletable(pId, id);
+  }
+  //#endregion
+
+  // update completable
+  private async updateCompletable(pId: string, id: string) {
+    const task = await this.findOne(pId, id);
+    const completable =
+      task.subtask_order.every((task) => task.complete) &&
+      task.dependencies.every((task) => task.complete);
+    console.log('update completable ', id, 'with value', completable);
+    await this.taskModel.updateOne({ _id: id }, { completable });
+  }
+  private async updateCompletableDependencyTask(pId: string, id: string) {
+    // update parent
+    const parentId = await (
+      await this.taskModel.findOne({ subtask_order: id })
+    ).toJSON()?._id;
+    if (parentId) {
+      await this.updateCompletable(pId, parentId);
+    }
+    // update dependencies owner
+    for (const dpOwnerId of (
+      await this.taskModel.find({ dependencies: id })
+    ).map((task) => task._id)) {
+      console.log('DpOwnerId is ', dpOwnerId);
+      await this.updateCompletable(pId, dpOwnerId);
+    }
   }
 }
