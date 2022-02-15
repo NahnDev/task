@@ -1,10 +1,10 @@
-import { text } from 'stream/consumers'
-import { string } from 'yup/lib/locale'
-import { IMessage } from '../../interfaces/message.interface'
-import { IRoom } from '../../interfaces/room.interface'
-import { IUser } from '../../interfaces/user.interface'
+import { text } from 'stream/consumers';
+import { string } from 'yup/lib/locale';
+import { MessageType } from '../../types/message.type';
+import { RoomType } from '../../types/room.type';
+import { UserType } from '../../types/user.type';
 
-export const rooms: { [key: string]: IRoom } = {
+export const rooms: { [key: string]: RoomType } = {
     '1': {
         _id: '1',
         name: 'Nien luan nganh',
@@ -12,29 +12,29 @@ export const rooms: { [key: string]: IRoom } = {
             _id: '3',
             content: {
                 type: 'text',
-                text: 'Toi la Le Thanh Nhan',
+                data: 'Toi la Le Thanh Nhan',
             },
             from: '33',
             at: new Date(new Date().setDate(-2)),
         },
     },
-}
+};
 
-export const users: { [key: string]: IUser } = {
+export const users: { [key: string]: UserType } = {
     '33': {
         _id: '33',
         avatar: 'https://cdn.pixabay.com/photo/2021/10/13/11/29/girl-6706267_960_720.jpg',
         name: 'Le Thanh Nhan',
     },
-}
-export const messages: { [key: string]: IMessage } = {}
-export const message: { [key: string]: IMessage } = {
+};
+export const messages: { [key: string]: MessageType } = {};
+export const message: { [key: string]: MessageType } = {
     '1': {
         _id: '1',
         from: '33',
         content: {
             type: 'text',
-            text: 'le thanh nha',
+            data: 'le thanh nha',
         },
         at: new Date(),
     },
@@ -43,7 +43,7 @@ export const message: { [key: string]: IMessage } = {
         from: '33',
         content: {
             type: 'text',
-            text: 'le thanh nha',
+            data: 'le thanh nha',
         },
         at: new Date(),
     },
@@ -52,7 +52,7 @@ export const message: { [key: string]: IMessage } = {
         from: '33',
         content: {
             type: 'text',
-            text: 'le thanh nha',
+            data: 'le thanh nha',
         },
         at: new Date(),
     },
@@ -61,7 +61,7 @@ export const message: { [key: string]: IMessage } = {
         from: '33',
         content: {
             type: 'text',
-            text: 'le thanh nha',
+            data: 'le thanh nha',
         },
         at: new Date(),
     },
@@ -70,7 +70,7 @@ export const message: { [key: string]: IMessage } = {
         from: '33',
         content: {
             type: 'text',
-            text: 'le thanh nha',
+            data: 'le thanh nha',
         },
         at: new Date(),
     },
@@ -79,7 +79,7 @@ export const message: { [key: string]: IMessage } = {
         from: '33',
         content: {
             type: 'text',
-            text: 'le thanh nha',
+            data: 'le thanh nha',
         },
         at: new Date(),
     },
@@ -88,7 +88,7 @@ export const message: { [key: string]: IMessage } = {
         from: '33',
         content: {
             type: 'text',
-            text: 'le thanh nha',
+            data: 'le thanh nha',
         },
         at: new Date(),
     },
@@ -97,7 +97,7 @@ export const message: { [key: string]: IMessage } = {
         from: '33',
         content: {
             type: 'text',
-            text: 'le thanh nha',
+            data: 'le thanh nha',
         },
         at: new Date(),
     },
@@ -107,7 +107,7 @@ export const message: { [key: string]: IMessage } = {
         from: '33',
         content: {
             type: 'text',
-            text: 'le thanh nhahafs fsd f sa f sd f s fs fs f s ',
+            data: 'le thanh nhahafs fsd f sa f sd f s fs fs f s ',
         },
         at: new Date(),
     },
@@ -116,8 +116,8 @@ export const message: { [key: string]: IMessage } = {
         from: '33',
         content: {
             type: 'text',
-            text: 'viet nam dan chu cong hoa',
+            data: 'viet nam dan chu cong hoa',
         },
         at: new Date(),
     },
-}
+};

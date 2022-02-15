@@ -1,21 +1,21 @@
-import { Button, Input } from 'antd'
-import React, { CSSProperties, useCallback, useState } from 'react'
+import { Button, Input } from 'antd';
+import React, { CSSProperties, useCallback, useState } from 'react';
 import {
     PlusCircleOutlined,
     SendOutlined,
     PictureOutlined,
     PaperClipOutlined,
     CloseCircleOutlined,
-} from '@ant-design/icons'
-import { colors } from './chat-styles'
-import TextArea from 'antd/lib/input/TextArea'
-import { useDropzone } from 'react-dropzone'
-import UploadFileView from './UploadFileView'
+} from '@ant-design/icons';
+import { colors } from '../../../styles/chat.style';
+import TextArea from 'antd/lib/input/TextArea';
+import { useDropzone } from 'react-dropzone';
+import UploadFileView from '../upload/UploadFileView';
 
 function makeStyles(): {
-    button: CSSProperties
-    root: CSSProperties
-    input: { root: CSSProperties; editor: CSSProperties; send: CSSProperties }
+    button: CSSProperties;
+    root: CSSProperties;
+    input: { root: CSSProperties; editor: CSSProperties; send: CSSProperties };
 } {
     return {
         root: {
@@ -57,24 +57,24 @@ function makeStyles(): {
                 padding: '0 0.2em',
             },
         },
-    }
+    };
 }
 export default function MessageSender() {
-    const styles = makeStyles()
-    const [onMore, setOnMore] = useState(false)
-    const [files, setFiles] = useState<File[]>([])
+    const styles = makeStyles();
+    const [onMore, setOnMore] = useState(false);
+    const [files, setFiles] = useState<File[]>([]);
 
     const handleOnDrop = useCallback((acceptFiles) => {
-        setFiles(acceptFiles)
-        console.dir(acceptFiles)
-    }, [])
-    const { getInputProps, getRootProps, isDragActive } = useDropzone({ onDrop: handleOnDrop })
+        setFiles(acceptFiles);
+        console.dir(acceptFiles);
+    }, []);
+    const { getInputProps, getRootProps, isDragActive } = useDropzone({ onDrop: handleOnDrop });
     const handleOpenMore = function () {
-        setOnMore(true)
-    }
+        setOnMore(true);
+    };
     const handleCloseMore = function () {
-        setOnMore(false)
-    }
+        setOnMore(false);
+    };
     return (
         <div>
             <UploadFileView files={files}></UploadFileView>
@@ -111,5 +111,5 @@ export default function MessageSender() {
                 </div>
             </div>
         </div>
-    )
+    );
 }

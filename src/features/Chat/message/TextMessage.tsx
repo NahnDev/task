@@ -1,6 +1,6 @@
-import React from 'react'
-import { IMessage } from '../../../interfaces/message.interface'
+import React from 'react';
+import { MessageType } from '../../../types/message.type';
 
 export default function TextMessage(prop: { text: string }) {
-    return <div className="TextMessage">{prop.text}</div>
+    return <div className="TextMessage">{prop.text}</div>;
 }

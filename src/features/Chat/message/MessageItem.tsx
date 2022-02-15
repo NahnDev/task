@@ -1,8 +1,8 @@
-import React, { CSSProperties } from 'react'
-import UserAvatar from '../../../components/UserAvatar/UserAvatar'
-import { IMessage } from '../../../interfaces/message.interface'
-import { borderStyles, colors } from '../chat-styles'
-import TextMessage from './TextMessage'
+import React, { CSSProperties } from 'react';
+import UserAvatar from '../../../components/UserAvatar/UserAvatar';
+import { MessageType } from '../../../types/message.type';
+import { borderStyles, colors } from '../../../styles/chat.style';
+import TextMessage from './TextMessage';
 
 function makeStyles(me: boolean): { [key: string]: CSSProperties } {
     return {
@@ -24,18 +24,18 @@ function makeStyles(me: boolean): { [key: string]: CSSProperties } {
             borderRadius: '50vh',
             color: colors.text,
         },
-    }
+    };
 }
 
-export default function Message(prop: { message: IMessage }) {
-    const me: boolean = Math.random() * 2 > 1 ? true : false
-    const styles = makeStyles(me)
+export default function Message(prop: { message: MessageType }) {
+    const me: boolean = Math.random() * 2 > 1 ? true : false;
+    const styles = makeStyles(me);
     return (
         <div className="Message" style={styles.root}>
             <UserAvatar userId={prop.message.from} size="tiny" style={styles.avatar}></UserAvatar>
             <div style={styles.message}>
-                <TextMessage text={prop.message.content.text + ''}></TextMessage>
+                <TextMessage text={prop.message.content.data + ''}></TextMessage>
             </div>
         </div>
-    )
+    );
 }

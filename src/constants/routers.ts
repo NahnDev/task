@@ -1,10 +1,10 @@
-import React from 'react'
-import { SignIn, SignUp } from '../features/Auth/pages'
+import React from 'react';
+import { SignIn, SignUp } from '../features/Auth/pages';
 
-const Home = React.lazy(() => import('../features/Home'))
-const Inbox = React.lazy(() => import('../features/Inbox'))
-const Project = React.lazy(() => import('../features/Project'))
-const Chat = React.lazy(() => import('../features/Chat/Chat'))
+const Home = React.lazy(() => import('../features/Home'));
+const Inbox = React.lazy(() => import('../features/Inbox'));
+const Project = React.lazy(() => import('../features/Project'));
+const Chat = React.lazy(() => import('../features/Chat/ChatScreen'));
 
 export const ROUTER_MAIN = [
     {
@@ -26,7 +26,7 @@ export const ROUTER_MAIN = [
         isLogin: true,
     },
     { path: 'chat', component: Chat, role: ['USER'], isLogin: true },
-]
+];
 
 export const ROUTER_AUTH = [
     {
@@ -39,4 +39,4 @@ export const ROUTER_AUTH = [
         component: SignUp,
         isLogin: false,
     },
-]
+];

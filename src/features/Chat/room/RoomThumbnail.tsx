@@ -1,16 +1,16 @@
-import { Avatar, List } from 'antd'
-import React, { CSSProperties } from 'react'
-import { borderStyles, colors } from './chat-styles'
-import { IRoom } from '../../interfaces/room.interface'
-import { users } from './seed'
+import { Avatar, List } from 'antd';
+import React, { CSSProperties } from 'react';
+import { borderStyles, colors } from '../../../styles/chat.style';
+import { RoomType } from '../../../types/room.type';
+import { users } from '../seed';
 
 const styles: {
-    root: CSSProperties
-    name: CSSProperties
+    root: CSSProperties;
+    name: CSSProperties;
     message: {
-        content: CSSProperties
-        avatar: CSSProperties
-    }
+        content: CSSProperties;
+        avatar: CSSProperties;
+    };
 } = {
     root: {
         ...borderStyles,
@@ -33,9 +33,9 @@ const styles: {
         },
         content: { color: colors.text, margin: 0 },
     },
-}
+};
 
-export default function RoomThumbnail(prop: { info: IRoom }) {
+export default function RoomThumbnail(prop: { info: RoomType }) {
     return (
         <List.Item style={styles.root}>
             <List.Item.Meta
@@ -52,12 +52,12 @@ export default function RoomThumbnail(prop: { info: IRoom }) {
                         title={
                             <p style={styles.message.content}>
                                 {' '}
-                                {prop.info.lastMessage.content.text || 'Sended a image'}
+                                {prop.info.lastMessage.content.data || 'Sended a image'}
                             </p>
                         }
                     ></List.Item.Meta>
                 }
             ></List.Item.Meta>
         </List.Item>
-    )
+    );
 }

@@ -1,17 +1,18 @@
-import { Button, PageHeader } from 'antd'
-import React, { CSSProperties } from 'react'
-import { borderStyles, colors, containerStyle } from './chat-styles'
-import { DashOutlined } from '@ant-design/icons'
-import { IRoom } from '../../interfaces/room.interface'
-import MessageList from './message/MessageList'
-import MessageSender from './MessageSender'
+import { Button, PageHeader } from 'antd';
+import React, { CSSProperties } from 'react';
+import { borderStyles, colors, containerStyle } from '../../../styles/chat.style';
+import { DashOutlined } from '@ant-design/icons';
+import { RoomType } from '../../../types/room.type';
+import MessageList from '../message/MessageList';
+import MessageSender from '../message/MessageSender';
+import { info } from 'console';
 
 const styles: {
-    root: CSSProperties
-    row: CSSProperties
-    line: CSSProperties
-    header: CSSProperties
-    menuIcon: CSSProperties
+    root: CSSProperties;
+    row: CSSProperties;
+    line: CSSProperties;
+    header: CSSProperties;
+    menuIcon: CSSProperties;
 } = {
     root: {
         background: colors.primary,
@@ -40,14 +41,18 @@ const styles: {
         width: '100%',
         ...borderStyles,
     },
-}
-export default function Room(prop: { info: IRoom; className?: string; style?: CSSProperties }) {
+};
+export default function RoomScreen(props: {
+    info: RoomType;
+    className?: string;
+    style?: CSSProperties;
+}) {
     return (
-        <div className={['Room', prop.className].join(' ')} style={prop.style}>
+        <div className={['Room', props.className].join(' ')} style={props.style}>
             <div style={styles.root}>
                 <div style={styles.row}>
                     <PageHeader
-                        title={<h3 style={styles.header}>{prop.info.name}</h3>}
+                        title={<h3 style={styles.header}>{props.info.name}</h3>}
                         extra={[
                             <Button
                                 key={'menu-room'}
@@ -60,7 +65,7 @@ export default function Room(prop: { info: IRoom; className?: string; style?: CS
                 </div>
                 <div style={styles.line}></div>
                 <div style={{ ...styles.row, ...containerStyle }}>
-                    <MessageList></MessageList>
+                    <MessageList room={props.info._id}></MessageList>
                 </div>
                 <div style={styles.line}></div>
                 <div style={styles.row}>
@@ -68,5 +73,5 @@ export default function Room(prop: { info: IRoom; className?: string; style?: CS
                 </div>
             </div>
         </div>
-    )
+    );
 }

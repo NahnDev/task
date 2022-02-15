@@ -26,7 +26,7 @@ function App() {
                 </Row>
             }
         >
-            {!user.isLogin ? (
+            {user.isLogin ? (
                 <Row className={classLayout.app}>
                     <Col xs={5}>
                         <NavbarCustom className={classLayout.navbarCustom} />
