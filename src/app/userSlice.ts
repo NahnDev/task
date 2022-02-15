@@ -1,11 +1,11 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { typeUser } from '../constants/type'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { typeUser } from '../constants/type';
 
-const isLogin: boolean = localStorage.getItem('token') ? true : false
+const isLogin: boolean = localStorage.getItem('token') ? true : false;
 
 const initialState: typeUser = {
     isLogin: isLogin,
-}
+};
 
 const user = createSlice({
     name: 'user',
@@ -13,8 +13,8 @@ const user = createSlice({
     reducers: {
         // Form Phone and password
         setUser: (state, action: PayloadAction<any>) => {
-            state = { ...state, ...action.payload }
-            return state
+            state = { ...state, ...action.payload };
+            return state;
         },
         // setProfile: (state, action) => {
         //     state = { ...state, profile: action.payload }
@@ -40,8 +40,8 @@ const user = createSlice({
         //     return state
         // },
     },
-})
+});
 
-const { reducer, actions } = user
-export const { setUser } = actions
-export default reducer
+const { reducer, actions } = user;
+export const { setUser } = actions;
+export default reducer;
