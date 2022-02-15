@@ -23,8 +23,14 @@ export class UserService {
     return userDoc.toJSON();
   }
 
-  async findAll() {
-    return `This action returns all user`;
+  async findAll(email = '', name = '') {
+    const userDocs = await this.userModel
+      .find({
+        email: { $regex: new RegExp(email, 'i') },
+        name: { $regex: new RegExp(name, 'i') },
+      })
+      .limit(10);
+    return userDocs.map((userDoc) => userDoc.toJSON());
   }
 
   async findOne(id: string): Promise<User> {

@@ -15,5 +15,6 @@ import { SocketModule } from 'src/socket/socket.module';
   ],
   controllers: [MessageController],
   providers: [MessageService, MessageGateway],
+  exports: [MessageService],
 })
 export class MessageModule {}

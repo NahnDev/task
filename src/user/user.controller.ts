@@ -6,11 +6,17 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { ApiBearerAuth, ApiOkResponse } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiBody,
+  ApiOkResponse,
+  ApiQuery,
+} from '@nestjs/swagger';
 import { User } from './schemas/user.schema';
 import { PublicApi } from 'src/decorators/public-api.decorator';
 import { CheckPolicies } from 'src/decorators/check-policies.decorator';
@@ -31,10 +37,12 @@ export class UserController {
 
   @PublicApi()
   @CheckPolicies((ability) => ability.can(Actions.Read, User))
+  @ApiQuery({ type: 'string', name: 'email', required: false })
+  @ApiQuery({ type: 'string', name: 'name', required: false })
   @ApiOkResponse({ type: [User] })
   @Get()
-  async findAll() {
-    return await this.userService.findAll();
+  async findAll(@Query('email') email?: string, @Query('name') name?: string) {
+    return await this.userService.findAll(email, name);
   }
 
   @PublicApi()

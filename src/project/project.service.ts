@@ -52,7 +52,7 @@ class OldProjectService {
   async findAllByUser(user: string): Promise<Project[]> {
     // tim danh sach project tu member module
     const projectIds: string[] = (
-      await this.memberService.findProjectHasUser(user)
+      await this.memberService.findWithUser(user)
     ).map((projectMember) => projectMember.project);
     // lay thong tin chi tiet project
     const projectDocs = await this.projectModel.find({

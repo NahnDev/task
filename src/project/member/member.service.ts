@@ -61,7 +61,7 @@ export class MemberService {
     await this.memberModel.deleteMany({ project });
   }
 
-  async findProjectHasUser(user: string): Promise<Member[]> {
+  async findWithUser(user: string): Promise<Member[]> {
     return (await this.memberModel.find({ user })).map((memberDoc) =>
       memberDoc.toJSON(),
     );

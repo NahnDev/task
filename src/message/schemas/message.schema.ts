@@ -1,9 +1,29 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { ApiProperty } from '@nestjs/swagger';
 import { plainToClass } from 'class-transformer';
 import { SchemaTypes } from 'mongoose';
 
 @Schema()
+export class MessageContent {
+  @ApiProperty()
+  @Prop({
+    type: String,
+    enum: ['text', 'file'],
+    required: true,
+    default: 'text',
+  })
+  t: 'text' | 'file';
+
+  @ApiProperty()
+  @Prop({
+    type: String,
+  })
+  data: string;
+}
+
+@Schema()
 export class Message {
+  @ApiProperty()
   @Prop({
     type: SchemaTypes.ObjectId,
     ref: 'Project',
@@ -11,6 +31,7 @@ export class Message {
   })
   room: string;
 
+  @ApiProperty()
   @Prop({
     type: SchemaTypes.ObjectId,
     ref: 'User',
@@ -18,23 +39,11 @@ export class Message {
   })
   from: string;
 
-  @Prop({
-    type: {
-      t: {
-        type: String,
-        enum: ['text', 'file'],
-        required: true,
-        default: 'text',
-      },
-      data: String,
-    },
-    required: true,
-  })
-  content: {
-    t: 'text' | 'file';
-    data: string;
-  };
+  @ApiProperty()
+  @Prop({ type: MessageContent, required: true })
+  content: MessageContent;
 
+  @ApiProperty()
   @Prop({
     type: Date,
     required: true,
@@ -46,6 +55,6 @@ export class Message {
 
 export type MessageDoc = Message & Document;
 export const MessageSchema = SchemaFactory.createForClass(Message);
-MessageSchema.methods.toJSOn = function () {
+MessageSchema.methods.toJSON = function () {
   return plainToClass(Message, JSON.parse(JSON.stringify(this.toObject())));
 };

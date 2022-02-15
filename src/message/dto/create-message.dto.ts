@@ -1,4 +1,6 @@
+import { Type } from 'class-transformer';
 import { IsArray, IsObject, IsString } from 'class-validator';
+import { MessageContent } from '../schemas/message.schema';
 
 export class CreateMessageDto {
   @IsString()
@@ -7,6 +9,6 @@ export class CreateMessageDto {
   @IsString()
   from: string;
 
-  @IsObject()
-  content: any;
+  @Type(() => MessageContent)
+  content: MessageContent;
 }

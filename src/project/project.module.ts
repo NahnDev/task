@@ -20,5 +20,6 @@ import { MemberModule } from './member/member.module';
   ],
   controllers: [ProjectController],
   providers: [ProjectService, TaskUpdatedListener],
+  exports: [ProjectService],
 })
 export class ProjectModule {}
