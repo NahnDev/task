@@ -21,4 +21,5 @@ export const classAuth = {
 
 export const classHome = {
     home: 'home',
+    form: 'home__form',
 }

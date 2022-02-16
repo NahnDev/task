@@ -92,6 +92,17 @@ export const CONTENT_HOME = {
             icon: MoreOutlined,
         },
     },
+
+    formProject: {
+        title: 'Create project',
+        btnSubmit: 'Continue',
+
+        fieldsName: {
+            name: 'name',
+            label: 'Name Project *',
+            type: 'text',
+        },
+    },
 }
 export const CONTENT_INBOX = {
     title: 'Inbox',

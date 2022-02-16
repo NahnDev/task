@@ -139,4 +139,43 @@
             }
         }
     }
+
+    &__form {
+        &--field {
+            color: $color_white;
+
+            &-label {
+                color: $color_white;
+            }
+
+            &-input-field {
+                color: $color_white;
+                border-bottom: 1px solid $color_vivid_tangerine;
+
+                &:hover,
+                &:focus,
+                &:active {
+                    border-bottom: 1px solid $color_vivid_tangerine;
+                }
+            }
+        }
+
+        &--btn {
+            padding: 0.5rem 0;
+            border-radius: 10px;
+            transition: all 750ms;
+            cursor: pointer;
+
+            &:hover,
+            &:focus,
+            &:active {
+                background-color: $color_vivid_tangerine;
+                transition: all 750ms;
+            }
+
+            &-content {
+                width: 100%;
+            }
+        }
+    }
 }

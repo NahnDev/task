@@ -5,6 +5,7 @@ import ProjectDetail from './ProjectDetail'
 type IProps = {
     className: string
     listProject: Array<any>
+    onClickAddProject: Function
 }
 
 const content = CONTENT_HOME.projects
@@ -16,7 +17,11 @@ function Projects(props: IProps) {
                 <Row align="middle" className={`${props.className}--title`}>
                     <span>{content.title}</span>
                 </Row>
-                <Row align="middle" className={`${props.className}--btn`}>
+                <Row
+                    align="middle"
+                    className={`${props.className}--btn`}
+                    onClick={() => props.onClickAddProject()}
+                >
                     <span className={`${props.className}--btn-icon`}>
                         <content.iconAddProject />
                     </span>

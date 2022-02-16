@@ -16,3 +16,7 @@ export const validateFormSignUp = Yup.object().shape({
         .required('This field is required')
         .min(8, 'Minimum 8 characters'),
 })
+
+export const validateFormHomeProject = Yup.object().shape({
+    name: Yup.string().required('This field is required'),
+})

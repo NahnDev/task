@@ -1,0 +1,36 @@
+@import '../../assets/style/colors';
+@import '../../assets/style/global';
+@import '../../assets/style/screen';
+
+.ant-modal {
+    &-form-item {
+        color: $color_white;
+    }
+    &-header {
+        background-color: $color_jet;
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
+
+        border-bottom: 2px solid $color_davys_grey;
+    }
+
+    &-title,
+    &-close {
+        color: $color_white;
+
+        &:hover,
+        &:focus,
+        &:active {
+            color: $color_white;
+        }
+    }
+
+    &-content {
+        color: $color_white;
+
+        background-color: $color_jet;
+        border: 2px solid $color_davys_grey;
+
+        border-radius: 15px;
+    }
+}
