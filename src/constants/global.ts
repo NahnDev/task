@@ -5,6 +5,11 @@ import {
     BellOutlined,
     PlusOutlined,
     QuestionCircleOutlined,
+    PlusCircleOutlined,
+    FolderOpenOutlined,
+    HourglassOutlined,
+    CloseCircleOutlined,
+    MoreOutlined,
 } from '@ant-design/icons'
 import Images from './images'
 
@@ -53,6 +58,51 @@ export const CONTENT_AUTH = {
 
 export const CONTENT_HOME = {
     title: 'Home',
+    descriptionContent: {
+        textDesc: 'Have a beautiful day!',
+        textTask: 'tasks',
+        iconTask: CheckCircleOutlined,
+        textProjects: 'project',
+        iconProject: FolderOpenOutlined,
+    },
+
+    priorities: {
+        title: 'My Priorities',
+        iconAddTask: PlusCircleOutlined,
+        textAddTask: 'Click here to add task...',
+        navigate: [
+            { value: 'doing', text: 'Doing' },
+            { value: 'overdue', text: 'Overdue' },
+            { value: 'completed', text: 'Completed' },
+        ],
+
+        iconStatus: [
+            { value: 'doing', icon: HourglassOutlined },
+            { value: 'completed', icon: CheckCircleOutlined },
+            { value: 'overdue', icon: CloseCircleOutlined },
+        ],
+    },
+
+    projects: {
+        title: 'Projects',
+        iconAddProject: PlusOutlined,
+        textAddProject: 'Create project',
+
+        project: {
+            icon: MoreOutlined,
+        },
+    },
+
+    formProject: {
+        title: 'Create project',
+        btnSubmit: 'Continue',
+
+        fieldsName: {
+            name: 'name',
+            label: 'Name Project *',
+            type: 'text',
+        },
+    },
 }
 export const CONTENT_INBOX = {
     title: 'Inbox',

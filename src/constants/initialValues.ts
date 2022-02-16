@@ -8,3 +8,7 @@ export const initialValuesFormSignUp = {
     email: '',
     password: '',
 }
+
+export const initialValuesFormHomeProject = {
+    name: '',
+}

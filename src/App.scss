@@ -59,10 +59,12 @@ label {
     &-header {
         width: 100%;
         height: 10vh;
+        background-color: $color_eerie_black;
     }
     &-body {
         width: 100%;
-        height: 90vh;
+        height: 100vh;
+        background-color: $color_eerie_black;
     }
     &-navbar-custom {
         width: 100%;

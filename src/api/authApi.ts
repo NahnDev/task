@@ -1,4 +1,5 @@
 import { Form, ResSignUp } from '../types/auth'
+import { Token } from '../types/global'
 import axiosClient from './axiosClient'
 
 const authApi = {
@@ -14,7 +15,7 @@ const authApi = {
 
     getAccessTokens: () => {
         const url = `/auth/access-tokens`
-        return axiosClient.get(url)
+        return axiosClient.get<any, Token>(url)
     },
 
     getGoogleLogin: () => {

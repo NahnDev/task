@@ -1,0 +1,181 @@
+@import '../../assets/style/colors';
+@import '../../assets/style/global';
+@import '../../assets/style/screen';
+
+.home {
+    &__desc {
+        margin-top: 1.25rem;
+        text-align: center;
+        color: $color_white;
+
+        &--text {
+            display: block;
+            font-size: 1.25rem;
+            letter-spacing: 3px;
+        }
+
+        &--box {
+            margin-top: 1.25rem;
+            padding: 0.5rem 3rem;
+            color: $color_white;
+            font-size: 1rem;
+            background-color: $color_jet;
+            border: 2px solid $color_davys_grey;
+            border-radius: 30px;
+        }
+
+        &--desc {
+            text-align: center;
+        }
+    }
+
+    &__priorities {
+        margin: 2rem 1rem 0 2rem;
+        padding: 1rem 0rem;
+        color: $color_white;
+        background-color: $color_jet;
+
+        border: 2px solid $color_davys_grey;
+        border-radius: 20px;
+
+        &--title {
+            font-size: 1.25rem;
+            padding: 0 2.5rem;
+            letter-spacing: 2px;
+        }
+
+        &--navigate {
+            padding: 0rem 2.5rem;
+
+            border-bottom: 2px solid $color_davys_grey;
+
+            &-item {
+                margin-right: 1rem;
+                border-bottom: 2px solid $color_jet;
+                transition: all 750ms;
+                cursor: pointer;
+
+                &:hover,
+                &:focus,
+                &:active,
+                &.active {
+                    transition: all 750ms;
+                    border-color: $color_vivid_tangerine;
+                }
+            }
+        }
+
+        &--tasks {
+            padding: 0.5rem 2.5rem;
+            height: 15rem;
+            overflow: auto;
+        }
+
+        &--task {
+            padding: 0.2rem 0rem;
+            cursor: pointer;
+            border-bottom: 1px solid $color_davys_grey;
+            &-icon {
+                margin-right: 0.5rem;
+                font-size: 1.5rem;
+            }
+        }
+    }
+
+    &__project {
+        margin: 2rem 2rem 0 1rem;
+        padding: 1rem 0rem;
+        color: $color_white;
+        background-color: $color_jet;
+
+        border: 2px solid $color_davys_grey;
+        border-radius: 20px;
+
+        &--title {
+            font-size: 1.25rem;
+            padding: 0 2.5rem;
+            letter-spacing: 2px;
+        }
+
+        &--btn {
+            padding: 0.5rem 2.5rem;
+            cursor: pointer;
+
+            &-icon {
+                padding: 0.65rem 1rem;
+                margin-right: 0.5rem;
+
+                font-size: 1.2rem;
+                border: 2px dashed $color_white;
+                border-radius: 15px;
+            }
+        }
+
+        &--projects {
+            padding: 0 2.5rem 0.5rem 2.5rem;
+            max-height: 12.5rem;
+            overflow: auto;
+        }
+
+        &--project {
+            margin: 0.5rem 0;
+            cursor: pointer;
+
+            &-avatar {
+                display: flex;
+                justify-content: center;
+            }
+
+            &-name {
+                padding: 0.1rem 0.75rem;
+
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+            }
+
+            &-member {
+                padding: 0.1rem 0.75rem;
+            }
+        }
+    }
+
+    &__form {
+        &--field {
+            color: $color_white;
+
+            &-label {
+                color: $color_white;
+            }
+
+            &-input-field {
+                color: $color_white;
+                border-bottom: 1px solid $color_vivid_tangerine;
+
+                &:hover,
+                &:focus,
+                &:active {
+                    border-bottom: 1px solid $color_vivid_tangerine;
+                }
+            }
+        }
+
+        &--btn {
+            padding: 0.5rem 0;
+            border-radius: 10px;
+            transition: all 750ms;
+            cursor: pointer;
+
+            &:hover,
+            &:focus,
+            &:active {
+                background-color: $color_vivid_tangerine;
+                transition: all 750ms;
+            }
+
+            &-content {
+                width: 100%;
+            }
+        }
+    }
+}

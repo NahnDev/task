@@ -13,6 +13,7 @@ import './Header.scss'
 import { NavLink } from 'react-router-dom'
 
 type TProps = {
+    className: string
     title: string
     dropdown?: any
     navigate?: Array<any>
@@ -58,7 +59,7 @@ function Header(props: TProps) {
     }, [user.name !== undefined])
 
     return (
-        <Row align="middle" justify="space-between" className={`${className}`}>
+        <Row align="middle" justify="space-between" className={`${className} ${props.className}`}>
             <Col>
                 <Row>
                     {props.dropdown ? (
