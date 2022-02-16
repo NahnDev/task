@@ -1,4 +1,3 @@
-import { typeDataLogin, typeDataRegister } from '../constants/type'
 import axiosClient from './axiosClient'
 
 const notifyApi = {

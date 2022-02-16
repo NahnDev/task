@@ -1,13 +1,13 @@
-import { typeDataLogin, typeDataRegister } from '../constants/type'
+import { Form, ResSignUp } from '../types/auth'
 import axiosClient from './axiosClient'
 
 const authApi = {
-    postAuthLogin: (data: typeDataLogin) => {
+    postAuthLogin: (data: Form) => {
         const url = '/auth/login'
         return axiosClient.post(url, data)
     },
 
-    postAuthRegister: (data: typeDataRegister) => {
+    postAuthRegister: (data: Form) => {
         const url = '/auth/register'
         return axiosClient.post(url, data)
     },

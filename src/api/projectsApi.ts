@@ -1,14 +1,9 @@
-import {
-    typeDataMembers,
-    typeDataProject,
-    typeDataSubtasks,
-    typeDataTasks,
-} from '../constants/type'
+import { DataMembers, DataProject, DataSubtasks, DataTasks } from '../types/api'
 import axiosClient from './axiosClient'
 
 const projectsApi = {
     // Subtask
-    postSubtasks: (_pid: string, _id: string, data: typeDataSubtasks) => {
+    postSubtasks: (_pid: string, _id: string, data: DataSubtasks) => {
         const url = `/projects/${_pid}/tasks/${_id}/subtasks`
         return axiosClient.post(url, data)
     },
@@ -24,12 +19,12 @@ const projectsApi = {
         return axiosClient.get(url)
     },
 
-    postTasks: (_pid: string, data: typeDataTasks) => {
+    postTasks: (_pid: string, data: DataTasks) => {
         const url = `/projects/${_pid}/tasks`
         return axiosClient.post(url, data)
     },
 
-    patchTasks: (_pid: string, _id: string, data: typeDataTasks) => {
+    patchTasks: (_pid: string, _id: string, data: DataTasks) => {
         const url = `/projects/${_pid}/tasks/${_id}`
         return axiosClient.patch(url, data)
     },
@@ -45,12 +40,12 @@ const projectsApi = {
         return axiosClient.get(url)
     },
 
-    postMembers: (_pid: string, data: typeDataMembers) => {
+    postMembers: (_pid: string, data: DataMembers) => {
         const url = `/projects/${_pid}/members`
         return axiosClient.post(url, data)
     },
 
-    patchMembers: (_pid: string, _userId: string, data: typeDataMembers) => {
+    patchMembers: (_pid: string, _userId: string, data: DataMembers) => {
         const url = `/projects/${_pid}/members/${_userId}`
         return axiosClient.patch(url, data)
     },
@@ -71,12 +66,12 @@ const projectsApi = {
         return axiosClient.get(url)
     },
 
-    postProjects: (data: typeDataProject) => {
+    postProjects: (data: DataProject) => {
         const url = `/projects`
         return axiosClient.post(url, data)
     },
 
-    patchProjects: (_pid: string, data: typeDataProject) => {
+    patchProjects: (_pid: string, data: DataProject) => {
         const url = `/projects/${_pid}`
         return axiosClient.patch(url, data)
     },

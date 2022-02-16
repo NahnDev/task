@@ -3,6 +3,9 @@ import UserAvatar from '../../../components/UserAvatar/UserAvatar';
 import { MessageType } from '../../../types/message.type';
 import { borderStyles, colors } from '../../../styles/chat.style';
 import TextMessage from './TextMessage';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../app/store';
+import { UserType } from '../../../types/user.type';
 
 function makeStyles(me: boolean): { [key: string]: CSSProperties } {
     return {
@@ -27,8 +30,9 @@ function makeStyles(me: boolean): { [key: string]: CSSProperties } {
     };
 }
 
-export default function Message(prop: { message: MessageType }) {
-    const me: boolean = Math.random() * 2 > 1 ? true : false;
+export default function MessageItem(prop: { message: MessageType }) {
+    const user = useSelector<RootState, UserType>((state) => state.user);
+    const me = prop.message.from === user._id;
     const styles = makeStyles(me);
     return (
         <div className="Message" style={styles.root}>

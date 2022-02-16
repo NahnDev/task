@@ -1,10 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { typeUser } from '../constants/type';
+import { User } from '../types/global';
 
 const isLogin: boolean = localStorage.getItem('token') ? true : false;
 
-const initialState: typeUser = {
+const _id: string = localStorage.getItem('_id') || '';
+
+const initialState: User = {
     isLogin: isLogin,
+    _id: _id,
 };
 
 const user = createSlice({
@@ -12,8 +15,24 @@ const user = createSlice({
     initialState: initialState,
     reducers: {
         // Form Phone and password
-        setUser: (state, action: PayloadAction<any>) => {
-            state = { ...state, ...action.payload };
+        setUserLogin: (state, action: PayloadAction<any>) => {
+            state = { ...action.payload.user, isLogin: true };
+
+            const token = {
+                accessToken: action.payload.accessToken,
+                refreshToken: action.payload.refreshToken,
+                expires: action.payload.expires,
+            };
+
+            localStorage.setItem('token', JSON.stringify(token));
+            localStorage.setItem('_id', action.payload.user._id);
+
+            return state;
+        },
+
+        setUser: (state, action: PayloadAction<User>) => {
+            state = { ...action.payload, isLogin: true };
+
             return state;
         },
         // setProfile: (state, action) => {
@@ -35,13 +54,12 @@ const user = createSlice({
         // },
         // setSignOut: (state, action) => {
         //     state = { data: action.payload }
-        //     localStorage.setItem('user', JSON.stringify(state))
-        //     localStorage.removeItem(`token`)
+
         //     return state
         // },
     },
 });
 
 const { reducer, actions } = user;
-export const { setUser } = actions;
+export const { setUser, setUserLogin } = actions;
 export default reducer;

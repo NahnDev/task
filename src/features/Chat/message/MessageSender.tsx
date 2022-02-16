@@ -59,7 +59,7 @@ function makeStyles(): {
         },
     };
 }
-export default function MessageSender() {
+export default function MessageSender(props: { rId: string }) {
     const styles = makeStyles();
     const [onMore, setOnMore] = useState(false);
     const [files, setFiles] = useState<File[]>([]);

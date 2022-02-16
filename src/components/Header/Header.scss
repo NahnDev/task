@@ -1,0 +1,68 @@
+@import '../../assets/style/colors';
+@import '../../assets/style/global';
+@import '../../assets/style/screen';
+
+.header {
+    height: 12.5vh;
+    padding: 0 3rem;
+    color: $color_white;
+    background-color: $color_eerie_black;
+    border-bottom: 2px solid $color_davys_grey;
+
+    &__title {
+        font-weight: 700;
+        font-size: 1.1rem;
+        letter-spacing: 2px;
+        cursor: pointer;
+
+        &--icon {
+            margin: 0 0.5rem;
+            padding: 0 1rem;
+
+            font-size: 0.8rem;
+        }
+    }
+
+    &__navigate {
+        margin-top: 0.5rem;
+        margin-bottom: -1rem;
+        letter-spacing: 2px;
+
+        &--link {
+            margin-right: 1.25rem;
+            padding-bottom: 0.25rem;
+            border-bottom: 2px solid $color_eerie_black;
+
+            transition: all 750ms;
+
+            &.active,
+            &:hover,
+            &:active,
+            &:focus {
+                border-color: $color_vivid_tangerine;
+            }
+        }
+    }
+
+    &__search {
+        margin: 0 0.5rem;
+    }
+
+    &__detail {
+        &--btn {
+            margin: 0 0.5rem;
+            padding: 0.1rem 0.4rem;
+            font-size: 1.1rem;
+
+            border-radius: 50%;
+            background-color: $color_vivid_tangerine;
+        }
+
+        &--name,
+        &--avatar {
+            cursor: pointer;
+            margin: 0 0.5rem;
+            letter-spacing: 1px;
+        }
+    }
+}

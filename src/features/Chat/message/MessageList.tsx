@@ -1,8 +1,13 @@
 import { List } from 'antd';
 import React, { CSSProperties, useEffect, useRef, useState } from 'react';
-import { messages as messagesSeed } from '../seed';
-import Message from './MessageItem';
+import MessageItem from './MessageItem';
 import { useInView } from 'react-intersection-observer';
+import { RootState } from '../../../app/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { MessageType } from '../../../types/message.type';
+import { MessageApi } from '../../../api/message.api';
+import { MessageAction } from '../../../app/message/message.ations';
+import { UserType } from '../../../types/user.type';
 
 const styles: { [key: string]: CSSProperties } = {
     root: {
@@ -17,45 +22,48 @@ const styles: { [key: string]: CSSProperties } = {
 export default function MessageList(prop: {
     style?: CSSProperties;
     className?: string;
-    room: string;
+    rId: string;
 }) {
+    const messages = useSelector<RootState, MessageType[]>((state) => state.message[prop.rId]);
+    const [height, setHeight] = useState<number>(0);
     const { ref: autoRef, inView: isAutoScroll } = useInView({ threshold: 0 });
     const { ref: loadRef, inView: loadMore } = useInView({ threshold: 0 });
-    const [loading, setLoading] = useState(false);
-    const [messages, setMessages] = useState(
-        Object.keys(messagesSeed).map((key) => messagesSeed[key])
-    );
+    const [loadable, setLoadable] = useState(true);
+    const [more, setMore] = useState(true);
+    const dispatch = useDispatch();
 
     const ref = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         if (isAutoScroll) {
-            ref.current?.scrollTo({ top: ref.current?.clientHeight });
-            console.log('bat auto scroll');
-        } else {
-            console.log('tat auto scroll');
+            ref.current?.scrollTo({ top: ref.current?.scrollHeight });
+            console.log('auto scroll');
         }
     }, [isAutoScroll]);
     useEffect(() => {
-        // messageArr updated
-        console.log('messageArr update');
-        setLoading(false);
+        if (!messages) return;
+        ref.current?.scrollTo({ top: ref.current?.scrollHeight - height });
+        console.log(ref.current?.scrollHeight || 0);
+        setHeight(ref.current?.scrollHeight || 0);
+        setTimeout(() => {
+            setLoadable(true);
+        }, 250);
     }, [messages]);
     useEffect(() => {
-        if (loadMore && !loading) {
-            // goi api load them du lieu
-            console.log('load them du lieu');
-            setLoading(true);
+        console.log(`${loadMore} - ${loadable}`);
+        if (loadMore && loadable) {
+            dispatch(MessageAction.loadMessage(prop.rId));
+            setTimeout(() => setLoadable(true), 200);
         }
-    }, [loadMore, loading]);
-    useEffect(() => {});
+    }, [loadMore, loadable]);
+
     return (
         <div className="MessageList" ref={ref} style={styles.root}>
             <List>
-                <div ref={loadRef}>{loading ? '' : 'Loading'}</div>
-                {messages.map((message) => (
+                <div ref={loadRef}>{loadable ? '' : 'Loading'}</div>
+                {(messages || []).map((message) => (
                     <List.Item style={styles.item} key={message._id}>
-                        <Message message={message}></Message>
+                        <MessageItem message={message}></MessageItem>
                     </List.Item>
                 ))}
                 <div ref={autoRef}>Active auto load</div>

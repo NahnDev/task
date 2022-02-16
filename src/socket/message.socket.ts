@@ -1,6 +1,5 @@
 import { Socket } from 'socket.io-client';
-import { Message } from '../app/message/type';
-import store from '../app/store';
+import { MessageType } from '../types/message.type';
 import { SocketSegment } from './types';
 
 export class MessageSocketSegment extends SocketSegment {
@@ -10,7 +9,7 @@ export class MessageSocketSegment extends SocketSegment {
             console.log(payload);
         });
     }
-    sendMessage(payload: Message) {
+    sendMessage(payload: MessageType) {
         this.socket.emit('message:send', payload);
     }
 }

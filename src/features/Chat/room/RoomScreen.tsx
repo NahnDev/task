@@ -6,6 +6,9 @@ import { RoomType } from '../../../types/room.type';
 import MessageList from '../message/MessageList';
 import MessageSender from '../message/MessageSender';
 import { info } from 'console';
+import { useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../app/store';
 
 const styles: {
     root: CSSProperties;
@@ -16,9 +19,7 @@ const styles: {
 } = {
     root: {
         background: colors.primary,
-        height: '100%',
         width: '100%',
-        overflow: 'hidden',
         display: 'grid',
         gridTemplateRows: 'auto auto 1fr auto auto',
         ...borderStyles,
@@ -43,16 +44,18 @@ const styles: {
     },
 };
 export default function RoomScreen(props: {
-    info: RoomType;
+    rId: string;
     className?: string;
     style?: CSSProperties;
 }) {
+    const room = useSelector<RootState, RoomType>((state) => state.room[props.rId]);
+    if (!room) return <div></div>;
     return (
         <div className={['Room', props.className].join(' ')} style={props.style}>
             <div style={styles.root}>
                 <div style={styles.row}>
                     <PageHeader
-                        title={<h3 style={styles.header}>{props.info.name}</h3>}
+                        title={<h3 style={styles.header}>{room.name}</h3>}
                         extra={[
                             <Button
                                 key={'menu-room'}
@@ -65,11 +68,11 @@ export default function RoomScreen(props: {
                 </div>
                 <div style={styles.line}></div>
                 <div style={{ ...styles.row, ...containerStyle }}>
-                    <MessageList room={props.info._id}></MessageList>
+                    <MessageList rId={room._id}></MessageList>
                 </div>
                 <div style={styles.line}></div>
                 <div style={styles.row}>
-                    <MessageSender></MessageSender>
+                    <MessageSender rId={props.rId}></MessageSender>
                 </div>
             </div>
         </div>

@@ -1,0 +1,14 @@
+@import '../../assets/style/colors';
+@import '../../assets/style/global';
+@import '../../assets/style/screen';
+
+.search {
+    padding: 0rem 1rem;
+    border: 2px solid $color_davys_grey;
+    border-radius: 20px;
+
+    &__icon {
+        padding: 0.2rem 0.25rem 0 0;
+        font-size: 1.1rem;
+    }
+}

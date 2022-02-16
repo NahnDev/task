@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction, SliceCaseReducers } from '@reduxjs/toolkit';
-import { Message, MessageSlice } from './type';
+import { MessageType, MessageSlice } from '../../types/message.type';
 
 const initialState: MessageSlice = {
     '1': [
@@ -19,17 +19,18 @@ export const messageSlice = createSlice<MessageSlice, SliceCaseReducers<MessageS
     initialState,
     name: 'message',
     reducers: {
-        load(state, action: PayloadAction<{ rId: string; messages: Message[] }>) {
+        load(state, action: PayloadAction<{ rId: string; messages: MessageType[] }>) {
             const { rId, messages } = action.payload;
             if (!state[rId]) {
                 state[rId] = [];
             }
-            state[rId] = [...messages, ...state[rId]].sort((a: Message, b: Message) => {
-                return a.at.getTime() - b.at.getTime();
+            console.log(messages);
+            state[rId] = [...messages, ...state[rId]].sort((a: MessageType, b: MessageType) => {
+                return new Date(a.at).getTime() - new Date(b.at).getTime();
             });
             return state;
         },
-        add(state, action: PayloadAction<{ rId: string; message: Message }>) {
+        add(state, action: PayloadAction<{ rId: string; message: MessageType }>) {
             const { rId, message } = action.payload;
             if (!state[rId]) {
                 state[rId] = [];

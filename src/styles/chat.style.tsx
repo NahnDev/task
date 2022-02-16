@@ -1,14 +1,14 @@
-import { CSSProperties } from 'react'
+import { CSSProperties } from 'react';
 
 export const borderStyles: CSSProperties = {
     border: 'solid 1px #505051',
-    borderRadius: '20px',
-}
+    borderRadius: '15px',
+};
 
 export const containerStyle: CSSProperties = {
     height: '100%',
-    overflow: 'hidden'
-}
+    overflow: 'hidden',
+};
 
 export const colors: { [key: string]: string } = {
     background: '#1E1F21',
@@ -16,4 +16,4 @@ export const colors: { [key: string]: string } = {
     secondary: '#505051',
     highlight: '#F89F81',
     text: '#ffffff',
-}
+};

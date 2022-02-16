@@ -1,5 +1,3 @@
-export interface UserType {
-    _id: string;
-    name: string;
-    avatar: string;
-}
+import { User } from './global';
+
+export type UserType = User;

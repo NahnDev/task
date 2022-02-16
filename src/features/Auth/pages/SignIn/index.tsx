@@ -1,7 +1,9 @@
 import { Col, Row, Spin } from 'antd'
 import { Formik } from 'formik'
-import React, { useState } from 'react'
-import { NavLink } from 'react-router-dom'
+import { useState } from 'react'
+import { NavLink, useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+
 import { CONTENT_AUTH } from '../../../../constants/global'
 import { initialValuesFormSignIn } from '../../../../constants/initialValues'
 import { validateFormSignIn } from '../../../../constants/validate'
@@ -10,35 +12,42 @@ import FormSignIn from '../../components/FormSignIn'
 
 import { GooglePlusOutlined } from '@ant-design/icons'
 import authApi from '../../../../api/authApi'
-
-type SignIn = {
-    className: string
-}
+import { setUserLogin } from '../../../../app/userSlice'
+import { openNotificationWithIcon } from '../../../../functions/global'
+import { Form, TProps } from '../../../../types/auth'
 
 const content = CONTENT_AUTH.formSignIn
 
-function SignIn(props: SignIn) {
+function SignIn(props: TProps) {
     const [loading, setLoading] = useState(false)
+    const dispatch = useDispatch()
+    const nav = useNavigate()
 
-    const getGoogleLogin = async () => {
+    const postSignIn = async (dataRequest: Form) => {
         try {
             setLoading(true)
-            const response = await authApi.getGoogleLogin()
+            const response = await authApi.postAuthLogin(dataRequest)
+
             if (response) {
                 setLoading(false)
+                dispatch(setUserLogin({ ...response, isLogin: true }))
+                openNotificationWithIcon('success', 'Login successfully!', '')
+                nav('/home')
             }
-        } catch (error) {
-            console.log(error)
+        } catch (error: any) {
+            setLoading(false)
+            openNotificationWithIcon('warning', error.response.data.message, '')
         }
     }
 
-    const handleSubmit = (value: object) => {
-        console.log(value)
-    }
+    const handleSubmit = (value: Form) => postSignIn(value)
 
     const handleSignInGG = () => {
-        getGoogleLogin()
-        console.log('SignIn GG')
+        window.open(
+            'http://localhost:8080/auth/google-login',
+            'MsgWindow',
+            'toolbar=yes,scrollbars=yes,resizable=yes,top=500,left=500,width=400,height=600'
+        )
     }
     return (
         <Spin spinning={loading}>

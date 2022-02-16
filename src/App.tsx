@@ -1,20 +1,20 @@
-import React, { Suspense } from 'react'
+import React, { Suspense } from 'react';
 
-import { Col, Row, Spin } from 'antd'
-import { useSelector } from 'react-redux'
-import { classLayout } from './constants/className'
+import { Col, Row, Spin } from 'antd';
+import { useSelector } from 'react-redux';
+import { classLayout } from './constants/className';
 
-import './App.scss'
-import { typeRouter, typeUser } from './constants/type'
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
-import { ROUTER_MAIN } from './constants/routers'
-import NavbarCustom from './components/NavbarCustom'
-import Header from './components/Header'
+import './App.scss';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import { ROUTER_MAIN } from './constants/routers';
+import NavbarCustom from './components/NavbarCustom';
+import { Router, User } from './types/global';
+import { borderStyles, containerStyle } from './styles/chat.style';
 
-const Auth = React.lazy(() => import('./features/Auth'))
+const Auth = React.lazy(() => import('./features/Auth'));
 
 function App() {
-    const user: typeUser = useSelector((state: any) => state.user)
+    const user: User = useSelector((state: any) => state.user);
 
     return (
         <Suspense
@@ -26,18 +26,17 @@ function App() {
                 </Row>
             }
         >
-            {user.isLogin ? (
+            {!user.isLogin ? (
                 <Row className={classLayout.app}>
-                    <Col xs={5}>
-                        <NavbarCustom className={classLayout.navbarCustom} />
-                    </Col>
-                    <Col xs={19} style={{ display: 'grid', gridTemplateRows: 'auto 1fr', height: '100%', overflow: 'hidden'}}>
-                        <Header className={classLayout.header} />
-                        <BrowserRouter>
+                    <BrowserRouter>
+                        <Col xs={5}>
+                            <NavbarCustom className={classLayout.navbarCustom} />
+                        </Col>
+                        <Col xs={19} style={containerStyle}>
                             <Routes>
                                 <Route path="*" element={<Navigate to="/home" />} />
 
-                                {ROUTER_MAIN.map((value: typeRouter, index: number) => {
+                                {ROUTER_MAIN.map((value: Router, index: number) => {
                                     return (
                                         <Route
                                             key={`router-main-${index}`}
@@ -46,11 +45,11 @@ function App() {
                                                 <value.component className={classLayout.body} />
                                             }
                                         />
-                                    )
+                                    );
                                 })}
                             </Routes>
-                        </BrowserRouter>
-                    </Col>
+                        </Col>
+                    </BrowserRouter>
                 </Row>
             ) : (
                 <Row className={classLayout.app}>
@@ -68,7 +67,7 @@ function App() {
                 </Row>
             )}
         </Suspense>
-    )
+    );
 }
 
-export default App
+export default App;
