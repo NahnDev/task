@@ -18,6 +18,7 @@ import { MessageModule } from './message/message.module';
 import { AppGateway } from './app.gateway';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+import { FileModule } from './file/file.module';
 
 @Module({
   imports: [
@@ -47,6 +48,7 @@ import { join } from 'path';
     MemberModule,
     RoomModule,
     MessageModule,
+    FileModule,
   ],
   controllers: [AppController],
   providers: [AppService, AppGateway],

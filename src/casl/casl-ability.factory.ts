@@ -15,6 +15,7 @@ import { Role } from 'src/project/role/schemas/role.schema';
 import { Room } from 'src/room/schemas/room.schema';
 import { Message } from 'src/message/schemas/message.schema';
 import { ProjectRoleSchema } from 'src/project/schemas/project-role.schema';
+import { File } from '../file/schemas//file.schema';
 
 export enum Actions {
   Manage = 'manage',
@@ -32,6 +33,7 @@ type Subjects = InferSubjects<
   | typeof Role
   | typeof Room
   | typeof Message
+  | typeof File
   | 'all',
   true
 >;
@@ -63,6 +65,10 @@ export class CaslAbilityFactory {
       if (pRole.permission.includes(PROJECT_PERMISSION.TASK_MANAGE)) {
         can(Actions.Manage, Task);
       }
+      if (pRole.permission.includes(PROJECT_PERMISSION.FILE_MANAGE)) {
+        can(Actions.Manage, File);
+      }
+
       if (pRole.permission.includes(PROJECT_PERMISSION.ROLE_MANAGE)) {
         can(Actions.Manage, Role);
       }
