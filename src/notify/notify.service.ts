@@ -1,7 +1,9 @@
 import { Injectable } from '@nestjs/common';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateNotifyDto } from './dto/create-notify.dto';
+import { CreateNotifyEvent } from './events/create-notify.event';
 import { Notify, NotifyDoc } from './schemas/notify.schema';
 
 export const NOTIFY_ON_PAGE = 20;
@@ -10,11 +12,17 @@ export const NOTIFY_ON_PAGE = 20;
 export class NotifyService {
   constructor(
     @InjectModel(Notify.name) private notifyModel: Model<NotifyDoc>,
+    private readonly eventEmitter2: EventEmitter2,
   ) {}
   async create(createNotifyDto: CreateNotifyDto): Promise<Notify> {
     const notifyDoc = new this.notifyModel(createNotifyDto);
     await notifyDoc.save();
-    return notifyDoc.toJSON();
+    const notify = notifyDoc.toJSON();
+    this.eventEmitter2.emit(
+      CreateNotifyEvent.ev,
+      new CreateNotifyEvent(notify),
+    );
+    return notify;
   }
 
   async findAll(userId: string, page?: number): Promise<Notify[]> {

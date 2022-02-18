@@ -28,7 +28,6 @@ export class AuthGateway implements OnGatewayDisconnect, OnGatewayConnection {
 
   handleDisconnect(@ConnectedSocket() client: Socket & { user: User }) {
     console.log('A client disconnect');
-    console.log(client.user);
     if (client.user) {
       this.socketService.removeSocketForUser(client.id, client.user._id);
     }

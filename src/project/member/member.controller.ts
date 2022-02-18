@@ -11,6 +11,8 @@ import { ApiBearerAuth, ApiOkResponse } from '@nestjs/swagger';
 import { Actions } from 'src/casl/casl-ability.factory';
 import { pid } from 'src/constants/PID';
 import { CheckPolicies } from 'src/decorators/check-policies.decorator';
+import { RequestUser } from 'src/decorators/request-user.decorator';
+import { User } from 'src/user/schemas/user.schema';
 import { CreateMemberDto } from './dto/create-member.dto';
 import { UpdateMemberDto } from './dto/update-member.dto';
 import { MemberService } from './member.service';
@@ -34,8 +36,14 @@ export class MemberController {
   async addMember(
     @Param(pid) project: string,
     @Body() createMemberDto: CreateMemberDto,
+    @RequestUser() user: User,
   ) {
-    return await this.memberService.create(project, createMemberDto);
+    return await this.memberService.create(
+      project,
+      createMemberDto,
+      null,
+      user,
+    );
   }
 
   @CheckPolicies((ability) => ability.can(Actions.Update, Member))

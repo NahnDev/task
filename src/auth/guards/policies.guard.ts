@@ -41,7 +41,6 @@ export class PoliciesGuard implements CanActivate {
     const hostType = context.getType();
     switch (hostType) {
       case 'http': {
-        console.log(!(await this.jwtAuthGuard.canActivate(context)));
         if (!(await this.jwtAuthGuard.canActivate(context))) return false;
         const req = context.switchToHttp().getRequest();
         user = req.user as User;
@@ -71,13 +70,13 @@ export class PoliciesGuard implements CanActivate {
         break;
     }
 
-    console.log(user);
+    // console.log(user);
     if (!user) return false;
 
-    console.log(' --------------- Authorization for user');
-    console.log(user);
-    console.log(' --------------- Authorization for scope');
-    console.log(scope);
+    // console.log(' --------------- Authorization for user');
+    // console.log(user);
+    // console.log(' --------------- Authorization for scope');
+    // console.log(scope);
     user.roles = await this.authService.getUserRole(user, scope);
     const ability = this.caslAbilityFactory.createForUser(user);
     const policyHandlers =

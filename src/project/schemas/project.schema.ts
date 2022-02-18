@@ -17,8 +17,8 @@ export class Project {
   author: string;
 
   @ApiProperty()
-  @Prop({ type: Date, default: () => new Date(), required: true })
-  at: Date;
+  @Prop({ type: Number, default: () => Date.now(), required: true })
+  at: number;
 
   @ApiProperty()
   members: Member[];

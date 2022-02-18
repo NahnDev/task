@@ -13,6 +13,8 @@ import { MemberService } from 'src/project/member/member.service';
 import { User } from 'src/user/schemas/user.schema';
 import { ApiBearerAuth, ApiOkResponse } from '@nestjs/swagger';
 import { Room } from './schemas/room.schema';
+import { Actions } from 'src/casl/casl-ability.factory';
+import { CheckPolicies } from 'src/decorators/check-policies.decorator';
 
 @ApiBearerAuth()
 @Controller('rooms')

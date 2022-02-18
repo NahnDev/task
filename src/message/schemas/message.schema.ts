@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ApiProperty } from '@nestjs/swagger';
-import { plainToClass } from 'class-transformer';
+import { plainToClass, Type } from 'class-transformer';
 import { SchemaTypes } from 'mongoose';
 
 @Schema()
@@ -45,12 +45,14 @@ export class Message {
 
   @ApiProperty()
   @Prop({
-    type: Date,
+    type: Number,
     required: true,
-    default: new Date(),
+    default: function () {
+      return Date.now();
+    },
     immutable: true,
   })
-  at: Date;
+  at: number;
 }
 
 export type MessageDoc = Message & Document;

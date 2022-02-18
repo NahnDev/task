@@ -24,15 +24,5 @@ export class TaskUpdatedListener {
     const members = (await this.projectMemberService.findAll(project)).map(
       (memberInfo) => memberInfo.user,
     );
-    for (const member of members) {
-      this.notifyService
-        .create({
-          user: member._id,
-          content: description,
-          from: projectName + ': ' + taskName,
-          link: '#',
-        })
-        .then();
-    }
   }
 }

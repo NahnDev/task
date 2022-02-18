@@ -25,9 +25,9 @@ export class RoomService {
     }
 
     return rooms.sort((a, b) => {
-      const aAt = new Date(a.lastMessage?.at || a.at);
-      const bAt = new Date(b.lastMessage?.at || b.at);
-      return aAt.getTime() - bAt.getTime();
+      const aAt = a.lastMessage?.at || a.at;
+      const bAt = b.lastMessage?.at || b.at;
+      return bAt - aAt;
     });
   }
   remove(id: number) {

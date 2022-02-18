@@ -21,6 +21,8 @@ import { SocketService } from 'src/socket/socket.service';
 import { User } from 'src/user/schemas/user.schema';
 import { MessageService } from './message.service';
 import { SocketGateway } from 'src/socket/socket.gateway';
+import { Actions, CaslAbilityFactory } from 'src/casl/casl-ability.factory';
+import { UserRole } from 'src/user/schemas/user-role.class';
 
 @Injectable()
 @UseGuards(PoliciesGuard)
@@ -47,11 +49,8 @@ export class MessageGateway {
     @ConnectedSocket() client: Socket & { user: User },
     @MessageBody() payload: CreateMessageDto,
   ) {
-    console.log('Work');
     const data = payload;
-    console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
     data.from = client.user._id;
-    console.log(data);
     this.messageService.create(data).then();
   }
 
@@ -59,10 +58,19 @@ export class MessageGateway {
   async handleCreateMessageEvent(payload: CreateMessageEvent) {
     const room = payload.message.room;
     const members = await this.memberService.findAll(room);
+    console.log('EmitterEvent is ', CreateMessageEvent.ev);
     for (const member of members) {
       console.log(
-        `Emit to ${this.socketService.findSocketOfUser(member.user._id)}`,
+        `> Emit to ${this.socketService.findSocketOfUser(member.user._id)}`,
       );
+      console.log(payload.message);
+
+      const user = member.user;
+      user.roles = new UserRole();
+      user.roles.system = user.isAdmin ? 'Admin' : '';
+      user.roles.project = member.role;
+      const ability = new CaslAbilityFactory().createForUser(member.user);
+      if (!ability.can(Actions.Read, Message)) return;
       this.socketGateway
         .emit(member.user._id, 'message:receive', payload.message)
         .then();

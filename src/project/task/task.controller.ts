@@ -32,8 +32,9 @@ export class TaskController {
   async create(
     @Param(pid) project: string,
     @Body() createTaskDto: CreateTaskDto,
+    @RequestUser() actor: User,
   ) {
-    return await this.taskService.create(project, createTaskDto);
+    return await this.taskService.create(project, createTaskDto, actor);
   }
 
   @CheckPolicies((ability) => ability.can(Actions.Read, Task))

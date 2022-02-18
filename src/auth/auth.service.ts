@@ -72,7 +72,6 @@ export class AuthService {
         refreshToken,
         refreshTokenConfig.secret,
       ) as RefreshTokenPayload;
-      console.log(payload);
       return await this.userService.findOne(payload.id);
     } catch (err) {
       return null;

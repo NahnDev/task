@@ -36,10 +36,13 @@ export class MessageService {
         ).toJSON()
       : null;
     return (
-      await this.messageModel.find({
-        project,
-        ...(forward ? { at: { $lt: forwardMessage.at } } : {}),
-      })
+      await this.messageModel
+        .find({
+          project,
+          ...(forward ? { at: { $lt: forwardMessage.at } } : {}),
+        })
+        .sort({ at: -1 })
+        .limit(20)
     ).map((el) => el.toJSON());
   }
   async findLast(rId: string): Promise<Message> {

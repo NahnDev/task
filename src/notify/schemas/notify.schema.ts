@@ -9,31 +9,43 @@ export class Notify {
   _id: string;
 
   @ApiProperty()
-  @Prop({ type: SchemaTypes.ObjectId, ref: 'User', required: true })
+  @Prop({
+    type: SchemaTypes.ObjectId,
+    ref: 'User',
+    required: true,
+  })
   user: string;
 
   @ApiProperty()
-  @Prop({ type: String, required: true })
-  from: string;
+  @Prop({ type: SchemaTypes.ObjectId, ref: 'User' })
+  from?: string;
 
   @ApiProperty()
   @Prop({ type: String, required: true })
-  content: string;
+  content?: string;
+
+  // @ApiProperty()
+  // @Prop({ type: String, required: true })
+  // link?: string;
 
   @ApiProperty()
-  @Prop({ type: String, required: true })
-  link: string;
+  @Prop({ type: SchemaTypes.ObjectId, ref: 'Project' })
+  project?: string;
+
+  @ApiProperty()
+  @Prop({ type: SchemaTypes.ObjectId, ref: 'Task' })
+  task?: string;
 
   @ApiProperty()
   @Prop({
-    type: Date,
+    type: Number,
     required: true,
     immutable: true,
     default: function () {
-      return new Date();
+      return Date.now();
     },
   })
-  at: Date;
+  at: number;
 }
 
 export type NotifyDoc = Notify & Document;

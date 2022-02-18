@@ -1,3 +1,4 @@
+import { Injectable } from '@nestjs/common';
 import { OnEvent } from '@nestjs/event-emitter';
 import {
   SubscribeMessage,
@@ -10,6 +11,7 @@ import { Server, Socket } from 'socket.io';
 import { User } from 'src/user/schemas/user.schema';
 import { SocketService } from './socket.service';
 
+@Injectable()
 @WebSocketGateway()
 export class SocketGateway implements OnGatewayConnection {
   constructor(private readonly socketService: SocketService) {}
@@ -24,7 +26,9 @@ export class SocketGateway implements OnGatewayConnection {
     if (!sId) {
       this.socketService.addOfflineEmit(uId, ev, args).then();
     }
-    this.server.to(sId).emit(ev, args);
+    console.log('01010');
+    console.log(args);
+    this.server.to(sId).emit(ev, ...args);
   }
 
   @OnEvent('socket.online')

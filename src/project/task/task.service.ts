@@ -2,10 +2,12 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { EventEmitter2 } from 'eventemitter2';
 import { Model } from 'mongoose';
+import { User } from 'src/user/schemas/user.schema';
 import { TaskUpdatedEvent } from '../events/task-updated.event';
 import { MemberService } from '../member/member.service';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
+import { TaskCreatedEvent } from './events/TaskCreatedEvent';
 import { Task, TaskDoc } from './schemas/task.schema';
 
 @Injectable()
@@ -16,9 +18,17 @@ export class TaskService {
     private eventEmitter: EventEmitter2,
   ) {}
 
-  async create(pId: string, createTaskDto: CreateTaskDto): Promise<Task> {
+  async create(
+    pId: string,
+    createTaskDto: CreateTaskDto,
+    actor?: User,
+  ): Promise<Task> {
     const taskDoc = new this.taskModel({ ...createTaskDto, project: pId });
     await taskDoc.save();
+    this.eventEmitter.emit(
+      TaskCreatedEvent.ev,
+      new TaskCreatedEvent({ actor: actor?._id, tId: taskDoc._id }),
+    );
     return taskDoc.toJSON();
   }
 
