@@ -19,12 +19,13 @@ export class NotifyController {
   constructor(private readonly notifyService: NotifyService) {}
 
   @ApiOkResponse({ type: [Notify] })
-  @ApiQuery({ type: 'number', name: 'page' })
+  @ApiQuery({ type: 'number', name: 'page', required: false })
   @Get()
   async findAll(
     @RequestUser() user: User,
-    @Query('page', ParseIntPipe) page: number,
+    @Query('page', ParseIntPipe) page?: number,
   ) {
+    page = page >= 0 ? page : 0;
     return await this.notifyService.findAll(user._id, page);
   }
 

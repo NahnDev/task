@@ -29,6 +29,7 @@ export class NotifyService {
     page = page || 0;
     const notifyDocs = await this.notifyModel
       .find({ user: userId })
+      .sort({ at: -1 })
       .skip(NOTIFY_ON_PAGE * page)
       .limit(NOTIFY_ON_PAGE);
     return notifyDocs.map((notifyDoc) => notifyDoc.toJSON());
