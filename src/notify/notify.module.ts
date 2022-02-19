@@ -8,7 +8,17 @@ import { SocketModule } from 'src/socket/socket.module';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: Notify.name, schema: NotifySchema }]),
+    MongooseModule.forFeatureAsync([
+      {
+        name: Notify.name,
+        useFactory: function () {
+          const schema = NotifySchema;
+          // eslint-disable-next-line
+          schema.plugin(require('mongoose-autopopulate'));
+          return schema;
+        },
+      },
+    ]),
     SocketModule,
   ],
   controllers: [NotifyController],

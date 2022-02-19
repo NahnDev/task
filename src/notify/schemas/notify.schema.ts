@@ -2,6 +2,9 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ApiProperty } from '@nestjs/swagger';
 import { plainToClass } from 'class-transformer';
 import { SchemaTypes } from 'mongoose';
+import { Project } from 'src/project/schemas/project.schema';
+import { Task } from 'src/project/task/schemas/task.schema';
+import { User } from 'src/user/schemas/user.schema';
 
 @Schema()
 export class Notify {
@@ -17,8 +20,8 @@ export class Notify {
   user: string;
 
   @ApiProperty()
-  @Prop({ type: SchemaTypes.ObjectId, ref: 'User' })
-  from?: string;
+  @Prop({ type: SchemaTypes.ObjectId, ref: 'User', autopopulate: true })
+  from?: User;
 
   @ApiProperty()
   @Prop({ type: String, required: true })
@@ -29,12 +32,12 @@ export class Notify {
   // link?: string;
 
   @ApiProperty()
-  @Prop({ type: SchemaTypes.ObjectId, ref: 'Project' })
-  project?: string;
+  @Prop({ type: SchemaTypes.ObjectId, ref: 'Project', autopopulate: true })
+  project?: Project;
 
   @ApiProperty()
-  @Prop({ type: SchemaTypes.ObjectId, ref: 'Task' })
-  task?: string;
+  @Prop({ type: SchemaTypes.ObjectId, ref: 'Task', autopopulate: true })
+  task?: Task;
 
   @ApiProperty()
   @Prop({

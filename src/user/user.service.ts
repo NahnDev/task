@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { ClientSession, Model } from 'mongoose';
 import { USER_ACTIVE } from 'src/enums/user-active.enum';
@@ -20,7 +20,7 @@ export class UserService {
       password: await this.hashPassWd(createUserDto.password),
     });
     await userDoc.save({ session });
-    return userDoc.toJSON();
+    return this.findOne(userDoc._id);
   }
 
   async findAll(email = '', name = '') {
@@ -35,6 +35,7 @@ export class UserService {
 
   async findOne(id: string): Promise<User> {
     const userDoc = await this.userModel.findById(id);
+    if (!userDoc) throw new NotFoundException(`Not found user with id ${id}`);
     return userDoc.toJSON();
   }
 
