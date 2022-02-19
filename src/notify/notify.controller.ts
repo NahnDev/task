@@ -1,4 +1,4 @@
-import { Controller, Get, Param, ParseIntPipe, Query } from '@nestjs/common';
+import { Controller, Get, Param, Query } from '@nestjs/common';
 import { NotifyService } from './notify.service';
 import { RequestUser } from 'src/decorators/request-user.decorator';
 import { User } from 'src/user/schemas/user.schema';
@@ -11,6 +11,8 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { Notify } from './schemas/notify.schema';
+import { IsNumber, IsOptional } from 'class-validator';
+import { FindAllNotifyQuery } from './dto/findAll-notify.query';
 
 @ApiTags('notifies')
 @Controller('notifies')
@@ -23,9 +25,9 @@ export class NotifyController {
   @Get()
   async findAll(
     @RequestUser() user: User,
-    @Query('page', ParseIntPipe) page?: number,
+    @Query() { page }: FindAllNotifyQuery,
   ) {
-    page = page >= 0 ? page : 0;
+    page = Math.max(page, 0);
     return await this.notifyService.findAll(user._id, page);
   }
 
