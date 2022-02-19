@@ -2,8 +2,8 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { User } from '../types/global';
 
 const isLogin: boolean = localStorage.getItem('token') ? true : false;
-
 const _id: string = localStorage.getItem('_id') || '';
+console.log(localStorage.getItem('token'));
 
 const initialState: User = {
     isLogin: isLogin,

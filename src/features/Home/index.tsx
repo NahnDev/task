@@ -5,7 +5,7 @@ import projectApi from '../../api/projectsApi';
 
 import Header from '../../components/Header';
 import ModalCustom from '../../components/ModalProject';
-import { classLayout } from '../../constants/className';
+import { classHome, classLayout } from '../../constants/className';
 import { CONTENT_HOME } from '../../constants/global';
 import { initialValuesFormHomeProject } from '../../constants/initialValues';
 import { validateFormHomeProject } from '../../constants/validate';

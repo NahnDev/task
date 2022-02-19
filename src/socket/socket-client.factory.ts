@@ -9,7 +9,12 @@ export class SocketClientFactory {
         } & Partial<ManagerOptions & SocketOptions>
     ): T {
         if (!SocketClientFactory._socketClient) {
-            const socket = io(opts);
+            const socket = io('http://localhost:8080',opts);
+            const token = (
+                JSON.parse(localStorage.getItem('token') || '') as { accessToken: string }
+            ).accessToken;
+            socket.emit('verify', token);
+
             for (const key in opts.segments) {
                 if (Object.prototype.hasOwnProperty.call(opts.segments, key)) {
                     const segments = opts.segments[key];

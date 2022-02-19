@@ -1,6 +1,8 @@
 import { Dispatch } from '@reduxjs/toolkit';
+
 import { forwardRef } from 'react';
 import { MessageApi } from '../../api/message.api';
+import { MessageType } from '../../types/message.type';
 import store, { AppDispatch } from '../store';
 import { messageSlice } from './message.slice';
 
@@ -17,5 +19,9 @@ export class MessageAction {
             dispatch(messageSlice.actions.load({ rId, messages }));
         };
     }
-    static addMessage(rId: string) {}
+    static addMessage(payload: MessageType) {
+        return (dispatch: Dispatch) => {
+            dispatch(messageSlice.actions.add(payload));
+        };
+    }
 }

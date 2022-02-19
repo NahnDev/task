@@ -26,6 +26,7 @@ export default function MessageList(prop: {
 }) {
     const messages = useSelector<RootState, MessageType[]>((state) => state.message[prop.rId]);
     const [height, setHeight] = useState<number>(0);
+    const [autoScroll, setAutoScroll] = useState(true);
     const { ref: autoRef, inView: isAutoScroll } = useInView({ threshold: 0 });
     const { ref: loadRef, inView: loadMore } = useInView({ threshold: 0 });
     const [loadable, setLoadable] = useState(true);
@@ -35,16 +36,24 @@ export default function MessageList(prop: {
     const ref = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        if (isAutoScroll) {
+        if (autoScroll) {
             ref.current?.scrollTo({ top: ref.current?.scrollHeight });
             console.log('auto scroll');
+        } else {
+            ref.current?.scrollTo({ top: ref.current?.scrollHeight - height });
+            console.log(ref.current?.scrollHeight || 0);
+            setHeight(ref.current?.scrollHeight || 0);
+        }
+    }, [messages]);
+    useEffect(() => {
+        if (isAutoScroll) {
+            setAutoScroll(true);
+        } else {
+            setAutoScroll(false);
         }
     }, [isAutoScroll]);
     useEffect(() => {
         if (!messages) return;
-        ref.current?.scrollTo({ top: ref.current?.scrollHeight - height });
-        console.log(ref.current?.scrollHeight || 0);
-        setHeight(ref.current?.scrollHeight || 0);
         setTimeout(() => {
             setLoadable(true);
         }, 250);

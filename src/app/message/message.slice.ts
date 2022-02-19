@@ -30,8 +30,9 @@ export const messageSlice = createSlice<MessageSlice, SliceCaseReducers<MessageS
             });
             return state;
         },
-        add(state, action: PayloadAction<{ rId: string; message: MessageType }>) {
-            const { rId, message } = action.payload;
+        add(state, action: PayloadAction<MessageType>) {
+            const message = action.payload;
+            const rId = message.room;
             if (!state[rId]) {
                 state[rId] = [];
             }

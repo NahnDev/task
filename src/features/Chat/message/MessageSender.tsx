@@ -1,5 +1,12 @@
 import { Button, Input } from 'antd';
-import React, { CSSProperties, useCallback, useState } from 'react';
+import React, {
+    CSSProperties,
+    KeyboardEventHandler,
+    useCallback,
+    useState,
+    KeyboardEvent,
+    useRef,
+} from 'react';
 import {
     PlusCircleOutlined,
     SendOutlined,
@@ -11,6 +18,10 @@ import { colors } from '../../../styles/chat.style';
 import TextArea from 'antd/lib/input/TextArea';
 import { useDropzone } from 'react-dropzone';
 import UploadFileView from '../upload/UploadFileView';
+import { socketClient } from '../../../socket/socket.client';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../app/store';
+import { UserType } from '../../../types/user.type';
 
 function makeStyles(): {
     button: CSSProperties;
@@ -61,6 +72,8 @@ function makeStyles(): {
 }
 export default function MessageSender(props: { rId: string }) {
     const styles = makeStyles();
+    const user = useSelector<RootState, UserType>((state) => state.user);
+    const inputRef = useRef<HTMLDivElement>(null);
     const [onMore, setOnMore] = useState(false);
     const [files, setFiles] = useState<File[]>([]);
 
@@ -69,6 +82,17 @@ export default function MessageSender(props: { rId: string }) {
         console.dir(acceptFiles);
     }, []);
     const { getInputProps, getRootProps, isDragActive } = useDropzone({ onDrop: handleOnDrop });
+    const handleSubmit = function () {
+        if (inputRef.current) {
+            const value = inputRef.current.innerText || '';
+            inputRef.current.textContent = '';
+            socketClient.message.sendMessage({
+                room: props.rId,
+                content: { t: 'text', data: value },
+            });
+        }
+    };
+
     const handleOpenMore = function () {
         setOnMore(true);
     };
@@ -106,8 +130,18 @@ export default function MessageSender(props: { rId: string }) {
                 </div>
                 <div {...getRootProps()} onClick={() => {}} style={styles.input.root}>
                     <input hidden={true} {...getInputProps()}></input>
-                    <div style={styles.input.editor} contentEditable="true"></div>
-                    <SendOutlined style={styles.input.send} />
+                    <div
+                        style={styles.input.editor}
+                        contentEditable="true"
+                        onKeyDown={(e) => {
+                            if (!e.ctrlKey && !e.shiftKey && e.key === 'Enter') {
+                                handleSubmit();
+                                e.preventDefault();
+                            }
+                        }}
+                        ref={inputRef}
+                    ></div>
+                    <SendOutlined onClick={handleSubmit} style={styles.input.send} />
                 </div>
             </div>
         </div>

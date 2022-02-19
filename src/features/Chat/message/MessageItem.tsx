@@ -16,9 +16,14 @@ function makeStyles(me: boolean): { [key: string]: CSSProperties } {
             justifyContent: 'flex-start',
             direction: me ? 'rtl' : 'ltr',
         },
+        name: {
+            textAlign: me ? 'right' : 'left',
+            color: colors.text,
+            padding: '0 0.5em',
+        },
         avatar: {
             ...borderStyles,
-            margin: '0.5em',
+            margin: '0.2',
         },
         message: {
             background: me ? colors.highlight : colors.secondary,
@@ -37,8 +42,11 @@ export default function MessageItem(prop: { message: MessageType }) {
     return (
         <div className="Message" style={styles.root}>
             <UserAvatar userId={prop.message.from} size="tiny" style={styles.avatar}></UserAvatar>
-            <div style={styles.message}>
-                <TextMessage text={prop.message.content.data + ''}></TextMessage>
+            <div>
+                <h5 style={styles.name}>{user.name}</h5>
+                <div style={styles.message}>
+                    <TextMessage text={prop.message.content.data + ''}></TextMessage>
+                </div>
             </div>
         </div>
     );

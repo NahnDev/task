@@ -26,7 +26,7 @@ function App() {
                 </Row>
             }
         >
-            {!user.isLogin ? (
+            {user.isLogin ? (
                 <Row className={classLayout.app}>
                     <BrowserRouter>
                         <Col xs={5}>

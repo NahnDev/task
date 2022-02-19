@@ -1,6 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import thunk from 'redux-thunk';
 import { messageReducer } from './message/message.reducer';
+import { notifyReducer } from './notify/notify.reducer';
 import { roomReducer } from './room/room.reducer';
 import userReducer from './userSlice';
 
@@ -8,6 +9,7 @@ const rootReducer = {
     user: userReducer,
     message: messageReducer,
     room: roomReducer,
+    notify: notifyReducer,
 };
 
 const store = configureStore({
