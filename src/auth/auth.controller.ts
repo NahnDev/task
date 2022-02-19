@@ -13,6 +13,7 @@ import {
   ApiBody,
   ApiOkResponse,
   ApiProperty,
+  ApiTags,
 } from '@nestjs/swagger';
 import { PublicApi } from 'src/decorators/public-api.decorator';
 import { RequestUser } from 'src/decorators/request-user.decorator';
@@ -34,6 +35,7 @@ class ApiResponseWithToken {
   expires: number;
 }
 
+@ApiTags('auth')
 @PublicApi()
 @Controller('auth')
 export class AuthController {

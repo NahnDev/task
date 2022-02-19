@@ -12,11 +12,17 @@ import { CreateRoleDto } from './dto/create-role.dto';
 import { UpdateRoleDto } from './dto/update-role.dto';
 import { pid } from 'src/constants/PID';
 import { Project } from 'src/project/schemas/project.schema';
-import { ApiBearerAuth, ApiOkResponse, ApiProperty } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOkResponse,
+  ApiProperty,
+  ApiTags,
+} from '@nestjs/swagger';
 import { Role } from './schemas/role.schema';
 import { CheckPolicies } from 'src/decorators/check-policies.decorator';
 import { Actions } from 'src/casl/casl-ability.factory';
 
+@ApiTags('projects: roles')
 @ApiBearerAuth()
 @Controller(`projects/:${pid}/roles`)
 export class RoleController {

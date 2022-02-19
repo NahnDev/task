@@ -10,7 +10,7 @@ import {
 import { ProjectService } from './project.service';
 import { CreateProjectDto } from './dto/create-project.dto';
 import { UpdateProjectDto } from './dto/update-project.dto';
-import { ApiBearerAuth, ApiOkResponse } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { Project } from './schemas/project.schema';
 import { User } from 'src/user/schemas/user.schema';
 import { RequestUser } from 'src/decorators/request-user.decorator';
@@ -18,6 +18,7 @@ import { pid } from 'src/constants/PID';
 import { CheckPolicies } from 'src/decorators/check-policies.decorator';
 import { Actions } from 'src/casl/casl-ability.factory';
 
+@ApiTags('projects')
 @ApiBearerAuth()
 @Controller('projects')
 export class ProjectController {

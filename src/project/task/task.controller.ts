@@ -12,7 +12,7 @@ import {
 import { TaskService } from './task.service';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
-import { ApiBearerAuth, ApiOkResponse } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { Task } from './schemas/task.schema';
 import { pid } from 'src/constants/PID';
 import { CheckPolicies } from 'src/decorators/check-policies.decorator';
@@ -21,6 +21,7 @@ import { User } from 'src/user/schemas/user.schema';
 import { RequestUser } from 'src/decorators/request-user.decorator';
 import { AddAssigneeDto } from './dto/add-asignee.dto';
 
+@ApiTags('projects: tags')
 @ApiBearerAuth()
 @Controller(`projects/:${pid}/tasks`)
 export class TaskController {

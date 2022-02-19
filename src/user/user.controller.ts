@@ -13,15 +13,16 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import {
   ApiBearerAuth,
-  ApiBody,
   ApiOkResponse,
   ApiQuery,
+  ApiTags,
 } from '@nestjs/swagger';
 import { User } from './schemas/user.schema';
 import { PublicApi } from 'src/decorators/public-api.decorator';
 import { CheckPolicies } from 'src/decorators/check-policies.decorator';
 import { Actions } from 'src/casl/casl-ability.factory';
 
+@ApiTags('users')
 @ApiBearerAuth()
 @Controller('user')
 export class UserController {

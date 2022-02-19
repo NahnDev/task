@@ -11,11 +11,12 @@ import {
 import { MessageService } from './message.service';
 import { CreateMessageDto } from './dto/create-message.dto';
 import { pid } from 'src/constants/PID';
-import { ApiBearerAuth, ApiQuery } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { CheckPolicies } from 'src/decorators/check-policies.decorator';
 import { Actions } from 'src/casl/casl-ability.factory';
 import { Message } from './schemas/message.schema';
 
+@ApiTags('messages')
 @ApiBearerAuth()
 @Controller(`rooms/:${pid}/messages`)
 export class MessageController {

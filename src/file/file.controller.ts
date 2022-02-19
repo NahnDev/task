@@ -21,15 +21,19 @@ import {
   ApiOkResponse,
   ApiBody,
   ApiConsumes,
+  ApiTags,
 } from '@nestjs/swagger';
 import { createReadStream } from 'fs';
 import { File } from './schemas/file.schema';
 import { CheckPolicies } from 'src/decorators/check-policies.decorator';
 import { Actions } from 'src/casl/casl-ability.factory';
 
+const tid = 'tid';
+
+@ApiTags('projects: files')
 @ApiBasicAuth()
 @CheckPolicies((ability) => ability.can(Actions.Manage, File))
-@Controller(`projects/:${pid}/files`)
+@Controller([`projects/:${pid}/files`, `projects/:${pid}/tasks/:${tid}/files`])
 export class FileController {
   constructor(private readonly fileService: FileService) {}
 
@@ -52,7 +56,7 @@ export class FileController {
   create(
     @UploadedFile() file: Express.Multer.File,
     @Param(pid) pid: string,
-    @Query('task') tid?: string,
+    @Param(tid) tid?: string,
   ) {
     const createFileDto = new CreateFileDto();
     createFileDto.name = file.filename;
@@ -65,8 +69,8 @@ export class FileController {
 
   @ApiOkResponse({ type: [File] })
   @Get()
-  async findAll(@Param(pid) pid: string, @Query('task') task?: string) {
-    return await this.fileService.findAll(pid, task);
+  async findAll(@Param(pid) pid: string, @Param(tid) tid?: string) {
+    return await this.fileService.findAll(pid, tid);
   }
 
   @ApiOkResponse({ type: File })

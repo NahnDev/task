@@ -11,11 +11,12 @@ import { RoomService } from './room.service';
 import { RequestUser } from 'src/decorators/request-user.decorator';
 import { MemberService } from 'src/project/member/member.service';
 import { User } from 'src/user/schemas/user.schema';
-import { ApiBearerAuth, ApiOkResponse } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { Room } from './schemas/room.schema';
 import { Actions } from 'src/casl/casl-ability.factory';
 import { CheckPolicies } from 'src/decorators/check-policies.decorator';
 
+@ApiTags('messages')
 @ApiBearerAuth()
 @Controller('rooms')
 export class RoomController {

@@ -4,9 +4,15 @@ import { RequestUser } from 'src/decorators/request-user.decorator';
 import { User } from 'src/user/schemas/user.schema';
 import { OnEvent } from '@nestjs/event-emitter';
 import { TaskUpdatedEvent } from 'src/project/events/task-updated.event';
-import { ApiBearerAuth, ApiOkResponse, ApiQuery } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOkResponse,
+  ApiQuery,
+  ApiTags,
+} from '@nestjs/swagger';
 import { Notify } from './schemas/notify.schema';
 
+@ApiTags('notifies')
 @Controller('notifies')
 @ApiBearerAuth()
 export class NotifyController {

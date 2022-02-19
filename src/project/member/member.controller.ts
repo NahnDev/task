@@ -7,7 +7,7 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiOkResponse } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { Actions } from 'src/casl/casl-ability.factory';
 import { pid } from 'src/constants/PID';
 import { CheckPolicies } from 'src/decorators/check-policies.decorator';
@@ -18,6 +18,7 @@ import { UpdateMemberDto } from './dto/update-member.dto';
 import { MemberService } from './member.service';
 import { Member } from './schemas/member.schema';
 
+@ApiTags('projects: members')
 @ApiBearerAuth()
 @Controller(`projects/:${pid}/members`)
 export class MemberController {
