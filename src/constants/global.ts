@@ -13,6 +13,19 @@ import {
 } from '@ant-design/icons'
 import Images from './images'
 
+export const listColorRandom = [
+    { key: 0, value: '#29339B' },
+    { key: 1, value: '#7776BC' },
+    { key: 2, value: '#CDC7E5' },
+    { key: 3, value: '#FFEC51' },
+    { key: 4, value: '#FFEC51' },
+    { key: 5, value: '#f56a00' },
+    { key: 6, value: '#9BBEC7' },
+    { key: 7, value: '#49516F' },
+    { key: 8, value: '#A44200' },
+    { key: 9, value: '#324376' },
+]
+
 export const CONTENT_COMPONENT = {
     navbarCustom: {
         logo: {

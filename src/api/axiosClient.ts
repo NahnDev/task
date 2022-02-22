@@ -22,13 +22,14 @@ const axiosClient = axios.create({
     paramsSerializer: (params) => queryString.stringify(params),
 })
 
+let refreshTokenRequest: any = null
+
 axiosClient.interceptors.request.use(async (config: any) => {
     const localStorageToken: any = localStorage.getItem('token')
 
     const token: any = JSON.parse(localStorageToken) || null
 
     const isExpired = token && Date.now() > token.expires ? true : false
-    let refreshTokenRequest = null
 
     if (isExpired) {
         refreshTokenRequest = refreshTokenRequest ? refreshTokenRequest : refreshToken(token)

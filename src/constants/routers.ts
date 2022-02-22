@@ -20,7 +20,7 @@ export const ROUTER_MAIN = [
         isLogin: true,
     },
     {
-        path: 'project/*',
+        path: 'project/:id',
         component: Project,
         role: ['USER'],
         isLogin: true,

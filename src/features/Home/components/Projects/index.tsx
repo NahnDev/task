@@ -1,16 +1,20 @@
 import { Col, Row } from 'antd'
+import { useSelector } from 'react-redux'
 import { CONTENT_HOME } from '../../../../constants/global'
+import { Project } from '../../../../types/global'
 import ProjectDetail from './ProjectDetail'
 
 type IProps = {
     className: string
-    listProject: Array<any>
     onClickAddProject: Function
 }
 
 const content = CONTENT_HOME.projects
 
 function Projects(props: IProps) {
+    const projects: Array<Project> = useSelector((state: any) => state.projects) || []
+    console.log({ projects })
+
     return (
         <Row className={`${props.className}`}>
             <Col xs={24}>
@@ -28,9 +32,9 @@ function Projects(props: IProps) {
                     <span className={`${props.className}--btn-text`}>{content.textAddProject}</span>
                 </Row>
                 <Row align="top" className={`${props.className}--projects`}>
-                    {props.listProject &&
-                        props.listProject.length > 0 &&
-                        props.listProject.map((value, index) => {
+                    {projects &&
+                        projects.length > 0 &&
+                        projects.map((value, index) => {
                             return (
                                 <ProjectDetail
                                     key={`project-${index}`}

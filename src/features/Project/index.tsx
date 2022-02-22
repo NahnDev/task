@@ -1,11 +1,13 @@
 import { Row } from 'antd'
-import React from 'react'
+import { useParams } from 'react-router-dom'
 
 type Project = {
     className: string
 }
 
 function Project(props: Project) {
+    const params = useParams()
+    console.log(params)
     return (
         <Row className={props.className}>
             <div>Project</div>

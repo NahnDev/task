@@ -1,6 +1,7 @@
 import { Avatar, Col, Dropdown, Menu, Row } from 'antd'
 import { User } from '../../../../types/global'
 import { PlusOutlined } from '@ant-design/icons'
+import { randomColorAvatar } from '../../../../functions/global'
 
 type IProps = {
     className: string
@@ -46,7 +47,7 @@ function UserDetail(props: IProps) {
                 arrow
                 className={`${props.className}--avatar`}
             >
-                <Avatar style={{ color: '#f56a00', backgroundColor: '#fde3cf' }}>
+                <Avatar style={{ backgroundColor: randomColorAvatar(props.user._id) }}>
                     {name?.slice(name?.indexOf(' ') + 1, name?.indexOf(' ') + 2)}
                 </Avatar>
             </Dropdown>
