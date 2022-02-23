@@ -54,15 +54,18 @@ export class TaskService {
   async update(pId: string, id: string, data: UpdateTaskDto): Promise<Task> {
     if (data.subtask_order) {
       await this.updateSubtaskOrder(id, data.subtask_order);
+      delete data.subtask_order;
     }
     if (data.dependencies) {
       await this.updateDependencies(pId, id, data.dependencies);
+      delete data.dependencies;
     }
-    if (data.name)
-      await this.taskModel.updateOne(
-        { _id: id, project: pId },
-        { name: data.name },
-      );
+    await this.taskModel.updateOne({ _id: id, project: pId }, data);
+    // if (data.name)
+    //   await this.taskModel.updateOne(
+    //     { _id: id, project: pId },
+    //     { name: data.name },
+    //   );
 
     console.log('------------ chuan bi emit event');
     console.log(TaskUpdatedEvent.key);

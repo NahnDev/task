@@ -23,12 +23,9 @@ export class UserService {
     return this.findOne(userDoc._id);
   }
 
-  async findAll(email = '', name = '') {
+  async findAll(search = '') {
     const userDocs = await this.userModel
-      .find({
-        email: { $regex: new RegExp(email, 'i') },
-        name: { $regex: new RegExp(name, 'i') },
-      })
+      .find({ email: { $regex: new RegExp(search, 'i') } })
       .limit(10);
     return userDocs.map((userDoc) => userDoc.toJSON());
   }

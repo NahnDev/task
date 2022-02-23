@@ -46,7 +46,7 @@ class OldProjectService {
     );
 
     session.endSession();
-    return projectDoc.toJSON();
+    return await this.findOne(projectDoc._id);
   }
 
   async findAllByUser(user: string): Promise<Project[]> {

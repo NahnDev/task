@@ -2,6 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ApiProperty, PickType } from '@nestjs/swagger';
 import { Expose, plainToClass, Type } from 'class-transformer';
 import { SchemaTypes } from 'mongoose';
+import { TASK_STATUS } from 'src/enums/task_status';
 
 @Schema()
 export class Task {
@@ -18,6 +19,27 @@ export class Task {
   @ApiProperty()
   @Prop({ type: String, required: true })
   name: string;
+
+  @Expose()
+  @ApiProperty()
+  @Prop({
+    type: Number,
+    required: true,
+    default: function () {
+      return Date.now();
+    },
+  })
+  expires: number;
+
+  @Expose()
+  @ApiProperty()
+  @Prop({
+    type: String,
+    enum: TASK_STATUS,
+    default: TASK_STATUS.TODO,
+    required: true,
+  })
+  status: TASK_STATUS;
 
   @Expose()
   @ApiProperty()

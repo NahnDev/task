@@ -22,6 +22,9 @@ export class SocketGateway implements OnGatewayConnection {
     console.log('A client connect');
   }
   async emit(uId: string, ev: string, ...args: any) {
+    console.log(uId);
+    console.log(ev);
+    console.log(args);
     const sId = await this.socketService.findSocketOfUser(uId);
     if (!sId) {
       this.socketService.addOfflineEmit(uId, ev, args).then();

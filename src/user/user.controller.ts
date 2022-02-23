@@ -38,12 +38,11 @@ export class UserController {
 
   @PublicApi()
   @CheckPolicies((ability) => ability.can(Actions.Read, User))
-  @ApiQuery({ type: 'string', name: 'email', required: false })
-  @ApiQuery({ type: 'string', name: 'name', required: false })
+  @ApiQuery({ type: 'string', name: 'search', required: false })
   @ApiOkResponse({ type: [User] })
   @Get()
-  async findAll(@Query('email') email?: string, @Query('name') name?: string) {
-    return await this.userService.findAll(email, name);
+  async findAll(@Query('search') search?: string) {
+    return await this.userService.findAll(search);
   }
 
   @PublicApi()

@@ -16,7 +16,9 @@ export class NotifyGateway {
   constructor(private readonly socketGateway: SocketGateway) {}
 
   @OnEvent(CreateNotifyEvent.ev)
-  handleCreateNotifyEvent(payload: Notify) {
-    this.socketGateway.emit(payload.user, 'notify:receive', payload).then();
+  handleCreateNotifyEvent(event: CreateNotifyEvent) {
+    this.socketGateway
+      .emit(event.notify.user, 'notify:receive', event.notify)
+      .then();
   }
 }
