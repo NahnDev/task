@@ -12,3 +12,11 @@ export const initialValuesFormSignUp = {
 export const initialValuesFormHomeProject = {
     name: '',
 }
+
+export const initialValuesFormProjectAddTask = {
+    name: '',
+}
+
+export const initialValuesFormProjectMember = {
+    member: '',
+}

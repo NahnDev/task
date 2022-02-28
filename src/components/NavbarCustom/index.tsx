@@ -1,6 +1,8 @@
 import { Col, Row } from 'antd'
 import { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import projectsApi from '../../api/projectsApi'
+import { list } from '../../app/projectsSlice'
 import { classComponent } from '../../constants/className'
 import { TProps } from '../../types/auth'
 import { Project } from '../../types/global'
@@ -14,6 +16,20 @@ const className = classComponent.navbarCustom
 
 function NavbarCustom(props: TProps) {
     const projects: Array<Project> = useSelector((state: any) => state.projects) || []
+    const dispatch = useDispatch()
+
+    const getProjects = async () => {
+        try {
+            const response = await projectsApi.getProjects()
+            dispatch(list(response))
+        } catch (error: any) {
+            console.log(error)
+        }
+    }
+
+    useEffect(() => {
+        getProjects()
+    }, [projects.length > 0])
 
     return (
         <Row className={className}>
@@ -30,7 +46,6 @@ function NavbarCustom(props: TProps) {
                     <Col xs={24} className={`${className}__projects--list`}>
                         {projects.length > 0 &&
                             projects.map((value, index) => {
-                                console.log(value.members)
                                 return (
                                     <ProjectElement
                                         key={`project-${index}`}

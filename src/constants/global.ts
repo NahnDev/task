@@ -10,6 +10,10 @@ import {
     HourglassOutlined,
     CloseCircleOutlined,
     MoreOutlined,
+    EditOutlined,
+    UserAddOutlined,
+    DeleteOutlined,
+    EllipsisOutlined,
 } from '@ant-design/icons'
 import Images from './images'
 
@@ -49,6 +53,15 @@ export const CONTENT_COMPONENT = {
             icon: QuestionCircleOutlined,
             text: 'Help & Report',
         },
+    },
+
+    header: {
+        menuDropdown: [
+            { key: 'add-task', text: 'Add Task', icon: PlusCircleOutlined },
+            { key: 'add-member', text: 'Add Member', icon: UserAddOutlined },
+            { key: 'edit-project', text: 'Edit Project', icon: EditOutlined },
+            { key: 'delete-project', text: 'Delete Project', icon: DeleteOutlined },
+        ],
     },
 }
 
@@ -124,4 +137,35 @@ export const CONTENT_INBOX = {
         { path: 'notification', text: 'Notification' },
     ],
 }
-export const CONTENT_PROJECT = {}
+export const CONTENT_PROJECT = {
+    title: 'Project',
+
+    formTask: {
+        title: 'Add Task',
+        btnSubmit: 'Add task',
+
+        fieldsName: {
+            name: 'name',
+            label: 'Name Task *',
+            type: 'text',
+        },
+    },
+
+    formMember: {
+        title: 'Add Member',
+        btnSubmit: 'Add Member',
+
+        fieldsName: {
+            name: 'member',
+            label: 'Name Member *',
+            type: 'text',
+        },
+    },
+
+    tasks: {
+        iconBtnAdd: PlusOutlined,
+        textBtnAdd: 'Add new task',
+        iconMenuTask: EllipsisOutlined,
+        iconStatusTask: HourglassOutlined,
+    },
+}

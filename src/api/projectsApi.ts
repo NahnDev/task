@@ -22,7 +22,7 @@ const projectsApi = {
 
     postTasks: (_pid: string, data: DataTasks) => {
         const url = `/projects/${_pid}/tasks`
-        return axiosClient.post(url, data)
+        return axiosClient.post<any, DataTasks>(url, data)
     },
 
     patchTasks: (_pid: string, _id: string, data: DataTasks) => {
@@ -64,7 +64,7 @@ const projectsApi = {
 
     getProjectsDetail: (_pid: string) => {
         const url = `/projects/${_pid}`
-        return axiosClient.get(url)
+        return axiosClient.get<any, Project>(url)
     },
 
     postProjects: (data: DataProject) => {
