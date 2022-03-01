@@ -6,8 +6,14 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOkResponse,
+  ApiQuery,
+  ApiTags,
+} from '@nestjs/swagger';
 import { Actions } from 'src/casl/casl-ability.factory';
 import { pid } from 'src/constants/PID';
 import { CheckPolicies } from 'src/decorators/check-policies.decorator';

@@ -100,7 +100,7 @@ export class TaskController {
     @Param('id') id: string,
     @Body() addAssignDto: AddAssigneeDto,
   ) {
-    return await this.taskService.addAssignee(project, id, addAssignDto.user);
+    return await this.taskService.addAssignee(project, id, addAssignDto.member);
   }
 
   @ApiOkResponse({ type: Task })

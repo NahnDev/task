@@ -116,15 +116,16 @@ export class TaskService {
     await this.taskModel.deleteMany({ project });
   }
 
-  async addAssignee(project: string, _id: string, user: string) {
-    if (!(await this.memberService.findOne(project, _id))) {
-      throw new Error('Member not found');
+  async addAssignee(pId: string, _id: string, mId: string) {
+    const member = await this.memberService.findById(mId);
+    if (member && member.project === pId) {
+      throw new BadRequestException('Member not found');
     }
     await this.taskModel.updateOne(
-      { project, user: _id },
-      { $addToSet: { assignee: user } },
+      { project: pId, _id: _id },
+      { $addToSet: { assignee: member } },
     );
-    return await this.findOne(project, _id);
+    return await this.findOne(pId, _id);
   }
 
   async removeAssignee(pId: string, id: string, member: string): Promise<Task> {
