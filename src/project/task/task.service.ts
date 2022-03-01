@@ -118,7 +118,8 @@ export class TaskService {
 
   async addAssignee(pId: string, _id: string, mId: string) {
     const member = await this.memberService.findById(mId);
-    if (member && member.project === pId) {
+    console.log();
+    if (!(member && member.project === pId)) {
       throw new BadRequestException('Member not found');
     }
     await this.taskModel.updateOne(
