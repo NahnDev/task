@@ -22,6 +22,11 @@ export class Task {
 
   @Expose()
   @ApiProperty()
+  @Prop({ type: String, required: false, default: '' })
+  description: string;
+
+  @Expose()
+  @ApiProperty()
   @Prop({
     type: Number,
     required: true,

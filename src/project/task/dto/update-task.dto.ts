@@ -5,6 +5,7 @@ import {
   IsEnum,
   IsNumber,
   IsOptional,
+  IsString,
 } from 'class-validator';
 import { TASK_STATUS } from 'src/enums/task_status';
 import { CreateTaskDto } from './create-task.dto';
@@ -14,6 +15,11 @@ export class UpdateTaskDto extends PartialType(CreateTaskDto) {
   @ApiProperty()
   @IsArray()
   subtask_order?: string[];
+
+  @IsOptional()
+  @ApiProperty()
+  @IsString()
+  description: string;
 
   @IsOptional()
   @ApiProperty()
