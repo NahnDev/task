@@ -1,4 +1,5 @@
-import { Form, Select } from 'antd'
+import { Form, Select, Tag } from 'antd'
+import { randomColorAvatar } from '../../functions/global'
 
 type SelectFieldProps = {
     field: any
@@ -33,10 +34,24 @@ function SelectField(props: SelectFieldProps) {
                 value: selectedOption,
             },
         }
+
         field.onChange(changeEvent)
     }
 
-    console.log({ touched })
+    function tagRender(props: any) {
+        const { label, value, closable, onClose } = props
+
+        return (
+            <Tag
+                color={randomColorAvatar(value)}
+                closable={closable}
+                onClose={onClose}
+                style={{ marginRight: 3 }}
+            >
+                {label}
+            </Tag>
+        )
+    }
 
     return (
         <Form.Item
@@ -44,22 +59,24 @@ function SelectField(props: SelectFieldProps) {
             validateStatus={submittedError || touchedError ? 'error' : ''}
         >
             {label && (
-                <label htmlFor={name} className={`${className}__label`}>
+                <label htmlFor={name} className={`${className}-label`}>
                     {label}
                 </label>
             )}
             <Select
+                mode={'tags'}
                 id={name}
                 {...field}
-                className={`${className}__label`}
                 bordered={false}
-                isDisabled={disabled}
+                className={`${className}-input-field`}
+                defaultValue={[]}
                 onChange={handleSelectedOptionChange}
+                tagRender={tagRender}
             >
                 {options.map((value) => {
                     return (
-                        <Option key={value.value} value={value.value}>
-                            {value.name}
+                        <Option key={value._id} value={value._id}>
+                            {value.user.name}
                         </Option>
                     )
                 })}

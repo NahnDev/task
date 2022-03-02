@@ -27,4 +27,5 @@ export const classHome = {
 export const classProject = {
     project: 'project',
     form: 'project__form',
+    task: 'project__task',
 }

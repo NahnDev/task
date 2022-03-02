@@ -1,14 +1,14 @@
 import { Form, Input, Row } from 'antd'
 
 type InputFieldProps = {
-    field: any
-    form: any
+    field?: any
+    form?: any
 
     type: string
-    label: string
+    label?: string
     placeholder: string
-    disabled: boolean
-    icon: any
+    disabled?: boolean
+    icon?: any
 
     className: string
 }

@@ -1,3 +1,5 @@
+import moment from 'moment'
+
 export const initialValuesFormSignIn = {
     email: '',
     password: '',
@@ -14,6 +16,12 @@ export const initialValuesFormHomeProject = {
 }
 
 export const initialValuesFormProjectAddTask = {
+    name: '',
+    expires: moment(),
+    assignee: [],
+}
+
+export const initialValuesFormProjectAddSubTask = {
     name: '',
 }
 

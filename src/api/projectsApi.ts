@@ -1,33 +1,38 @@
-import { DataMembers, DataProject, DataSubtasks, DataTasks } from '../types/api'
-import { Project } from '../types/global'
+import { DataMembers, DataProject, DataSubtasks } from '../types/api'
+import { Project, Task } from '../types/global'
 import axiosClient from './axiosClient'
 
 const projectsApi = {
     // Subtask
     postSubtasks: (_pid: string, _id: string, data: DataSubtasks) => {
         const url = `/projects/${_pid}/tasks/${_id}/subtasks`
-        return axiosClient.post(url, data)
+        return axiosClient.post<any, Task>(url, data)
     },
 
     // Task
-    getTasks: (_pid: string, _id: string) => {
+    getTasks: (_pid: string) => {
         const url = `/projects/${_pid}/tasks`
-        return axiosClient.get(url)
+        return axiosClient.get<any, Array<Task>>(url)
     },
 
     getTasksDetail: (_pid: string, _id: string) => {
         const url = `/projects/${_pid}/tasks/${_id}`
-        return axiosClient.get(url)
+        return axiosClient.get<any, Task>(url)
     },
 
-    postTasks: (_pid: string, data: DataTasks) => {
+    postTasks: (_pid: string, data: Task) => {
         const url = `/projects/${_pid}/tasks`
-        return axiosClient.post<any, DataTasks>(url, data)
+        return axiosClient.post<any, Task>(url, data)
     },
 
-    patchTasks: (_pid: string, _id: string, data: DataTasks) => {
+    patchTasks: (_pid: string, _id: string, data: Task) => {
         const url = `/projects/${_pid}/tasks/${_id}`
-        return axiosClient.patch(url, data)
+        return axiosClient.patch<any, Task>(url, data)
+    },
+
+    patchTasksComplete: (_pid: string, _id: string) => {
+        const url = `/projects/${_pid}/tasks/${_id}/complete`
+        return axiosClient.patch<any, Task>(url)
     },
 
     deleteTasks: (_pid: string, _id: string) => {
@@ -35,10 +40,15 @@ const projectsApi = {
         return axiosClient.delete(url)
     },
 
+    postAssigneeTasks: (_pid: string, _id: string, data: { member: string }) => {
+        const url = `/projects/${_pid}/tasks/${_id}/assignee`
+        return axiosClient.post<any, Task>(url, data)
+    },
+
     // Member
     getMembers: (_pid: string) => {
         const url = `/projects/${_pid}/members`
-        return axiosClient.get(url)
+        return axiosClient.get<any, Array<any>>(url)
     },
 
     postMembers: (_pid: string, data: DataMembers) => {

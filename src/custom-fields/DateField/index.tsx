@@ -2,6 +2,8 @@ import moment from 'moment'
 
 import { DatePicker, Form } from 'antd'
 
+import './DateField.scss'
+
 type DateFieldProps = {
     field: any
     form: any
@@ -19,7 +21,7 @@ function DateField(props: DateFieldProps) {
     const { name, value } = field
     const { setFieldValue } = form
 
-    const valueFormat = moment(value, 'DDMMYYYY').format('YYYY-MM-DD')
+    const valueFormat = moment(value)
 
     const touched = form.touched[field.name]
     const hasError = form.errors[field.name]
@@ -32,15 +34,16 @@ function DateField(props: DateFieldProps) {
             validateStatus={submittedError || touchedError ? 'error' : ''}
         >
             {label && (
-                <label htmlFor={name} className={`${className}__label`}>
+                <label htmlFor={name} className={`${className}-label`}>
                     {label}
                 </label>
             )}
             <DatePicker
+                allowClear={false}
                 id={name}
-                className={`${className}__input`}
-                defaultValue={moment(valueFormat || '1999-01-01', 'YYYY-MM-DD')}
-                value={moment(valueFormat || '1999-01-01', 'YYYY-MM-DD')}
+                className={`${className}-input-field`}
+                defaultValue={valueFormat || moment()}
+                value={value || moment()}
                 format={`DD/MM/YYYY`}
                 onChange={(val) => setFieldValue(name, val)}
                 bordered={false}

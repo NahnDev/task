@@ -14,6 +14,11 @@ import {
     UserAddOutlined,
     DeleteOutlined,
     EllipsisOutlined,
+    UsergroupAddOutlined,
+    ClockCircleOutlined,
+    FieldTimeOutlined,
+    CheckOutlined,
+    CloseOutlined,
 } from '@ant-design/icons'
 import Images from './images'
 
@@ -59,6 +64,7 @@ export const CONTENT_COMPONENT = {
         menuDropdown: [
             { key: 'add-task', text: 'Add Task', icon: PlusCircleOutlined },
             { key: 'add-member', text: 'Add Member', icon: UserAddOutlined },
+            { key: 'add-roles', text: 'Add Roles', icon: UsergroupAddOutlined },
             { key: 'edit-project', text: 'Edit Project', icon: EditOutlined },
             { key: 'delete-project', text: 'Delete Project', icon: DeleteOutlined },
         ],
@@ -149,9 +155,45 @@ export const CONTENT_PROJECT = {
             label: 'Name Task *',
             type: 'text',
         },
+
+        fieldsExpires: {
+            name: 'expires',
+            label: 'Deadline',
+        },
+
+        fieldsUser: {
+            name: 'assignee',
+            label: 'Assignee',
+        },
+    },
+
+    formSubTask: {
+        btnSubmit: 'Add subtask',
+
+        fieldsName: {
+            name: 'name',
+            label: 'Name Subtask *',
+            type: 'text',
+        },
+
+        fieldsExpires: {
+            name: 'expires',
+            label: 'Deadline',
+        },
     },
 
     formMember: {
+        title: 'Add Member',
+        btnSubmit: 'Add Member',
+
+        fieldsName: {
+            name: 'member',
+            label: 'Name Member *',
+            type: 'text',
+        },
+    },
+
+    formRoles: {
         title: 'Add Member',
         btnSubmit: 'Add Member',
 
@@ -166,6 +208,20 @@ export const CONTENT_PROJECT = {
         iconBtnAdd: PlusOutlined,
         textBtnAdd: 'Add new task',
         iconMenuTask: EllipsisOutlined,
-        iconStatusTask: HourglassOutlined,
+        iconDeleteTask: DeleteOutlined,
+        iconDeadline: FieldTimeOutlined,
+
+        filter: [
+            { value: 'TODO', title: 'To do', icon: ClockCircleOutlined },
+            { value: 'DOING', title: 'Doing', icon: HourglassOutlined },
+            { value: 'DONE', title: 'Done', icon: CheckCircleOutlined },
+        ],
+
+        subtask: {
+            title: 'Subtasks',
+            btnAdd: '+ Add subtask',
+            iconCheck: CheckOutlined,
+            iconCancel: CloseOutlined,
+        },
     },
 }

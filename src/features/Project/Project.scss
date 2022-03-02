@@ -3,71 +3,81 @@
 @import '../../assets/style/screen';
 
 .project {
-    &__listTasks {
-        color: $color_white;
-        padding: 1rem 3rem;
-
-        &--title {
-            padding: 1rem 0;
-            font-size: 1.25rem;
-            font-weight: 700;
+    &__list {
+        width: 67.5rem;
+        overflow-x: hidden;
+        &--scroll {
+            width: 100rem;
         }
 
-        &--tasks {
-            max-height: 30rem;
-            overflow: auto;
-        }
+        &-tasks {
+            display: inline-block;
+            color: $color_white;
+            width: 22.5rem;
+            padding: 1rem 3rem;
 
-        &--task {
-            margin: 0.5rem 0;
-            padding: 1rem 1.25rem;
-            background-color: $color_jet;
-
-            border: 2px solid $color_davys_grey;
-            border-radius: 10px;
-
-            cursor: pointer;
-            &-name {
-                font-size: 1rem;
-
-                overflow: hidden;
-                white-space: nowrap;
-                text-overflow: ellipsis;
+            &--title {
+                padding: 1rem 0;
+                font-size: 1.25rem;
+                font-weight: 700;
             }
 
-            &-icon {
-                padding: 0 0.35rem;
-                font-size: 1.25rem;
-                border-radius: 50%;
+            &--tasks {
+                max-height: 30rem;
+                overflow: auto;
+            }
 
-                transition: all 750ms;
+            &--task {
+                margin: 0.5rem 0;
+                padding: 1rem 1.25rem;
+                background-color: $color_jet;
+
+                border: 2px solid $color_davys_grey;
+                border-radius: 10px;
+
                 cursor: pointer;
+                &-name {
+                    font-size: 1rem;
 
-                &:hover,
-                &:focus,
-                &:active {
-                    background-color: $color_vivid_tangerine;
+                    overflow: hidden;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                }
+
+                &-icon {
+                    padding: 0 0.35rem;
+                    font-size: 1.25rem;
+                    border-radius: 50%;
+
                     transition: all 750ms;
+                    cursor: pointer;
+
+                    &:hover,
+                    &:focus,
+                    &:active {
+                        background-color: $color_vivid_tangerine;
+                        transition: all 750ms;
+                    }
+                }
+
+                &-time {
+                    margin: 0 0.5rem;
+
+                    font-size: 0.8rem;
+                    font-style: italic;
                 }
             }
 
-            &-time {
-                margin: 0 0.5rem;
+            &--btn {
+                padding: 1rem;
+                cursor: pointer;
 
-                font-size: 0.8rem;
-                font-style: italic;
-            }
-        }
-
-        &--btn {
-            padding: 1rem;
-            cursor: pointer;
-
-            &-icon {
-                padding: 0.75rem 1rem;
-                margin: 0 0.5rem;
-                border: 2px dashed $color_white;
-                border-radius: 15px;
+                &-icon {
+                    padding: 0.75rem 1rem;
+                    margin: 0 0.5rem;
+                    border: 2px dashed $color_white;
+                    border-radius: 15px;
+                }
             }
         }
     }
@@ -107,6 +117,127 @@
 
             &-content {
                 width: 100%;
+            }
+        }
+    }
+
+    &__task {
+        &-header {
+            padding-bottom: 1rem;
+            &--icon {
+                width: 10%;
+                text-align: center;
+                font-size: 1.5rem;
+                cursor: pointer;
+            }
+
+            &--input {
+                width: 80%;
+                color: $color_white;
+                border-bottom: 2px solid $color_jet;
+
+                font-size: 1.25rem;
+
+                &:focus,
+                &:hover,
+                &:active {
+                    border-bottom: 2px solid $color_vivid_tangerine;
+                    transition: all 750ms;
+                }
+            }
+        }
+
+        &-field {
+            padding: 0.25rem 2rem;
+            &--label {
+                width: 35%;
+                color: rgba($color_white, 0.7);
+            }
+            &--input {
+                width: 65%;
+                color: $color_white;
+                background-color: $color_jet;
+                border: none;
+
+                border-bottom: 1px solid $color_jet;
+
+                &:focus,
+                &:hover,
+                &:active {
+                    transition: all 750ms;
+                    border-bottom: 1px solid $color_vivid_tangerine;
+                }
+            }
+
+            &--area {
+                width: 65%;
+                color: $color_white;
+                background-color: $color_jet;
+                border: 1px solid $color_jet;
+                border-radius: 10px;
+
+                &:focus,
+                &:hover,
+                &:active {
+                    transition: all 750ms;
+                    border: 1px solid $color_vivid_tangerine;
+                }
+            }
+        }
+
+        &-subtask {
+            padding: 0.25rem 2rem;
+
+            &--btn {
+                padding: 0.2rem 1rem;
+                margin-bottom: 0.75rem;
+
+                border: 1px solid $color_davys_grey;
+                border-radius: 10px;
+                transition: all 750ms;
+
+                &:hover,
+                &:active,
+                &:focus {
+                    border: 1px solid $color_vivid_tangerine;
+                    background-color: $color_vivid_tangerine;
+                    transition: all 750ms;
+                }
+            }
+
+            &--title {
+                color: rgba($color_white, 0.7);
+            }
+
+            &--list {
+                margin-top: 0.5rem;
+                padding: 0.25rem 1rem;
+                max-height: 30vh;
+                overflow: auto;
+            }
+
+            &--item {
+                margin: 0.25rem 0;
+                padding: 0.5rem 0;
+
+                border-bottom: 1px solid $color_davys_grey;
+
+                & > div > span {
+                    margin: 0 0.25rem;
+                }
+            }
+
+            &--icon > span {
+                padding: 0.25rem;
+                border-radius: 50%;
+                cursor: pointer;
+
+                &:hover,
+                &:focus,
+                &:active {
+                    background-color: $color_vivid_tangerine;
+                    transition: all 750ms;
+                }
             }
         }
     }

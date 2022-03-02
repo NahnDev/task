@@ -1,0 +1,13 @@
+@import '../../assets/style/colors';
+@import '../../assets/style/global';
+@import '../../assets/style/screen';
+
+.ant-drawer-content {
+    position: absolute;
+    top: 12.5vh;
+    right: 0;
+    background-color: $color_jet;
+    border-left: 2px solid $color_davys_grey;
+    border-top: 2px solid $color_davys_grey;
+    color: $color_white;
+}

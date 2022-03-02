@@ -44,3 +44,16 @@ export type Project = {
 
     members: Array<Member>
 }
+
+export type Task = {
+    name: string
+    _id?: string
+    complete?: boolean
+    completable?: boolean
+    subtask_order?: Array<string>
+    dependencies?: Array<string>
+    expires?: number
+    project?: string
+    assignee?: Array<any>
+    status?: string
+}
