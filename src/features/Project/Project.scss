@@ -39,9 +39,7 @@
                 &-name {
                     font-size: 1rem;
 
-                    overflow: hidden;
-                    white-space: nowrap;
-                    text-overflow: ellipsis;
+                    @extend .over-text;
                 }
 
                 &-icon {
@@ -237,6 +235,37 @@
                 &:active {
                     background-color: $color_vivid_tangerine;
                     transition: all 750ms;
+                }
+            }
+        }
+    }
+
+    &__member {
+        &-search {
+            margin-top: 0.5rem;
+            padding: 0 0.5rem;
+        }
+
+        &-list {
+            padding: 0 0.5rem;
+            max-height: 17.5rem;
+            overflow: auto;
+        }
+
+        &-item {
+            margin: 0.5rem 0;
+            padding: 0.75rem;
+            border: 2px solid $color_davys_grey;
+            border-radius: 15px;
+
+            &--desc {
+                padding: 0 0.25rem;
+                font-size: 0.8rem;
+
+                & > span {
+                    display: block;
+
+                    @extend .over-text;
                 }
             }
         }

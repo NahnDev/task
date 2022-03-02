@@ -27,8 +27,6 @@ function TaskDetail(props: IProps) {
     const params: any = useParams()
     const [task, setTask] = useState<Task>(props.task)
 
-    console.log(task)
-
     const getTask = async (pid: string, id: string) => {
         try {
             const response: Task = await projectsApi.getTasksDetail(pid, id)
@@ -91,6 +89,14 @@ function TaskDetail(props: IProps) {
             console.log(error)
         }
     }
+
+    const deleteAssignee = async (pid: string, id: string, uid: string) => {
+        try {
+            const response = await projectsApi.deleteAssigneeTasks(pid, id, uid)
+        } catch (error: any) {
+            console.log(error)
+        }
+    }
     const change = (value: any, field: any) => {
         const id = props.task._id || ''
 
@@ -102,6 +108,10 @@ function TaskDetail(props: IProps) {
                     break
                 case 'assignee':
                     if (value.length > 0) {
+                        for (const assigneeId of task.assignee || []) {
+                            deleteAssignee(params.id, id, assigneeId)
+                        }
+
                         for (const assignee of value) {
                             postAssignee(params.id, id, { member: assignee })
                         }

@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { Project } from '../types/global'
+import { Member, Project } from '../types/global'
 
 const initialState: Project = {
     _id: '',
@@ -16,10 +16,15 @@ const project = createSlice({
             state = action.payload
             return state
         },
+
+        addMember: (state, action: PayloadAction<Member>) => {
+            state.members.push(action.payload)
+            return state
+        },
     },
 })
 
 const { reducer, actions } = project
-export const { add } = actions
+export const { add, addMember } = actions
 
 export default reducer

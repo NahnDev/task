@@ -1,5 +1,5 @@
 import { DataMembers, DataProject, DataSubtasks } from '../types/api'
-import { Project, Task } from '../types/global'
+import { Member, Project, Task } from '../types/global'
 import axiosClient from './axiosClient'
 
 const projectsApi = {
@@ -45,6 +45,11 @@ const projectsApi = {
         return axiosClient.post<any, Task>(url, data)
     },
 
+    deleteAssigneeTasks: (_pid: string, _id: string, _uid: string) => {
+        const url = `/projects/${_pid}/tasks/${_id}/assignee/${_uid}`
+        return axiosClient.delete(url)
+    },
+
     // Member
     getMembers: (_pid: string) => {
         const url = `/projects/${_pid}/members`
@@ -53,7 +58,7 @@ const projectsApi = {
 
     postMembers: (_pid: string, data: DataMembers) => {
         const url = `/projects/${_pid}/members`
-        return axiosClient.post(url, data)
+        return axiosClient.post<any, Member>(url, data)
     },
 
     patchMembers: (_pid: string, _userId: string, data: DataMembers) => {

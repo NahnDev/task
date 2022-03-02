@@ -132,14 +132,7 @@ function ProjectPage(props: IProps) {
                 title = 'Add Task'
                 break
             case 'add-member':
-                temp = (
-                    <Formik
-                        initialValues={initialValuesFormProjectMember}
-                        validationSchema={validateFormProjectMember}
-                        onSubmit={(valueForm) => handleSubmit(valueForm, value)}
-                        render={FormMember}
-                    />
-                )
+                temp = <FormMember />
                 title = 'Add Member'
 
                 break

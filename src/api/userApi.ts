@@ -1,10 +1,11 @@
 import { Form } from '../types/auth'
+import { User } from '../types/global'
 import axiosClient from './axiosClient'
 
 const userApi = {
-    getUser: () => {
-        const url = `/user`
-        return axiosClient.get(url)
+    getUser: (mail: string) => {
+        const url = `/user?search=${mail}`
+        return axiosClient.get<any, Array<User>>(url)
     },
 
     getUserDetail: (_id: string) => {

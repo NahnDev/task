@@ -183,8 +183,9 @@ export const CONTENT_PROJECT = {
     },
 
     formMember: {
-        title: 'Add Member',
-        btnSubmit: 'Add Member',
+        title: 'Manager Member',
+        btnSubmit: PlusOutlined,
+        btnDelete: DeleteOutlined,
 
         fieldsName: {
             name: 'member',

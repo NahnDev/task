@@ -120,7 +120,7 @@ function Header(props: TProps) {
             <Col>
                 <Row align="middle">
                     <Col className={`${className}__search`}>
-                        <Search />
+                        <Search onSearch={(value: any) => console.log(value)} />
                     </Col>
                     <Col>
                         <UserDetail user={user} className={`${className}__detail`} />

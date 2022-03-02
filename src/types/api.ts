@@ -6,7 +6,7 @@ export type DataSubtasks = {
 
 export type DataMembers = {
     user?: string
-    role: string
+    role?: string
 }
 
 export type DataProject = {
