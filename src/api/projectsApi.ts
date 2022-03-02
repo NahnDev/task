@@ -1,8 +1,24 @@
 import { DataMembers, DataProject, DataSubtasks } from '../types/api'
-import { Member, Project, Task } from '../types/global'
+import { Member, Project, Role, Task } from '../types/global'
 import axiosClient from './axiosClient'
 
 const projectsApi = {
+    // Roles
+    getRoles: (_pid: string) => {
+        const url = `/projects/${_pid}/roles`
+        return axiosClient.get<any, Array<Role>>(url)
+    },
+
+    postRoles: (_pid: string, data: Role) => {
+        const url = `/projects/${_pid}/roles`
+        return axiosClient.post<any, Role>(url, data)
+    },
+
+    deleteRoles: (_pid: string, _id: string) => {
+        const url = `/projects/${_pid}/roles/${_id}`
+        return axiosClient.delete(url)
+    },
+
     // Subtask
     postSubtasks: (_pid: string, _id: string, data: DataSubtasks) => {
         const url = `/projects/${_pid}/tasks/${_id}/subtasks`

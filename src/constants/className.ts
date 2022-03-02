@@ -28,5 +28,6 @@ export const classProject = {
     project: 'project',
     form: 'project__form',
     member: 'project__member',
+    roles: 'project__roles',
     task: 'project__task',
 }

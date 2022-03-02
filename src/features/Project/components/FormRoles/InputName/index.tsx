@@ -1,24 +1,16 @@
 import { Input, Row } from 'antd'
-import { useEffect, useState } from 'react'
-import { Task } from '../../../../../types/global'
 
 type IProps = {
     className?: string
     placeholder?: string
     name?: string
-    value?: any
     label?: string
+    value: any
 
-    task: Task
+    onChange: Function
 }
 
-function InputTask(props: IProps) {
-    const [valueInput, setValueInput] = useState<string>(props.task.name)
-
-    useEffect(() => {
-        setValueInput(props.task.name)
-    }, [props.task])
-
+function InputName(props: IProps) {
     return (
         <Row justify="center" align="middle" className={`${props.className}`}>
             {props.label && (
@@ -30,13 +22,12 @@ function InputTask(props: IProps) {
                 name={props.name}
                 className={`${props.className}--input`}
                 placeholder={props.placeholder}
-                defaultValue={props.task.name}
-                value={valueInput}
-                onChange={(e) => setValueInput(e.target.value)}
                 bordered={false}
+                value={props.value.name}
+                onChange={(e) => props.onChange(e.target.value)}
             />
         </Row>
     )
 }
 
-export default InputTask
+export default InputName

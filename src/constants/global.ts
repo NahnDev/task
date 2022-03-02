@@ -195,14 +195,26 @@ export const CONTENT_PROJECT = {
     },
 
     formRoles: {
-        title: 'Add Member',
-        btnSubmit: 'Add Member',
+        title: 'Add Role',
+        btnSubmit: 'Add Role',
+        iconDeleteRole: DeleteOutlined,
 
         fieldsName: {
             name: 'member',
             label: 'Name Member *',
             type: 'text',
         },
+
+        optionsPermission: [
+            { _id: 'UPDATE', name: 'Update' },
+            { _id: 'DELETE', name: 'Delete' },
+            { _id: 'TASK_MANAGE', name: 'Task Manage' },
+            { _id: 'ROLE_MANAGE', name: 'Role Manage' },
+            { _id: 'MEMBER_MANAGE', name: 'Member Manage' },
+            { _id: 'MESSAGE_VIEW', name: 'Message View' },
+            { _id: 'MESSAGE_SEND', name: 'Message Send' },
+            { _id: 'FILE_MANAGE', name: 'File Manage' },
+        ],
     },
 
     tasks: {

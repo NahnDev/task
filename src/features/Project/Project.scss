@@ -270,4 +270,81 @@
             }
         }
     }
+
+    &__roles {
+        &-field {
+            padding: 0.25rem 0rem;
+
+            &--label {
+                width: 100%;
+                color: rgba($color_white, 0.7);
+            }
+            &--input {
+                width: 100%;
+                color: $color_white;
+                background-color: $color_jet;
+                border: none;
+
+                border-bottom: 1px solid $color_vivid_tangerine;
+
+                &:focus,
+                &:hover,
+                &:active {
+                    transition: all 750ms;
+                    border-bottom: 1px solid $color_vivid_tangerine;
+                }
+            }
+        }
+        &-btn {
+            margin: 0.5rem 0;
+            padding: 0.4rem 0;
+            width: 100%;
+
+            border-radius: 10px;
+            &:focus,
+            &:hover,
+            &:active {
+                transition: all 750ms;
+                background-color: $color_vivid_tangerine;
+            }
+        }
+
+        &-list {
+            padding: 0rem 0.5rem;
+
+            max-height: 10rem;
+            overflow: auto;
+
+            &--title {
+                font-size: 1.1rem;
+            }
+
+            &--item {
+                margin: 0.25rem 0;
+                padding: 0.25rem 1rem;
+                height: 4rem;
+                border: 1px solid $color_davys_grey;
+                border-radius: 10px;
+            }
+
+            &--name {
+                width: 90%;
+            }
+
+            &--btn {
+                padding: 0.25rem 0.55rem;
+                border-radius: 50%;
+                font-size: 1.1rem;
+
+                transition: all 750ms;
+
+                &:focus,
+                &:active,
+                &:hover {
+                    background-color: $color_vivid_tangerine;
+                    transition: all 750ms;
+                }
+            }
+        }
+    }
 }

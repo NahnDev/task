@@ -11,11 +11,8 @@ import Header from '../../components/Header'
 import ModalCustom from '../../components/ModalCustom'
 import { classLayout, classProject } from '../../constants/className'
 import { CONTENT_PROJECT } from '../../constants/global'
-import {
-    initialValuesFormProjectAddTask,
-    initialValuesFormProjectMember,
-} from '../../constants/initialValues'
-import { validateFormProjectAddTask, validateFormProjectMember } from '../../constants/validate'
+import { initialValuesFormProjectAddTask } from '../../constants/initialValues'
+import { validateFormProjectAddTask } from '../../constants/validate'
 import { openNotificationWithIcon } from '../../functions/global'
 import { Project, Task } from '../../types/global'
 import FormMember from './components/FormMember'
@@ -133,19 +130,12 @@ function ProjectPage(props: IProps) {
                 break
             case 'add-member':
                 temp = <FormMember />
-                title = 'Add Member'
+                title = 'Members'
 
                 break
             case 'add-roles':
-                temp = (
-                    <Formik
-                        initialValues={initialValuesFormProjectMember}
-                        validationSchema={validateFormProjectMember}
-                        onSubmit={(valueForm) => handleSubmit(valueForm, value)}
-                        render={FormRoles}
-                    />
-                )
-                title = 'Add Roles'
+                temp = <FormRoles />
+                title = 'Roles'
 
                 break
             default:
