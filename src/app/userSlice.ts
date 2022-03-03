@@ -1,14 +1,14 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { User } from '../types/global'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { User } from '../types/global';
 
-const isLogin: boolean = localStorage.getItem('token') ? true : false
-
-const _id: string = localStorage.getItem('_id') || ''
+const isLogin: boolean = localStorage.getItem('token') ? true : false;
+const _id: string = localStorage.getItem('_id') || '';
+console.log(localStorage.getItem('token'));
 
 const initialState: User = {
     isLogin: isLogin,
     _id: _id,
-}
+};
 
 const user = createSlice({
     name: 'user',
@@ -16,24 +16,24 @@ const user = createSlice({
     reducers: {
         // Form Phone and password
         setUserLogin: (state, action: PayloadAction<any>) => {
-            state = { ...action.payload.user, isLogin: true }
+            state = { ...action.payload.user, isLogin: true };
 
             const token = {
                 accessToken: action.payload.accessToken,
                 refreshToken: action.payload.refreshToken,
                 expires: action.payload.expires,
-            }
+            };
 
-            localStorage.setItem('token', JSON.stringify(token))
-            localStorage.setItem('_id', action.payload.user._id)
+            localStorage.setItem('token', JSON.stringify(token));
+            localStorage.setItem('_id', action.payload.user._id);
 
-            return state
+            return state;
         },
 
         setUser: (state, action: PayloadAction<User>) => {
-            state = { ...action.payload, isLogin: true }
+            state = { ...action.payload, isLogin: true };
 
-            return state
+            return state;
         },
         // setProfile: (state, action) => {
         //     state = { ...state, profile: action.payload }
@@ -58,8 +58,8 @@ const user = createSlice({
         //     return state
         // },
     },
-})
+});
 
-const { reducer, actions } = user
-export const { setUser, setUserLogin } = actions
-export default reducer
+const { reducer, actions } = user;
+export const { setUser, setUserLogin } = actions;
+export default reducer;

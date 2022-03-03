@@ -1,19 +1,20 @@
-import React, { Suspense } from 'react'
+import React, { Suspense } from 'react';
 
-import { Col, Row, Spin } from 'antd'
-import { useSelector } from 'react-redux'
-import { classLayout } from './constants/className'
+import { Col, Row, Spin } from 'antd';
+import { useSelector } from 'react-redux';
+import { classLayout } from './constants/className';
 
-import './App.scss'
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
-import { ROUTER_MAIN } from './constants/routers'
-import NavbarCustom from './components/NavbarCustom'
-import { Router, User } from './types/global'
+import './App.scss';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import { ROUTER_MAIN } from './constants/routers';
+import NavbarCustom from './components/NavbarCustom';
+import { Router, User } from './types/global';
+import { borderStyles, containerStyle } from './styles/chat.style';
 
-const Auth = React.lazy(() => import('./features/Auth'))
+const Auth = React.lazy(() => import('./features/Auth'));
 
 function App() {
-    const user: User = useSelector((state: any) => state.user)
+    const user: User = useSelector((state: any) => state.user);
 
     return (
         <Suspense
@@ -31,7 +32,7 @@ function App() {
                         <Col xs={5}>
                             <NavbarCustom className={classLayout.navbarCustom} />
                         </Col>
-                        <Col xs={19}>
+                        <Col xs={19} style={containerStyle}>
                             <Routes>
                                 <Route path="*" element={<Navigate to="/home" />} />
 
@@ -44,7 +45,7 @@ function App() {
                                                 <value.component className={classLayout.body} />
                                             }
                                         />
-                                    )
+                                    );
                                 })}
                             </Routes>
                         </Col>
@@ -66,7 +67,7 @@ function App() {
                 </Row>
             )}
         </Suspense>
-    )
+    );
 }
 
-export default App
+export default App;
