@@ -13,7 +13,6 @@ const content = CONTENT_HOME.projects
 
 function Projects(props: IProps) {
     const projects: Array<Project> = useSelector((state: any) => state.projects) || []
-    console.log({ projects })
 
     return (
         <Row className={`${props.className}`}>

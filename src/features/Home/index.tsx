@@ -7,7 +7,7 @@ import projectApi from '../../api/projectsApi';
 import { useNavigate } from 'react-router-dom'
 
 import Header from '../../components/Header'
-import ModalCustom from '../../components/ModalProject'
+import ModalCustom from '../../components/ModalCustom'
 import { classHome, classLayout } from '../../constants/className'
 import { CONTENT_HOME } from '../../constants/global'
 import { initialValuesFormHomeProject } from '../../constants/initialValues'

@@ -10,6 +10,15 @@ import {
     HourglassOutlined,
     CloseCircleOutlined,
     MoreOutlined,
+    EditOutlined,
+    UserAddOutlined,
+    DeleteOutlined,
+    EllipsisOutlined,
+    UsergroupAddOutlined,
+    ClockCircleOutlined,
+    FieldTimeOutlined,
+    CheckOutlined,
+    CloseOutlined,
 } from '@ant-design/icons'
 import Images from './images'
 
@@ -49,6 +58,16 @@ export const CONTENT_COMPONENT = {
             icon: QuestionCircleOutlined,
             text: 'Help & Report',
         },
+    },
+
+    header: {
+        menuDropdown: [
+            { key: 'add-task', text: 'Add Task', icon: PlusCircleOutlined },
+            { key: 'add-member', text: 'Add Member', icon: UserAddOutlined },
+            { key: 'add-roles', text: 'Add Roles', icon: UsergroupAddOutlined },
+            { key: 'edit-project', text: 'Edit Project', icon: EditOutlined },
+            { key: 'delete-project', text: 'Delete Project', icon: DeleteOutlined },
+        ],
     },
 }
 
@@ -124,4 +143,98 @@ export const CONTENT_INBOX = {
         { path: 'notification', text: 'Notification' },
     ],
 }
-export const CONTENT_PROJECT = {}
+export const CONTENT_PROJECT = {
+    title: 'Project',
+
+    formTask: {
+        title: 'Add Task',
+        btnSubmit: 'Add task',
+
+        fieldsName: {
+            name: 'name',
+            label: 'Name Task *',
+            type: 'text',
+        },
+
+        fieldsExpires: {
+            name: 'expires',
+            label: 'Deadline',
+        },
+
+        fieldsUser: {
+            name: 'assignee',
+            label: 'Assignee',
+        },
+    },
+
+    formSubTask: {
+        btnSubmit: 'Add subtask',
+
+        fieldsName: {
+            name: 'name',
+            label: 'Name Subtask *',
+            type: 'text',
+        },
+
+        fieldsExpires: {
+            name: 'expires',
+            label: 'Deadline',
+        },
+    },
+
+    formMember: {
+        title: 'Manager Member',
+        btnSubmit: PlusOutlined,
+        btnDelete: DeleteOutlined,
+
+        fieldsName: {
+            name: 'member',
+            label: 'Name Member *',
+            type: 'text',
+        },
+    },
+
+    formRoles: {
+        title: 'Add Role',
+        btnSubmit: 'Add Role',
+        iconDeleteRole: DeleteOutlined,
+
+        fieldsName: {
+            name: 'member',
+            label: 'Name Member *',
+            type: 'text',
+        },
+
+        optionsPermission: [
+            { _id: 'UPDATE', name: 'Update' },
+            { _id: 'DELETE', name: 'Delete' },
+            { _id: 'TASK_MANAGE', name: 'Task Manage' },
+            { _id: 'ROLE_MANAGE', name: 'Role Manage' },
+            { _id: 'MEMBER_MANAGE', name: 'Member Manage' },
+            { _id: 'MESSAGE_VIEW', name: 'Message View' },
+            { _id: 'MESSAGE_SEND', name: 'Message Send' },
+            { _id: 'FILE_MANAGE', name: 'File Manage' },
+        ],
+    },
+
+    tasks: {
+        iconBtnAdd: PlusOutlined,
+        textBtnAdd: 'Add new task',
+        iconMenuTask: EllipsisOutlined,
+        iconDeleteTask: DeleteOutlined,
+        iconDeadline: FieldTimeOutlined,
+
+        filter: [
+            { value: 'TODO', title: 'To do', icon: ClockCircleOutlined },
+            { value: 'DOING', title: 'Doing', icon: HourglassOutlined },
+            { value: 'DONE', title: 'Done', icon: CheckCircleOutlined },
+        ],
+
+        subtask: {
+            title: 'Subtasks',
+            btnAdd: '+ Add subtask',
+            iconCheck: CheckOutlined,
+            iconCancel: CloseOutlined,
+        },
+    },
+}

@@ -2,10 +2,12 @@
 import { configureStore } from '@reduxjs/toolkit'
 import userReducer from './userSlice'
 import projectsReducer from './projectsSlice'
+import projectReducer from './projectSlice'
 
 const rootReducer = {
     user: userReducer,
     projects: projectsReducer,
+    project: projectReducer,
 }
 =======
 import { configureStore } from '@reduxjs/toolkit';

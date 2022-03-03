@@ -20,3 +20,11 @@ export const validateFormSignUp = Yup.object().shape({
 export const validateFormHomeProject = Yup.object().shape({
     name: Yup.string().required('This field is required'),
 })
+
+export const validateFormProjectAddTask = Yup.object().shape({
+    name: Yup.string().required('This field is required'),
+})
+
+export const validateFormProjectMember = Yup.object().shape({
+    member: Yup.string().required('This field is required'),
+})

@@ -5,7 +5,7 @@ import './ModalCustom.scss'
 
 type IProps = {
     visible: boolean
-    loading: boolean
+    loading?: boolean
 
     closeModal: Function
     title: string

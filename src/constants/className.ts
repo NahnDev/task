@@ -23,3 +23,11 @@ export const classHome = {
     home: 'home',
     form: 'home__form',
 }
+
+export const classProject = {
+    project: 'project',
+    form: 'project__form',
+    member: 'project__member',
+    roles: 'project__roles',
+    task: 'project__task',
+}

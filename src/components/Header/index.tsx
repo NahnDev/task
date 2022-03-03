@@ -11,11 +11,15 @@ import { DownOutlined } from '@ant-design/icons'
 
 import './Header.scss'
 import { NavLink } from 'react-router-dom'
+import { CONTENT_COMPONENT } from '../../constants/global'
+
+const content = CONTENT_COMPONENT.header
 
 type TProps = {
     className: string
-    title: string
+    title?: string
     dropdown?: any
+    actionDropdown?: Function
     navigate?: Array<any>
 }
 
@@ -45,6 +49,22 @@ function Header(props: TProps) {
     const user: User = useSelector((state: any) => state.user)
     const dispatch = useDispatch()
 
+    const menuDropdown = (
+        <Menu
+            onClick={(value) => {
+                if (props.actionDropdown) props.actionDropdown(value.key)
+            }}
+        >
+            {content.menuDropdown.map((value) => {
+                return (
+                    <Menu.Item key={value.key}>
+                        <value.icon /> {value.text}
+                    </Menu.Item>
+                )
+            })}
+        </Menu>
+    )
+
     const getUser = async (_id: string) => {
         try {
             const response: any = await userApi.getUserDetail(_id)
@@ -66,7 +86,7 @@ function Header(props: TProps) {
                         <span className={`${className}__title`}>
                             {props.dropdown}
 
-                            <Dropdown overlay={menu} placement="bottomRight" arrow>
+                            <Dropdown overlay={menuDropdown} placement="bottomRight" arrow>
                                 <button className={`${className}__title--icon`}>
                                     <DownOutlined />
                                 </button>
@@ -100,7 +120,7 @@ function Header(props: TProps) {
             <Col>
                 <Row align="middle">
                     <Col className={`${className}__search`}>
-                        <Search />
+                        <Search onSearch={(value: any) => console.log(value)} />
                     </Col>
                     <Col>
                         <UserDetail user={user} className={`${className}__detail`} />
