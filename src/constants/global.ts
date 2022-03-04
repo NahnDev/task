@@ -45,8 +45,7 @@ export const CONTENT_COMPONENT = {
 
         navigate: [
             { key: 1, icon: HomeOutlined, text: 'Home', path: '/home' },
-            { key: 2, icon: CheckCircleOutlined, text: 'My task', path: '/my-task' },
-            { key: 3, icon: BellOutlined, text: 'Inbox', path: '/inbox' },
+            { key: 2, icon: BellOutlined, text: 'Inbox', path: '/inbox' },
         ],
 
         projectDetail: {
