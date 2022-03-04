@@ -109,7 +109,7 @@ export class TaskController {
   async removeAssignee(
     @Param(pid) project: string,
     @Param('id') id: string,
-    @Param(':mid') member: string,
+    @Param('mid') member: string,
   ) {
     return await this.taskService.removeAssignee(project, id, member);
   }
