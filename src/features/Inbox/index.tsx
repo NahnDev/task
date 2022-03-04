@@ -1,27 +1,32 @@
-import { Col, Row } from 'antd'
-import { Navigate, Route, Routes } from 'react-router-dom'
+import { Col, Row } from 'antd';
+import { Navigate, Route, Routes } from 'react-router-dom';
 
-import Header from '../../components/Header'
-import { classLayout } from '../../constants/className'
-import { CONTENT_INBOX } from '../../constants/global'
-import { ROUTER_INBOX } from '../../constants/routers'
-import { Router } from '../../types/global'
+import Header from '../../components/Header';
+import { containerStyle } from '../../styles/chat.style';
+import { classLayout } from '../../constants/className';
+import { CONTENT_INBOX } from '../../constants/global';
+import { ROUTER_INBOX } from '../../constants/routers';
+import { Router } from '../../types/global';
 
 type Inbox = {
-    className: string
-}
+    className: string;
+};
 
-const content = CONTENT_INBOX
+const content = CONTENT_INBOX;
 
 function Inbox(props: Inbox) {
     return (
-        <Row className={props.className}>
-            <Col xs={24}>
+        <Row className={props.className} style={containerStyle}>
+            <Col
+                xs={24}
+                style={{ ...containerStyle, display: 'grid', gridTemplateRows: 'auto 1fr' }}
+            >
                 <Header
                     className={classLayout.header}
                     title={content.title}
                     navigate={content.navigate}
                 />
+
                 <Routes>
                     <Route path="*" element={<Navigate to="/inbox/messages" />} />
 
@@ -32,12 +37,12 @@ function Inbox(props: Inbox) {
                                 path={value.path}
                                 element={<value.component />}
                             />
-                        )
+                        );
                     })}
                 </Routes>
             </Col>
         </Row>
-    )
+    );
 }
 
-export default Inbox
+export default Inbox;
