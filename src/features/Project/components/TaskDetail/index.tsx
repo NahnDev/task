@@ -97,7 +97,7 @@ function TaskDetail(props: IProps) {
             console.log(error)
         }
     }
-    const change = (value: any, field: any) => {
+    const change = (value: any, field: any, status?: string) => {
         const id = props.task._id || ''
 
         if (value) {
@@ -105,27 +105,25 @@ function TaskDetail(props: IProps) {
             switch (field) {
                 case 'name':
                     data.name = value
+                    patchTask(params.id, id, data)
                     break
                 case 'assignee':
-                    if (value.length > 0) {
-                        for (const assigneeId of task.assignee || []) {
-                            deleteAssignee(params.id, id, assigneeId)
-                        }
-
+                    if (status === 'delete') {
+                        deleteAssignee(params.id, id, value)
+                    }
+                    if (status === 'add') {
                         for (const assignee of value) {
                             postAssignee(params.id, id, { member: assignee })
                         }
                     }
-                    data.assignee = value
                     break
                 case 'expires':
                     data.expires = Number(moment(value).utc().format('x'))
+                    patchTask(params.id, id, data)
                     break
                 default:
                     break
             }
-
-            patchTask(params.id, id, data)
         }
     }
 

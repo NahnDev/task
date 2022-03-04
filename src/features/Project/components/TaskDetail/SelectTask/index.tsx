@@ -20,6 +20,7 @@ function SelectTask(props: SelectTaskProps) {
     const params: any = useParams()
 
     const [options, setOptions] = useState<any>([])
+    const [temp, setTemp] = useState<boolean>(true)
     const [defaultValues, setDefaultValues] = useState<any>(props.task.assignee)
 
     const getMembers = async (id: string) => {
@@ -36,14 +37,17 @@ function SelectTask(props: SelectTaskProps) {
         setDefaultValues(props.task.assignee)
     }, [props.task])
 
-    function tagRender(props: any) {
-        const { label, value, closable, onClose } = props
+    function tagRender(propsTag: any) {
+        const { label, value, closable } = propsTag
 
         return (
             <Tag
                 color={randomColorAvatar(value)}
                 closable={closable}
-                onClose={onClose}
+                onClose={() => {
+                    setTemp(false)
+                    props.changeAssignee(value, 'assignee', 'delete')
+                }}
                 style={{ marginRight: 3 }}
             >
                 {label}
@@ -60,7 +64,9 @@ function SelectTask(props: SelectTaskProps) {
                 className={`${props.className}--input`}
                 value={defaultValues}
                 onChange={(value) => setDefaultValues(value)}
-                onBlur={() => props.changeAssignee(defaultValues, 'assignee')}
+                onBlur={() => {
+                    temp && props.changeAssignee(defaultValues, 'assignee', 'add')
+                }}
                 tagRender={tagRender}
             >
                 {options.map((value: any) => {
