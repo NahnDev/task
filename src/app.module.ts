@@ -22,7 +22,9 @@ import { FileModule } from './file/file.module';
 
 @Module({
   imports: [
-    ServeStaticModule.forRoot({ rootPath: join(process.cwd(), 'static') }),
+    ServeStaticModule.forRoot({
+      rootPath: join(process.cwd(), 'front'),
+    }),
     ConfigModule.forRoot({
       envFilePath: ['.env'],
       load: [configuration],

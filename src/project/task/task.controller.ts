@@ -105,7 +105,7 @@ export class TaskController {
 
   @ApiOkResponse({ type: Task })
   @CheckPolicies((ability) => ability.can(Actions.Update, Task, 'assignee'))
-  @Delete(':id/assignee/:uid')
+  @Delete(':id/assignee/:mid')
   async removeAssignee(
     @Param(pid) project: string,
     @Param('id') id: string,

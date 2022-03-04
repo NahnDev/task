@@ -29,6 +29,7 @@ export class PoliciesGuard implements CanActivate {
     protected reflector: Reflector,
   ) {}
   async canActivate(context: ExecutionContext): Promise<boolean> {
+    console.log('::::::::::::::::::::::::::::::::::::::::::::::::::::::');
     const isPublicApi = this.reflector.getAllAndOverride(PUBLIC_API_KEY, [
       context.getHandler(),
       context.getClass(),

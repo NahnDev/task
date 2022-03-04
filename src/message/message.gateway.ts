@@ -50,6 +50,7 @@ export class MessageGateway {
     @MessageBody() payload: CreateMessageDto,
   ) {
     const data = payload;
+    console.log('Server receive a message');
     data.from = client.user._id;
     this.messageService.create(data).then();
   }

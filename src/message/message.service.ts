@@ -30,7 +30,7 @@ export class MessageService {
     const forwardMessage = forward
       ? (
           await this.messageModel.findOne({
-            project,
+            room: project,
             _id: forward,
           })
         ).toJSON()
@@ -38,7 +38,7 @@ export class MessageService {
     return (
       await this.messageModel
         .find({
-          project,
+          room: project,
           ...(forward ? { at: { $lt: forwardMessage.at } } : {}),
         })
         .sort({ at: -1 })
