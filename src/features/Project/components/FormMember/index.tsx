@@ -75,20 +75,23 @@ function FormMember(props: IProps) {
         <Row>
             <Col xs={12} className={`${className}-search`}>
                 <Search onSearch={handleSearch} />
-
-                {userSearch &&
-                    userSearch.length > 0 &&
-                    userSearch.map((value, index) => {
-                        return (
-                            <MemberItem
-                                key={`member-project-${index}`}
-                                className={`${className}`}
-                                value={value}
-                                type={'add'}
-                                handleMember={handleMember}
-                            />
-                        )
-                    })}
+                <Row>
+                    <Col xs={24} className={`${className}-list`}>
+                        {userSearch &&
+                            userSearch.length > 0 &&
+                            userSearch.map((value, index) => {
+                                return (
+                                    <MemberItem
+                                        key={`member-project-${index}`}
+                                        className={`${className}`}
+                                        value={value}
+                                        type={'add'}
+                                        handleMember={handleMember}
+                                    />
+                                )
+                            })}
+                    </Col>
+                </Row>
             </Col>
 
             <Col xs={12} className={`${className}-list`}>

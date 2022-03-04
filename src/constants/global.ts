@@ -10,7 +10,6 @@ import {
     HourglassOutlined,
     CloseCircleOutlined,
     MoreOutlined,
-    EditOutlined,
     UserAddOutlined,
     DeleteOutlined,
     EllipsisOutlined,
@@ -19,6 +18,8 @@ import {
     FieldTimeOutlined,
     CheckOutlined,
     CloseOutlined,
+    SettingOutlined,
+    LogoutOutlined,
 } from '@ant-design/icons'
 import Images from './images'
 
@@ -64,8 +65,12 @@ export const CONTENT_COMPONENT = {
             { key: 'add-task', text: 'Add Task', icon: PlusCircleOutlined },
             { key: 'add-member', text: 'Add Member', icon: UserAddOutlined },
             { key: 'add-roles', text: 'Add Roles', icon: UsergroupAddOutlined },
-            { key: 'edit-project', text: 'Edit Project', icon: EditOutlined },
             { key: 'delete-project', text: 'Delete Project', icon: DeleteOutlined },
+        ],
+
+        menuUser: [
+            { key: 'profile', text: 'Setting Profile', icon: SettingOutlined },
+            { key: 'logout', text: 'Logout', icon: LogoutOutlined },
         ],
     },
 }

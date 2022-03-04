@@ -2,7 +2,7 @@ import { Col, Dropdown, Menu, Row } from 'antd'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import userApi from '../../api/userApi'
-import { setUser } from '../../app/userSlice'
+import { setSignOut, setUser } from '../../app/userSlice'
 import { classComponent } from '../../constants/className'
 import { User } from '../../types/global'
 import Search from '../Search'
@@ -65,12 +65,36 @@ function Header(props: TProps) {
         </Menu>
     )
 
+    const menuUser = (
+        <Menu onClick={(value) => handleUser(value.key)}>
+            {content.menuUser.map((value) => {
+                return (
+                    <Menu.Item key={value.key}>
+                        <value.icon /> {value.text}
+                    </Menu.Item>
+                )
+            })}
+        </Menu>
+    )
+
     const getUser = async (_id: string) => {
         try {
             const response: any = await userApi.getUserDetail(_id)
             dispatch(setUser(response))
         } catch (error) {
             console.log(error)
+        }
+    }
+
+    const handleUser = (value: any) => {
+        switch (value) {
+            case 'profile':
+                break
+            case 'logout':
+                dispatch(setSignOut({ isLogin: false, _id: '' }))
+                break
+            default:
+                break
         }
     }
 
@@ -123,7 +147,11 @@ function Header(props: TProps) {
                         <Search onSearch={(value: any) => console.log(value)} />
                     </Col>
                     <Col>
-                        <UserDetail user={user} className={`${className}__detail`} />
+                        <UserDetail
+                            menuUser={menuUser}
+                            user={user}
+                            className={`${className}__detail`}
+                        />
                     </Col>
                 </Row>
             </Col>

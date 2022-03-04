@@ -6,43 +6,20 @@ import { randomColorAvatar } from '../../../../functions/global'
 type IProps = {
     className: string
     user: User
-}
 
-const menu = (
-    <Menu>
-        <Menu.Item>
-            <a target="_blank" rel="noopener noreferrer" href="https://www.antgroup.com">
-                1st menu item
-            </a>
-        </Menu.Item>
-        <Menu.Item>
-            <a target="_blank" rel="noopener noreferrer" href="https://www.aliyun.com">
-                2nd menu item
-            </a>
-        </Menu.Item>
-        <Menu.Item>
-            <a target="_blank" rel="noopener noreferrer" href="https://www.luohanacademy.com">
-                3rd menu item
-            </a>
-        </Menu.Item>
-    </Menu>
-)
+    menuUser: any
+}
 
 function UserDetail(props: IProps) {
     const name = props.user.name
 
     return (
         <Row align="middle">
-            <Dropdown overlay={menu} placement="bottomRight" arrow>
-                <button className={`${props.className}--btn`}>
-                    <PlusOutlined />
-                </button>
-            </Dropdown>
             <Col className={`${props.className}--name`}>
                 <span>{props.user.name}</span>
             </Col>
             <Dropdown
-                overlay={menu}
+                overlay={props.menuUser}
                 placement="bottomRight"
                 arrow
                 className={`${props.className}--avatar`}
