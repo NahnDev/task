@@ -21,10 +21,15 @@ const project = createSlice({
             state.members.push(action.payload)
             return state
         },
+
+        deleteMember: (state, action: PayloadAction<string>) => {
+            state.members = state.members.filter((item) => item.user._id !== action.payload)
+            return state
+        },
     },
 })
 
 const { reducer, actions } = project
-export const { add, addMember } = actions
+export const { add, addMember, deleteMember } = actions
 
 export default reducer

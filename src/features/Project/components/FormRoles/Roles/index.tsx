@@ -35,7 +35,15 @@ function Roles(props: IProps) {
                                         ) : (
                                             value.permission.map((value, index) => {
                                                 return (
-                                                    <Tag key={`tag-${index}`} color="lime">
+                                                    <Tag
+                                                        key={`tag-${index}`}
+                                                        color="lime"
+                                                        style={{
+                                                            marginRight: 3,
+                                                            marginBottom: 3,
+                                                            fontSize: '0.6rem',
+                                                        }}
+                                                    >
                                                         {value}
                                                     </Tag>
                                                 )

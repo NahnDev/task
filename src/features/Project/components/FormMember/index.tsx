@@ -3,13 +3,15 @@ import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import projectsApi from '../../../../api/projectsApi'
 import userApi from '../../../../api/userApi'
-import { addMember } from '../../../../app/projectSlice'
+import { addMember, deleteMember } from '../../../../app/projectSlice'
+import { addMemberToProject, deleteMemberToProject } from '../../../../app/projectsSlice'
 import Search from '../../../../components/Search'
 import { classProject } from '../../../../constants/className'
 import { CONTENT_PROJECT } from '../../../../constants/global'
 import { openNotificationWithIcon, randomColorAvatar } from '../../../../functions/global'
 import { DataMembers } from '../../../../types/api'
 import { Member, Project, User } from '../../../../types/global'
+import MemberItem from './Member'
 
 type IProps = {}
 
@@ -37,7 +39,18 @@ function FormMember(props: IProps) {
         try {
             const response: Member = await projectsApi.postMembers(pid, data)
             dispatch(addMember(response))
+            dispatch(addMemberToProject({ _pid: pid, value: response }))
             setUserSearch([])
+        } catch (error: any) {
+            console.log(error)
+        }
+    }
+
+    const deleteMemberAPI = async (pid: string, uid: string) => {
+        try {
+            const response = await projectsApi.deleteMembers(pid, uid)
+            dispatch(deleteMember(uid))
+            dispatch(deleteMemberToProject({ _pid: pid, value: uid }))
         } catch (error: any) {
             console.log(error)
         }
@@ -47,12 +60,15 @@ function FormMember(props: IProps) {
         value && findUser(value)
     }
 
-    const handleAddMember = (value: any) => {
-        const data: DataMembers = {
-            user: value,
+    const handleMember = (value: any, type: 'add' | 'delete') => {
+        if (type === 'delete') {
+            deleteMemberAPI(project._id, value)
+        } else {
+            const data: DataMembers = {
+                user: value,
+            }
+            postMember(project._id, data)
         }
-
-        postMember(project._id, data)
     }
 
     return (
@@ -60,70 +76,31 @@ function FormMember(props: IProps) {
             <Col xs={12} className={`${className}-search`}>
                 <Search onSearch={handleSearch} />
 
-                {userSearch && userSearch.length > 0 && (
-                    <Row align="middle" className={`${className}-item`}>
-                        <Col xs={6} className={`${className}-item--avatar`}>
-                            <Avatar
-                                shape="square"
-                                size={55}
-                                style={{
-                                    backgroundColor: randomColorAvatar(userSearch[0]._id),
-                                    borderRadius: 15,
-                                }}
-                            >
-                                {userSearch[0].name?.slice(0, 1)}
-                            </Avatar>
-                        </Col>
-
-                        <Col xs={16} className={`${className}-item--desc`}>
-                            <span>{userSearch[0].name}</span>
-                            <span>{userSearch[0].email}</span>
-                        </Col>
-
-                        <Col xs={2}>
-                            <button
-                                onClick={() => handleAddMember(userSearch[0]._id)}
-                                className={`${className}-btn`}
-                            >
-                                <content.btnSubmit />
-                            </button>
-                        </Col>
-                    </Row>
-                )}
+                {userSearch &&
+                    userSearch.length > 0 &&
+                    userSearch.map((value, index) => {
+                        return (
+                            <MemberItem
+                                key={`member-project-${index}`}
+                                className={`${className}`}
+                                value={value}
+                                type={'add'}
+                                handleMember={handleMember}
+                            />
+                        )
+                    })}
             </Col>
 
             <Col xs={12} className={`${className}-list`}>
                 {project.members.map((value, index) => {
                     return (
-                        <Row
-                            align="middle"
-                            className={`${className}-item`}
+                        <MemberItem
                             key={`member-project-${index}`}
-                        >
-                            <Col xs={6} className={`${className}-item--avatar`}>
-                                <Avatar
-                                    shape="square"
-                                    size={55}
-                                    style={{
-                                        backgroundColor: randomColorAvatar(value.user._id),
-                                        borderRadius: 15,
-                                    }}
-                                >
-                                    {value.user.name?.slice(0, 1)}
-                                </Avatar>
-                            </Col>
-
-                            <Col xs={16} className={`${className}-item--desc`}>
-                                <span>{value.user.name}</span>
-                                <span>{value.user.email}</span>
-                            </Col>
-
-                            <Col xs={2}>
-                                <button className={`${className}-item--btn`}>
-                                    <content.btnDelete />
-                                </button>
-                            </Col>
-                        </Row>
+                            className={`${className}`}
+                            value={value.user}
+                            type={'delete'}
+                            handleMember={handleMember}
+                        />
                     )
                 })}
             </Col>
