@@ -1,5 +1,5 @@
-import { Col, Dropdown, Menu, Row } from 'antd'
-import React, { useEffect } from 'react'
+import { Col, Dropdown, Input, Menu, Row } from 'antd'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import userApi from '../../api/userApi'
 import { setSignOut, setUser } from '../../app/userSlice'
@@ -13,41 +13,23 @@ import './Header.scss'
 import { NavLink } from 'react-router-dom'
 import { CONTENT_COMPONENT } from '../../constants/global'
 
-const content = CONTENT_COMPONENT.header
-
 type TProps = {
     className: string
     title?: string
     dropdown?: any
     actionDropdown?: Function
     navigate?: Array<any>
+
+    changeNameProject?: Function
 }
 
-const menu = (
-    <Menu>
-        <Menu.Item>
-            <a target="_blank" rel="noopener noreferrer" href="https://www.antgroup.com">
-                1st menu item
-            </a>
-        </Menu.Item>
-        <Menu.Item>
-            <a target="_blank" rel="noopener noreferrer" href="https://www.aliyun.com">
-                2nd menu item
-            </a>
-        </Menu.Item>
-        <Menu.Item>
-            <a target="_blank" rel="noopener noreferrer" href="https://www.luohanacademy.com">
-                3rd menu item
-            </a>
-        </Menu.Item>
-    </Menu>
-)
-
+const content = CONTENT_COMPONENT.header
 const className = classComponent.header
 
 function Header(props: TProps) {
     const user: User = useSelector((state: any) => state.user)
     const dispatch = useDispatch()
+    const [title, setTitle] = useState<string>(props.dropdown)
 
     const menuDropdown = (
         <Menu
@@ -100,7 +82,8 @@ function Header(props: TProps) {
 
     useEffect(() => {
         getUser(user._id)
-    }, [user.name !== undefined])
+        setTitle(props.dropdown)
+    }, [user.name !== undefined, props.dropdown])
 
     return (
         <Row align="middle" justify="space-between" className={`${className} ${props.className}`}>
@@ -108,13 +91,22 @@ function Header(props: TProps) {
                 <Row>
                     {props.dropdown ? (
                         <span className={`${className}__title`}>
-                            {props.dropdown}
-
-                            <Dropdown overlay={menuDropdown} placement="bottomRight" arrow>
+                            <Dropdown overlay={menuDropdown} placement="bottomLeft" arrow>
                                 <button className={`${className}__title--icon`}>
                                     <DownOutlined />
                                 </button>
                             </Dropdown>
+
+                            <Input
+                                className={`${className}__title--input`}
+                                bordered={false}
+                                value={title}
+                                onChange={(e) => setTitle(e.target.value)}
+                                onBlur={() => {
+                                    props.changeNameProject &&
+                                        props.changeNameProject(title || props.dropdown)
+                                }}
+                            />
                         </span>
                     ) : (
                         <span className={`${className}__title`}>{props.title}</span>

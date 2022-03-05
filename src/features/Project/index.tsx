@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import projectsApi from '../../api/projectsApi'
 import { add } from '../../app/projectSlice'
+import { patchOneProject } from '../../app/projectsSlice'
 import DrawerCustom from '../../components/DrawerCustom'
 import Header from '../../components/Header'
 import ModalCustom from '../../components/ModalCustom'
@@ -49,6 +50,16 @@ function ProjectPage(props: IProps) {
             const response = await projectsApi.getProjectsDetail(pid)
             dispatch(add(response))
             getTasks(pid)
+        } catch (error: any) {
+            console.log(error)
+        }
+    }
+
+    const patchProject = async (pid: string, value: string) => {
+        try {
+            const response = await projectsApi.patchProjects(pid, { name: value })
+            dispatch(add(response))
+            dispatch(patchOneProject({ _pid: pid, value: value }))
         } catch (error: any) {
             console.log(error)
         }
@@ -183,6 +194,7 @@ function ProjectPage(props: IProps) {
                     className={classLayout.header}
                     dropdown={project.name}
                     actionDropdown={handleActionDropdown}
+                    changeNameProject={(value: any) => patchProject(project._id, value)}
                 />
                 <div className={`${className}__list`}>
                     <div className={`${className}__list--scroll`}>

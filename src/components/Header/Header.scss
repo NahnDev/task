@@ -10,16 +10,29 @@
     border-bottom: 2px solid $color_davys_grey;
 
     &__title {
-        font-weight: 700;
-        font-size: 1.1rem;
         letter-spacing: 2px;
         cursor: pointer;
 
         &--icon {
-            margin: 0 0.5rem;
             padding: 0 1rem;
 
             font-size: 0.8rem;
+        }
+
+        &--input {
+            max-width: 80%;
+            color: $color_white;
+            border-bottom: 2px solid $color_eerie_black;
+
+            font-weight: 700;
+            font-size: 1.1rem;
+
+            &:focus,
+            &:hover,
+            &:active {
+                transition: all 750ms;
+                border-bottom: 2px solid $color_vivid_tangerine;
+            }
         }
     }
 

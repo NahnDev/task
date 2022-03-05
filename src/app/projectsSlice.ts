@@ -20,6 +20,16 @@ const projects = createSlice({
             return state
         },
 
+        patchOneProject: (state, action: PayloadAction<{ _pid: any; value: string }>) => {
+            state.map((value, index) => {
+                if (value._id === action.payload._pid) {
+                    state[index].name = action.payload.value
+                }
+            })
+
+            return state
+        },
+
         addMemberToProject: (state, action: PayloadAction<{ _pid: any; value: Member }>) => {
             state.map((value, index) => {
                 if (value._id === action.payload._pid) {
@@ -44,5 +54,5 @@ const projects = createSlice({
 })
 
 const { reducer, actions } = projects
-export const { list, add, addMemberToProject, deleteMemberToProject } = actions
+export const { list, add, patchOneProject, addMemberToProject, deleteMemberToProject } = actions
 export default reducer

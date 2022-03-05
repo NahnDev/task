@@ -105,7 +105,7 @@ const projectsApi = {
 
     patchProjects: (_pid: string, data: DataProject) => {
         const url = `/projects/${_pid}`
-        return axiosClient.patch(url, data)
+        return axiosClient.patch<any, Project>(url, data)
     },
 
     deleteProjects: (_pid: string) => {
