@@ -8,6 +8,9 @@ import { User } from 'src/user/schemas/user.schema';
 @Schema()
 export class Member {
   @ApiProperty()
+  _id: string;
+
+  @ApiProperty()
   @Prop({
     type: SchemaTypes.ObjectId,
     ref: 'User',

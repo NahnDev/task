@@ -8,6 +8,7 @@ import { User } from 'src/user/schemas/user.schema';
 import { CreateMemberDto } from './dto/create-member.dto';
 import { UpdateMemberDto } from './dto/update-member.dto';
 import { MemberCreatedEvent } from './events/member-created.event';
+import { MemberDeletedEvent } from './events/member-deleted.event';
 import { Member, MemberDoc } from './schemas/member.schema';
 
 @Injectable()
@@ -32,7 +33,7 @@ export class MemberService {
     this.eventEmitter2.emit(
       MemberCreatedEvent.ev,
       new MemberCreatedEvent({
-        mId: memberDoc._id.toHexString(),
+        mId: memberDoc._id,
         actor: actor?._id,
       }),
     );
@@ -69,6 +70,11 @@ export class MemberService {
   }
 
   async remove(project: string, user: string) {
+    const member = await this.findOne(project, user);
+    this.eventEmitter2.emit(
+      MemberDeletedEvent.ev,
+      new MemberDeletedEvent(member),
+    );
     await this.memberModel.remove({ user, project });
   }
 
