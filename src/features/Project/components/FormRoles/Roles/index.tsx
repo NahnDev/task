@@ -18,49 +18,50 @@ function Roles(props: IProps) {
             <Row className={`${props.className}`}>
                 <Col xs={24}>
                     {props.roles.map((value, index) => {
-                        return (
-                            <Row
-                                key={`role-${index}`}
-                                justify="space-between"
-                                align="middle"
-                                className={`${props.className}--item`}
-                            >
-                                <div className={`${props.className}--name`}>
-                                    <span>{value.name}</span>
-                                    <div>
-                                        {value.permission.length === 8 ? (
-                                            <Tag key={`tag-all`} color="lime">
-                                                ALL
-                                            </Tag>
-                                        ) : (
-                                            value.permission.map((value, index) => {
-                                                return (
-                                                    <Tag
-                                                        key={`tag-${index}`}
-                                                        color="lime"
-                                                        style={{
-                                                            marginRight: 3,
-                                                            marginBottom: 3,
-                                                            fontSize: '0.6rem',
-                                                        }}
-                                                    >
-                                                        {value}
-                                                    </Tag>
-                                                )
-                                            })
-                                        )}
+                        if (!value.default)
+                            return (
+                                <Row
+                                    key={`role-${index}`}
+                                    justify="space-between"
+                                    align="middle"
+                                    className={`${props.className}--item`}
+                                >
+                                    <div className={`${props.className}--name`}>
+                                        <span>{value.name}</span>
+                                        <div>
+                                            {value.permission.length === 8 ? (
+                                                <Tag key={`tag-all`} color="lime">
+                                                    ALL
+                                                </Tag>
+                                            ) : (
+                                                value.permission.map((value, index) => {
+                                                    return (
+                                                        <Tag
+                                                            key={`tag-${index}`}
+                                                            color="lime"
+                                                            style={{
+                                                                marginRight: 3,
+                                                                marginBottom: 3,
+                                                                fontSize: '0.6rem',
+                                                            }}
+                                                        >
+                                                            {value}
+                                                        </Tag>
+                                                    )
+                                                })
+                                            )}
+                                        </div>
                                     </div>
-                                </div>
-                                {!value.default && (
-                                    <button
-                                        className={`${props.className}--btn`}
-                                        onClick={() => props.handleDelete(value)}
-                                    >
-                                        <props.icon />
-                                    </button>
-                                )}
-                            </Row>
-                        )
+                                    {!value.default && (
+                                        <button
+                                            className={`${props.className}--btn`}
+                                            onClick={() => props.handleDelete(value)}
+                                        >
+                                            <props.icon />
+                                        </button>
+                                    )}
+                                </Row>
+                            )
                     })}
                 </Col>
             </Row>

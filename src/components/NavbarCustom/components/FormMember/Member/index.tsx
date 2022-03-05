@@ -4,6 +4,7 @@ import { randomColorAvatar } from '../../../../../functions/global'
 import { User } from '../../../../../types/global'
 
 type IProps = {
+    projectAuthor: string
     value: User
     type: 'add' | 'delete'
     handleMember: Function
@@ -14,7 +15,7 @@ type IProps = {
 const content = CONTENT_PROJECT.formMember
 
 function MemberItem(props: IProps) {
-    const { className, value, type, handleMember } = props
+    const { className, value, type, handleMember, projectAuthor } = props
 
     return (
         <Row align="middle" className={`${className}-item`}>
@@ -36,14 +37,16 @@ function MemberItem(props: IProps) {
                 <span>{value.email}</span>
             </Col>
 
-            <Col xs={2}>
-                <button
-                    onClick={() => handleMember(value._id, type)}
-                    className={`${className}-btn`}
-                >
-                    {type === 'add' ? <content.btnSubmit /> : <content.btnDelete />}
-                </button>
-            </Col>
+            {projectAuthor !== value._id && (
+                <Col xs={2}>
+                    <button
+                        onClick={() => handleMember(value._id, type)}
+                        className={`${className}-btn`}
+                    >
+                        {type === 'add' ? <content.btnSubmit /> : <content.btnDelete />}
+                    </button>
+                </Col>
+            )}
         </Row>
     )
 }

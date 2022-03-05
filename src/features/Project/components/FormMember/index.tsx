@@ -21,15 +21,24 @@ const className = classProject.member
 function FormMember(props: IProps) {
     const dispatch = useDispatch()
     const project: Project = useSelector((state: any) => state.project)
+    const user: User = useSelector((state: any) => state.user)
 
-    const [userSearch, setUserSearch] = useState<Array<User>>()
+    const [userSearch, setUserSearch] = useState<Array<any>>()
     const findUser = async (mail: string) => {
         try {
             const response: Array<User> = await userApi.getUser(mail)
 
-            if (response.length === 0) openNotificationWithIcon('warning', "Can't find user!", '')
+            if (response.length === 0) {
+                openNotificationWithIcon('warning', "Can't find user!", '')
+            } else {
+                let arr = []
+                for (const user of response) {
+                    let filter = project.members.filter((item) => item.user._id === user._id)
+                    arr.push({ ...user, visible: filter.length === 0 ? true : false })
+                }
 
-            setUserSearch(response)
+                setUserSearch(arr)
+            }
         } catch (error: any) {
             console.log(error)
         }
@@ -80,15 +89,17 @@ function FormMember(props: IProps) {
                         {userSearch &&
                             userSearch.length > 0 &&
                             userSearch.map((value, index) => {
-                                return (
-                                    <MemberItem
-                                        key={`member-project-${index}`}
-                                        className={`${className}`}
-                                        value={value}
-                                        type={'add'}
-                                        handleMember={handleMember}
-                                    />
-                                )
+                                if (user._id !== value._id && value.visible)
+                                    return (
+                                        <MemberItem
+                                            projectAuthor={project.author}
+                                            key={`member-project-${index}`}
+                                            className={`${className}`}
+                                            value={value}
+                                            type={'add'}
+                                            handleMember={handleMember}
+                                        />
+                                    )
                             })}
                     </Col>
                 </Row>
@@ -96,15 +107,17 @@ function FormMember(props: IProps) {
 
             <Col xs={12} className={`${className}-list`}>
                 {project.members.map((value, index) => {
-                    return (
-                        <MemberItem
-                            key={`member-project-${index}`}
-                            className={`${className}`}
-                            value={value.user}
-                            type={'delete'}
-                            handleMember={handleMember}
-                        />
-                    )
+                    if (user._id !== value.user._id)
+                        return (
+                            <MemberItem
+                                projectAuthor={project.author}
+                                key={`member-project-${index}`}
+                                className={`${className}`}
+                                value={value.user}
+                                type={'delete'}
+                                handleMember={handleMember}
+                            />
+                        )
                 })}
             </Col>
         </Row>
