@@ -37,6 +37,7 @@ const user = createSlice({
 
         setSignOut: (state, action: PayloadAction<any>) => {
             state = action.payload
+            localStorage.clear()
             return state
         },
     },

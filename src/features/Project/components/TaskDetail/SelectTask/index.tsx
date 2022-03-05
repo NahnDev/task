@@ -62,8 +62,10 @@ function SelectTask(props: SelectTaskProps) {
                 bordered={false}
                 className={`${props.className}--input`}
                 value={defaultValues}
-                onChange={(value) => setDefaultValues(value)}
-                onBlur={() => props.changeAssignee(defaultValues, 'assignee', 'add')}
+                onChange={(value) => {
+                    setDefaultValues(value)
+                    props.changeAssignee(value[value.length - 1], 'assignee', 'add')
+                }}
                 tagRender={tagRender}
             >
                 {options.map((value: any) => {

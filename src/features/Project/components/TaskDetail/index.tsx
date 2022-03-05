@@ -92,8 +92,8 @@ function TaskDetail(props: IProps) {
 
     const deleteAssignee = async (pid: string, id: string, uid: string) => {
         try {
-            const response = await projectsApi.deleteAssigneeTasks(pid, id, uid)
-            getTask(pid, id)
+            const response: Task = await projectsApi.deleteAssigneeTasks(pid, id, uid)
+            setTask(response)
         } catch (error: any) {
             console.log(error)
         }
@@ -113,9 +113,7 @@ function TaskDetail(props: IProps) {
                     if (status === 'delete') {
                         deleteAssignee(params.id, id, value)
                     } else {
-                        for (const assignee of value) {
-                            postAssignee(params.id, id, { member: assignee })
-                        }
+                        postAssignee(params.id, id, { member: value })
                     }
 
                     break
@@ -141,8 +139,6 @@ function TaskDetail(props: IProps) {
     useEffect(() => {
         setTask(props.task)
     }, [props.task])
-
-    console.log(task)
 
     return (
         <Row>

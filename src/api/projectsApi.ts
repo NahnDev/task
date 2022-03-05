@@ -63,7 +63,7 @@ const projectsApi = {
 
     deleteAssigneeTasks: (_pid: string, _id: string, _uid: string) => {
         const url = `/projects/${_pid}/tasks/${_id}/assignee/${_uid}`
-        return axiosClient.delete(url)
+        return axiosClient.delete<any, Task>(url)
     },
 
     // Member
