@@ -6,6 +6,8 @@ import { list } from '../../app/projectsSlice'
 import { classComponent } from '../../constants/className'
 import { TProps } from '../../types/auth'
 import { Project } from '../../types/global'
+import ModalCustom from '../ModalCustom'
+import FormMember from './components/FormMember'
 import Help from './components/Help'
 import Logo from './components/Logo'
 import Navigate from './components/Navigate'
@@ -16,6 +18,9 @@ const className = classComponent.navbarCustom
 
 function NavbarCustom(props: TProps) {
     const projects: Array<Project> = useSelector((state: any) => state.projects) || []
+    const [visible, setVisible] = useState<boolean>(false)
+    const [pidFocus, setPidFocus] = useState<string>('')
+
     const dispatch = useDispatch()
 
     const getProjects = async () => {
@@ -49,6 +54,10 @@ function NavbarCustom(props: TProps) {
                                 return (
                                     <ProjectElement
                                         key={`project-${index}`}
+                                        handleInvite={(value: string) => {
+                                            setPidFocus(value)
+                                            setVisible(true)
+                                        }}
                                         className={`${className}__projects--item`}
                                         value={value}
                                     />
@@ -59,6 +68,16 @@ function NavbarCustom(props: TProps) {
 
                 <Help className={`${className}__help`} />
             </Col>
+
+            <ModalCustom
+                loading={false}
+                contentModal={<FormMember pid={pidFocus} />}
+                visible={visible}
+                closeModal={(value: boolean) => {
+                    setVisible(value)
+                }}
+                title={'Members'}
+            />
         </Row>
     )
 }
