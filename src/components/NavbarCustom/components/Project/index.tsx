@@ -48,7 +48,6 @@ function Project(props: TProps) {
                         </Avatar.Group>
                     </Col>
                     <Col
-                        xs={12}
                         className={`${props.className}--btn-invite`}
                         onClick={() => props.handleInvite(props.value._id)}
                     >
