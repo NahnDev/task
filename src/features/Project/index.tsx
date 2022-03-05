@@ -18,6 +18,7 @@ import { openNotificationWithIcon } from '../../functions/global'
 import { Project, Task } from '../../types/global'
 import FormMember from './components/FormMember'
 import FormRoles from './components/FormRoles'
+import FormSetRole from './components/FormSetRole'
 import FormTask from './components/FormTask'
 import TaskDetail from './components/TaskDetail'
 import Tasks from './components/Tasks'
@@ -147,6 +148,11 @@ function ProjectPage(props: IProps) {
             case 'add-roles':
                 temp = <FormRoles />
                 title = 'Roles'
+
+                break
+            case 'set-role':
+                temp = <FormSetRole />
+                title = 'Set Role for Members'
 
                 break
             default:

@@ -20,6 +20,7 @@ import {
     CloseOutlined,
     SettingOutlined,
     LogoutOutlined,
+    UserSwitchOutlined,
 } from '@ant-design/icons'
 import Images from './images'
 
@@ -65,6 +66,7 @@ export const CONTENT_COMPONENT = {
             { key: 'add-task', text: 'Add Task', icon: PlusCircleOutlined },
             { key: 'add-member', text: 'Add Member', icon: UserAddOutlined },
             { key: 'add-roles', text: 'Add Roles', icon: UsergroupAddOutlined },
+            { key: 'set-role', text: 'Set Role', icon: UserSwitchOutlined },
             { key: 'delete-project', text: 'Delete Project', icon: DeleteOutlined },
         ],
 
@@ -221,6 +223,28 @@ export const CONTENT_PROJECT = {
         ],
     },
 
+    formSetRole: {
+        title: 'Add Role',
+        btnSubmit: 'Add Role',
+        iconDeleteRole: DeleteOutlined,
+
+        fieldsName: {
+            name: 'member',
+            label: 'Name Member *',
+            type: 'text',
+        },
+
+        optionsPermission: [
+            { _id: 'UPDATE', name: 'Update' },
+            { _id: 'DELETE', name: 'Delete' },
+            { _id: 'TASK_MANAGE', name: 'Task Manage' },
+            { _id: 'ROLE_MANAGE', name: 'Role Manage' },
+            { _id: 'MEMBER_MANAGE', name: 'Member Manage' },
+            { _id: 'MESSAGE_VIEW', name: 'Message View' },
+            { _id: 'MESSAGE_SEND', name: 'Message Send' },
+            { _id: 'FILE_MANAGE', name: 'File Manage' },
+        ],
+    },
     tasks: {
         iconBtnAdd: PlusOutlined,
         textBtnAdd: 'Add new task',

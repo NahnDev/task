@@ -29,5 +29,6 @@ export const classProject = {
     form: 'project__form',
     member: 'project__member',
     roles: 'project__roles',
+    setRoles: 'project__set-role',
     task: 'project__task',
 }
