@@ -19,6 +19,7 @@ type IProps = {
 
     changeTask: Function
     memberProject: Array<any>
+    setVisibleDrawer: Function
 }
 
 const className = classProject.task
@@ -43,6 +44,16 @@ function TaskDetail(props: IProps) {
                 props.changeTask()
                 getTask(pid, id)
             }
+        } catch (error: any) {
+            console.log(error)
+        }
+    }
+
+    const deleteTask = async (pid: string, id: string) => {
+        try {
+            const response = await projectsApi.deleteTasks(pid, id)
+            props.changeTask()
+            props.setVisibleDrawer()
         } catch (error: any) {
             console.log(error)
         }
@@ -121,6 +132,9 @@ function TaskDetail(props: IProps) {
                     data.expires = Number(moment(value).utc().format('x'))
                     patchTask(params.id, id, data)
                     break
+                case 'delete-task':
+                    deleteTask(params.id, value)
+                    break
                 default:
                     break
             }
@@ -148,6 +162,7 @@ function TaskDetail(props: IProps) {
                     icon={props.icon}
                     task={task}
                     changeName={change}
+                    handleTask={change}
                 />
                 <SelectTask
                     className={`${className}-field`}

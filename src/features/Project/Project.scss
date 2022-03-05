@@ -126,7 +126,22 @@
                 width: 10%;
                 text-align: center;
                 font-size: 1.5rem;
-                cursor: pointer;
+
+                &-delete {
+                    padding: 0.25rem 0.6rem;
+                    font-size: 1.25rem;
+                    border-radius: 50%;
+
+                    transition: all 750ms;
+                    cursor: pointer;
+
+                    &:hover,
+                    &:focus,
+                    &:active {
+                        background-color: $color_vivid_tangerine;
+                        transition: all 750ms;
+                    }
+                }
             }
 
             &--input {

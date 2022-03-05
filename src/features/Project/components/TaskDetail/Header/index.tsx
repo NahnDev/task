@@ -9,8 +9,8 @@ type IProps = {
     icon: string
     task: Task
     changeName: Function
+    handleTask: Function
 }
-const className = classProject.task
 const content = CONTENT_PROJECT.tasks
 
 function HeaderTask(props: IProps) {
@@ -34,7 +34,10 @@ function HeaderTask(props: IProps) {
                 onBlur={() => props.changeName(valueInput, 'name')}
                 bordered={false}
             />
-            <span className={`${props.className}--icon`}>
+            <span
+                className={`${props.className}--icon-delete`}
+                onClick={() => props.handleTask(props.task._id, 'delete-task')}
+            >
                 <content.iconDeleteTask />
             </span>
         </Row>

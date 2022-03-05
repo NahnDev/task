@@ -166,6 +166,7 @@ function ProjectPage(props: IProps) {
                     getTasks(params.id)
                 }}
                 memberProject={project.members}
+                setVisibleDrawer={() => setVisibleDrawer(false)}
             />
         )
     }
