@@ -36,14 +36,17 @@ function SelectTask(props: SelectTaskProps) {
         setDefaultValues(props.task.assignee)
     }, [props.task])
 
-    function tagRender(props: any) {
-        const { label, value, closable, onClose } = props
+    function tagRender(propsTag: any) {
+        const { label, value, closable, onClose } = propsTag
 
         return (
             <Tag
                 color={randomColorAvatar(value)}
                 closable={closable}
-                onClose={onClose}
+                onClose={() => {
+                    onClose()
+                    props.changeAssignee(value, 'assignee', 'delete')
+                }}
                 style={{ marginRight: 3 }}
             >
                 {label}
@@ -60,7 +63,7 @@ function SelectTask(props: SelectTaskProps) {
                 className={`${props.className}--input`}
                 value={defaultValues}
                 onChange={(value) => setDefaultValues(value)}
-                onBlur={() => props.changeAssignee(defaultValues, 'assignee')}
+                onBlur={() => props.changeAssignee(defaultValues, 'assignee', 'add')}
                 tagRender={tagRender}
             >
                 {options.map((value: any) => {
