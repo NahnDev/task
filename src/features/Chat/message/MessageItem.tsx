@@ -3,9 +3,10 @@ import UserAvatar from '../../../components/UserAvatar/UserAvatar';
 import { MessageType } from '../../../types/message.type';
 import { borderStyles, colors } from '../../../styles/chat.style';
 import TextMessage from './TextMessage';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../../app/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../../../app/store';
 import { UserType } from '../../../types/user.type';
+import { PeopleAction } from '../../../app/people/people.action';
 
 function makeStyles(me: boolean): { [key: string]: CSSProperties } {
     return {
@@ -26,6 +27,7 @@ function makeStyles(me: boolean): { [key: string]: CSSProperties } {
         avatar: {
             ...borderStyles,
             margin: '0.2',
+            minWidth: 'max-content',
         },
         message: {
             background: me ? colors.highlight : colors.secondary,
@@ -37,17 +39,30 @@ function makeStyles(me: boolean): { [key: string]: CSSProperties } {
     };
 }
 
-export default function MessageItem(prop: { message: MessageType }) {
+export default function MessageItem(props: { message: MessageType }) {
+    const _id = props.message.from;
+    const dispatch = useDispatch();
     const user = useSelector<RootState, UserType>((state) => state.user);
-    const me = prop.message.from === user._id;
+    let sender = useSelector<RootState, UserType>((state) => state.people[props.message.from]);
+    if (!sender) {
+        dispatch(PeopleAction.getOne(_id));
+        sender = { _id, name: '' };
+    }
+    const me = user._id === sender._id;
     const styles = makeStyles(me);
     return (
         <div className="Message" style={styles.root}>
-            <UserAvatar userId={prop.message.from} size="tiny" style={styles.avatar}></UserAvatar>
             <div>
-                <h5 style={styles.name}>{user.name}</h5>
+                <UserAvatar
+                    userId={props.message.from}
+                    size="tiny"
+                    style={styles.avatar}
+                ></UserAvatar>
+            </div>
+            <div>
+                <h5 style={styles.name}>{sender.name}</h5>
                 <div style={styles.message}>
-                    <TextMessage text={prop.message.content.data + ''}></TextMessage>
+                    <TextMessage text={props.message.content.data + ''}></TextMessage>
                 </div>
             </div>
         </div>

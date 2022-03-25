@@ -9,6 +9,7 @@ export class SocketClientFactory {
             segments: T;
         } & Partial<ManagerOptions & SocketOptions>
     ): T {
+        console.log('Create a new socket client');
         if (!SocketClientFactory._socketClient) {
             const socket = io(process.env.REACT_APP_API_URL || 'http://localhost:8080', opts);
             const token = store.getState().auth?.accessToken;

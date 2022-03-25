@@ -7,6 +7,7 @@ import { messageReducer } from './message/message.reducer';
 import { notifyReducer } from './notify/notify.reducer';
 import { roomReducer } from './room/room.reducer';
 import { authReducer } from './auth/auth.reducer';
+import peopleReducer from './people/people.reducer';
 
 const rootReducer = {
     user: userReducer,
@@ -16,6 +17,7 @@ const rootReducer = {
     projects: projectsReducer,
     project: projectReducer,
     auth: authReducer,
+    people: peopleReducer,
 };
 
 const store = configureStore({

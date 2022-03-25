@@ -1,5 +1,6 @@
 import axios from 'axios';
 import queryString from 'query-string';
+import { socketClient } from '../socket/socket.client';
 import { Token } from '../types/global';
 
 // const refreshToken = async (token: any) => {
@@ -25,6 +26,7 @@ async function refreshToken(refreshToken: string) {
         expires: response.data.expires,
     };
     refreshing = false;
+    socketClient.auth.verify(newToken.accessToken);
     localStorage.setItem('token', JSON.stringify(newToken));
     localStorage.setItem('_id', response.data.user._id);
 }

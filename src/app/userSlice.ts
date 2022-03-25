@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { socketClient } from '../socket/socket.client';
 import { User } from '../types/global';
 
 const isLogin: boolean = localStorage.getItem('token') ? true : false;
@@ -23,6 +24,7 @@ const user = createSlice({
                 expires: action.payload.expires,
             };
 
+            socketClient.auth.verify(token.accessToken);
             localStorage.setItem('token', JSON.stringify(token));
             localStorage.setItem('_id', action.payload.user._id);
 
