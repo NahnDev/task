@@ -1,0 +1,32 @@
+.over-text {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.ant-modal-form-item {
+  color: #ffffff;
+}
+
+.ant-modal-header {
+  background-color: #2e2e30;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  border-bottom: 2px solid #505051;
+}
+
+.ant-modal-title, .ant-modal-close {
+  color: #ffffff;
+}
+
+.ant-modal-title:hover, .ant-modal-title:focus, .ant-modal-title:active, .ant-modal-close:hover, .ant-modal-close:focus, .ant-modal-close:active {
+  color: #ffffff;
+}
+
+.ant-modal-content {
+  color: #ffffff;
+  background-color: #2e2e30;
+  border: 2px solid #505051;
+  border-radius: 15px;
+}
+/*# sourceMappingURL=ModalCustom.css.map */

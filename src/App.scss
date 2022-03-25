@@ -72,3 +72,9 @@ label {
         height: 100vh;
     }
 }
+
+.Chat input {
+    &:focus {
+        box-shadow: none;
+    }
+}

@@ -1,0 +1,130 @@
+.over-text {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.navbar {
+  height: 100%;
+  width: 100%;
+  background-color: #2e2e30;
+}
+
+.navbar__logo {
+  height: 12.5%;
+  padding: 1.5rem 1rem;
+}
+
+.navbar__logo--img > img {
+  width: 8rem;
+  height: 2rem;
+  -o-object-fit: contain;
+     object-fit: contain;
+}
+
+.navbar__logo--icon {
+  padding: 0.2rem 0.6rem;
+  color: #ffffff;
+  font-size: 1.25rem;
+  border-radius: 50%;
+  cursor: pointer;
+  -webkit-transition: all 750ms;
+  transition: all 750ms;
+}
+
+.navbar__logo--icon:hover, .navbar__logo--icon:active, .navbar__logo--icon:focus {
+  background-color: #ffb399;
+  -webkit-transition: all 750ms;
+  transition: all 750ms;
+}
+
+.navbar__navigate {
+  height: 32.5%;
+  border-bottom: 1px solid #ffb399;
+}
+
+.navbar__navigate--link {
+  width: 100%;
+  padding: 0.75rem 2.5rem;
+  letter-spacing: 2px;
+  border-top: 1px solid #2e2e30;
+  font-size: 1rem;
+  color: #ffffff;
+  -webkit-transition: all 750ms;
+  transition: all 750ms;
+}
+
+.navbar__navigate--link.active {
+  background-color: #ffb399;
+}
+
+.navbar__navigate--link:hover, .navbar__navigate--link:active, .navbar__navigate--link:focus {
+  color: #ffffff;
+  background-color: #ffb399;
+  -webkit-transition: all 750ms;
+  transition: all 750ms;
+}
+
+.navbar__navigate--icon {
+  margin-right: 0.6rem;
+}
+
+.navbar__projects {
+  height: 47.5vh;
+  padding: 1rem;
+  border-bottom: 1px solid #ffb399;
+}
+
+.navbar__projects--title {
+  color: #ffffff;
+  font-size: 1.1rem;
+  letter-spacing: 2px;
+  font-weight: 700;
+}
+
+.navbar__projects--list {
+  height: 90%;
+  overflow: auto;
+}
+
+.navbar__projects--item {
+  margin: 0.5rem 0;
+  padding: 1rem 1.5rem;
+  color: #ffffff;
+  border: 2px solid #505051;
+  border-radius: 15px;
+}
+
+.navbar__projects--item--title {
+  letter-spacing: 1px;
+  margin-bottom: 0.75rem;
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.navbar__projects--item--btn-invite {
+  padding: 0.25rem 0.75rem;
+  border-radius: 10px;
+  cursor: pointer;
+  -webkit-transition: all 750ms;
+  transition: all 750ms;
+}
+
+.navbar__projects--item--btn-invite:hover, .navbar__projects--item--btn-invite:focus, .navbar__projects--item--btn-invite:active {
+  background-color: #ffb399;
+  -webkit-transition: all 750ms;
+  transition: all 750ms;
+}
+
+.navbar__help {
+  color: #ffffff;
+  font-size: 1.1rem;
+  height: 7.5%;
+}
+
+.navbar__help--icon {
+  margin-right: 1rem;
+}
+/*# sourceMappingURL=NavbarCustom.css.map */

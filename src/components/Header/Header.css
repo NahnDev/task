@@ -1,0 +1,76 @@
+.over-text {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.header {
+  height: 12.5vh;
+  padding: 0 3rem;
+  color: #ffffff;
+  background-color: #1e1f21;
+  border-bottom: 2px solid #505051;
+}
+
+.header__title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  cursor: pointer;
+}
+
+.header__title--icon {
+  padding: 0 1rem;
+  font-size: 0.8rem;
+}
+
+.header__title--input {
+  max-width: 80%;
+  color: #ffffff;
+  border-bottom: 2px solid #1e1f21;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.header__title--input:focus, .header__title--input:hover, .header__title--input:active {
+  -webkit-transition: all 750ms;
+  transition: all 750ms;
+  border-bottom: 2px solid #ffb399;
+}
+
+.header__navigate {
+  margin-top: 0.5rem;
+  margin-bottom: -1rem;
+  letter-spacing: 2px;
+}
+
+.header__navigate--link {
+  margin-right: 1.25rem;
+  padding-bottom: 0.25rem;
+  border-bottom: 2px solid #1e1f21;
+  -webkit-transition: all 750ms;
+  transition: all 750ms;
+}
+
+.header__navigate--link.active, .header__navigate--link:hover, .header__navigate--link:active, .header__navigate--link:focus {
+  border-color: #ffb399;
+}
+
+.header__search {
+  margin: 0 0.5rem;
+}
+
+.header__detail--btn {
+  margin: 0 0.5rem;
+  padding: 0.1rem 0.4rem;
+  font-size: 1.1rem;
+  border-radius: 50%;
+  background-color: #ffb399;
+}
+
+.header__detail--name, .header__detail--avatar {
+  cursor: pointer;
+  margin: 0 0.5rem;
+  letter-spacing: 1px;
+}
+/*# sourceMappingURL=Header.css.map */

@@ -1,10 +1,12 @@
-import React from 'react'
-import { SignIn, SignUp } from '../features/Auth/pages'
-import { Messages, Notification } from '../features/Inbox/pages'
+import React from 'react';
+import { SignIn, SignUp } from '../features/Auth/pages';
+import ChatScreen from '../features/Chat/ChatScreen';
+import { Messages, Notification } from '../features/Inbox/pages';
 
-const Home = React.lazy(() => import('../features/Home'))
-const Inbox = React.lazy(() => import('../features/Inbox'))
-const Project = React.lazy(() => import('../features/Project'))
+const Home = React.lazy(() => import('../features/Home'));
+const Inbox = React.lazy(() => import('../features/Inbox'));
+const Project = React.lazy(() => import('../features/Project'));
+const Chat = React.lazy(() => import('../features/Chat/ChatScreen'));
 
 export const ROUTER_MAIN = [
     {
@@ -25,7 +27,8 @@ export const ROUTER_MAIN = [
         role: ['USER'],
         isLogin: true,
     },
-]
+    { path: 'chat', component: Chat, role: ['USER'], isLogin: true },
+];
 
 export const ROUTER_AUTH = [
     {
@@ -38,12 +41,13 @@ export const ROUTER_AUTH = [
         component: SignUp,
         isLogin: false,
     },
-]
+];
 
 export const ROUTER_INBOX = [
+    { path: 'messages', component: ChatScreen, isLogin: false },
     {
-        path: 'messages',
-        component: Messages,
+        path: 'messages/:rId',
+        component: ChatScreen,
         isLogin: false,
     },
     {
@@ -51,4 +55,4 @@ export const ROUTER_INBOX = [
         component: Notification,
         isLogin: false,
     },
-]
+];

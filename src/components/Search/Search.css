@@ -1,0 +1,17 @@
+.over-text {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.search {
+  padding: 0rem 1rem;
+  border: 2px solid #505051;
+  border-radius: 20px;
+}
+
+.search__icon {
+  padding: 0.2rem 0.25rem 0 0;
+  font-size: 1.1rem;
+}
+/*# sourceMappingURL=Search.css.map */

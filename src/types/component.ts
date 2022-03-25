@@ -1,5 +1,6 @@
-import { FormEventHandler } from 'react'
+import { CSSProperties, FormEventHandler } from 'react';
 
 export type TProps = {
-    className: string
-}
+    className?: string;
+    style?: CSSProperties;
+};

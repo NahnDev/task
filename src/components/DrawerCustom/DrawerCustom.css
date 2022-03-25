@@ -1,0 +1,16 @@
+.over-text {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.ant-drawer-content {
+  position: absolute;
+  top: 12.5vh;
+  right: 0;
+  background-color: #2e2e30;
+  border-left: 2px solid #505051;
+  border-top: 2px solid #505051;
+  color: #ffffff;
+}
+/*# sourceMappingURL=DrawerCustom.css.map */

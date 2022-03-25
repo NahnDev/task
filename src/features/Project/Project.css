@@ -1,0 +1,383 @@
+.over-text, .project__list-tasks--task-name, .project__member-item--desc > span, .project__set-role--member-item--desc > span {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.project__list {
+  width: 67.5rem;
+  overflow-x: hidden;
+}
+
+.project__list--scroll {
+  width: 100rem;
+}
+
+.project__list-tasks {
+  display: inline-block;
+  color: #ffffff;
+  width: 22.5rem;
+  padding: 1rem 3rem;
+}
+
+.project__list-tasks--title {
+  padding: 1rem 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.project__list-tasks--tasks {
+  max-height: 30rem;
+  overflow: auto;
+}
+
+.project__list-tasks--task {
+  margin: 0.5rem 0;
+  padding: 1rem 1.25rem;
+  background-color: #2e2e30;
+  border: 2px solid #505051;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.project__list-tasks--task-name {
+  font-size: 1rem;
+}
+
+.project__list-tasks--task-icon {
+  padding: 0 0.35rem;
+  font-size: 1.25rem;
+  border-radius: 50%;
+  -webkit-transition: all 750ms;
+  transition: all 750ms;
+  cursor: pointer;
+}
+
+.project__list-tasks--task-icon:hover, .project__list-tasks--task-icon:focus, .project__list-tasks--task-icon:active {
+  background-color: #ffb399;
+  -webkit-transition: all 750ms;
+  transition: all 750ms;
+}
+
+.project__list-tasks--task-time {
+  margin: 0 0.5rem;
+  font-size: 0.8rem;
+  font-style: italic;
+}
+
+.project__list-tasks--btn {
+  padding: 1rem;
+  cursor: pointer;
+}
+
+.project__list-tasks--btn-icon {
+  padding: 0.75rem 1rem;
+  margin: 0 0.5rem;
+  border: 2px dashed #ffffff;
+  border-radius: 15px;
+}
+
+.project__form--field {
+  color: #ffffff;
+}
+
+.project__form--field-label {
+  color: #ffffff;
+}
+
+.project__form--field-input-field {
+  color: #ffffff;
+  border-bottom: 1px solid #ffb399;
+}
+
+.project__form--field-input-field:hover, .project__form--field-input-field:focus, .project__form--field-input-field:active {
+  border-bottom: 1px solid #ffb399;
+}
+
+.project__form--btn {
+  padding: 0.5rem 0;
+  border-radius: 10px;
+  -webkit-transition: all 750ms;
+  transition: all 750ms;
+  cursor: pointer;
+}
+
+.project__form--btn:hover, .project__form--btn:focus, .project__form--btn:active {
+  background-color: #ffb399;
+  -webkit-transition: all 750ms;
+  transition: all 750ms;
+}
+
+.project__form--btn-content {
+  width: 100%;
+}
+
+.project__task-header {
+  padding-bottom: 1rem;
+}
+
+.project__task-header--icon {
+  width: 10%;
+  text-align: center;
+  font-size: 1.5rem;
+}
+
+.project__task-header--icon-delete {
+  padding: 0.25rem 0.6rem;
+  font-size: 1.25rem;
+  border-radius: 50%;
+  -webkit-transition: all 750ms;
+  transition: all 750ms;
+  cursor: pointer;
+}
+
+.project__task-header--icon-delete:hover, .project__task-header--icon-delete:focus, .project__task-header--icon-delete:active {
+  background-color: #ffb399;
+  -webkit-transition: all 750ms;
+  transition: all 750ms;
+}
+
+.project__task-header--input {
+  width: 80%;
+  color: #ffffff;
+  border-bottom: 2px solid #2e2e30;
+  font-size: 1.25rem;
+}
+
+.project__task-header--input:focus, .project__task-header--input:hover, .project__task-header--input:active {
+  border-bottom: 2px solid #ffb399;
+  -webkit-transition: all 750ms;
+  transition: all 750ms;
+}
+
+.project__task-field {
+  padding: 0.25rem 2rem;
+}
+
+.project__task-field--label {
+  width: 35%;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.project__task-field--input {
+  width: 65%;
+  color: #ffffff;
+  background-color: #2e2e30;
+  border: none;
+  border-bottom: 1px solid #2e2e30;
+}
+
+.project__task-field--input:focus, .project__task-field--input:hover, .project__task-field--input:active {
+  -webkit-transition: all 750ms;
+  transition: all 750ms;
+  border-bottom: 1px solid #ffb399;
+}
+
+.project__task-field--area {
+  width: 65%;
+  color: #ffffff;
+  background-color: #2e2e30;
+  border: 1px solid #2e2e30;
+  border-radius: 10px;
+}
+
+.project__task-field--area:focus, .project__task-field--area:hover, .project__task-field--area:active {
+  -webkit-transition: all 750ms;
+  transition: all 750ms;
+  border: 1px solid #ffb399;
+}
+
+.project__task-subtask {
+  padding: 0.25rem 2rem;
+}
+
+.project__task-subtask--btn {
+  padding: 0.2rem 1rem;
+  margin-bottom: 0.75rem;
+  border: 1px solid #505051;
+  border-radius: 10px;
+  -webkit-transition: all 750ms;
+  transition: all 750ms;
+}
+
+.project__task-subtask--btn:hover, .project__task-subtask--btn:active, .project__task-subtask--btn:focus {
+  border: 1px solid #ffb399;
+  background-color: #ffb399;
+  -webkit-transition: all 750ms;
+  transition: all 750ms;
+}
+
+.project__task-subtask--title {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.project__task-subtask--list {
+  margin-top: 0.5rem;
+  padding: 0.25rem 1rem;
+  max-height: 30vh;
+  overflow: auto;
+}
+
+.project__task-subtask--item {
+  margin: 0.25rem 0;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #505051;
+}
+
+.project__task-subtask--item > div > span {
+  margin: 0 0.25rem;
+}
+
+.project__task-subtask--icon > span {
+  padding: 0.25rem;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.project__task-subtask--icon > span:hover, .project__task-subtask--icon > span:focus, .project__task-subtask--icon > span:active {
+  background-color: #ffb399;
+  -webkit-transition: all 750ms;
+  transition: all 750ms;
+}
+
+.project__member-search {
+  margin-top: 0.5rem;
+  padding: 0 0.5rem;
+}
+
+.project__member-list {
+  padding: 0 0.5rem;
+  max-height: 17.5rem;
+  overflow: auto;
+}
+
+.project__member-item {
+  margin: 0.5rem 0;
+  padding: 0.75rem;
+  border: 2px solid #505051;
+  border-radius: 15px;
+}
+
+.project__member-item--desc {
+  padding: 0 0.25rem;
+  font-size: 0.8rem;
+}
+
+.project__member-item--desc > span {
+  display: block;
+}
+
+.project__roles-field {
+  padding: 0.25rem 0rem;
+}
+
+.project__roles-field--label {
+  width: 100%;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.project__roles-field--input {
+  width: 100%;
+  color: #ffffff;
+  background-color: #2e2e30;
+  border: none;
+  border-bottom: 1px solid #ffb399;
+}
+
+.project__roles-field--input:focus, .project__roles-field--input:hover, .project__roles-field--input:active {
+  -webkit-transition: all 750ms;
+  transition: all 750ms;
+  border-bottom: 1px solid #ffb399;
+}
+
+.project__roles-btn {
+  margin: 0.5rem 0;
+  padding: 0.4rem 0;
+  width: 100%;
+  border-radius: 10px;
+}
+
+.project__roles-btn:focus, .project__roles-btn:hover, .project__roles-btn:active {
+  -webkit-transition: all 750ms;
+  transition: all 750ms;
+  background-color: #ffb399;
+}
+
+.project__roles-list {
+  padding: 0rem 0.5rem;
+  max-height: 10rem;
+  overflow: auto;
+}
+
+.project__roles-list--title {
+  font-size: 1.1rem;
+}
+
+.project__roles-list--item {
+  margin: 0.25rem 0;
+  padding: 0.25rem 1rem;
+  max-height: 6rem;
+  border: 1px solid #505051;
+  border-radius: 10px;
+}
+
+.project__roles-list--name {
+  width: 90%;
+}
+
+.project__roles-list--btn {
+  padding: 0.25rem 0.55rem;
+  border-radius: 50%;
+  font-size: 1.1rem;
+  -webkit-transition: all 750ms;
+  transition: all 750ms;
+}
+
+.project__roles-list--btn:focus, .project__roles-list--btn:active, .project__roles-list--btn:hover {
+  background-color: #ffb399;
+  -webkit-transition: all 750ms;
+  transition: all 750ms;
+}
+
+.project__set-role {
+  max-height: 15rem;
+  overflow: auto;
+}
+
+.project__set-role-item {
+  border-bottom: 2px solid #505051;
+}
+
+.project__set-role--field {
+  width: 35%;
+  padding: 0.25rem 0rem;
+}
+
+.project__set-role--field--label {
+  width: 100%;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.project__set-role--field--input {
+  width: 100%;
+  color: #ffffff;
+  background-color: #2e2e30;
+  border: none;
+  border-bottom: 1px solid #ffb399;
+}
+
+.project__set-role--member-item {
+  width: 65%;
+  margin: 0.5rem 0;
+  padding: 0.75rem;
+}
+
+.project__set-role--member-item--desc {
+  padding: 0 0.25rem;
+  font-size: 0.9rem;
+}
+
+.project__set-role--member-item--desc > span {
+  display: block;
+}
+/*# sourceMappingURL=Project.css.map */
