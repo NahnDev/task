@@ -1,87 +1,87 @@
-import { Col, Row } from 'antd'
-import { Formik } from 'formik'
-import moment from 'moment'
-import { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { useParams } from 'react-router-dom'
-import projectsApi from '../../api/projectsApi'
-import { add } from '../../app/projectSlice'
-import { patchOneProject } from '../../app/projectsSlice'
-import DrawerCustom from '../../components/DrawerCustom'
-import Header from '../../components/Header'
-import ModalCustom from '../../components/ModalCustom'
-import { classLayout, classProject } from '../../constants/className'
-import { CONTENT_PROJECT } from '../../constants/global'
-import { initialValuesFormProjectAddTask } from '../../constants/initialValues'
-import { validateFormProjectAddTask } from '../../constants/validate'
-import { openNotificationWithIcon } from '../../functions/global'
-import { Project, Task } from '../../types/global'
-import FormMember from './components/FormMember'
-import FormRoles from './components/FormRoles'
-import FormSetRole from './components/FormSetRole'
-import FormTask from './components/FormTask'
-import TaskDetail from './components/TaskDetail'
-import Tasks from './components/Tasks'
+import { Col, Row } from 'antd';
+import { Formik } from 'formik';
+import moment from 'moment';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import projectsApi from '../../api/projectsApi';
+import { add } from '../../app/projectSlice';
+import { patchOneProject } from '../../app/projectsSlice';
+import DrawerCustom from '../../components/DrawerCustom';
+import Header from '../../components/Header';
+import ModalCustom from '../../components/ModalCustom';
+import { classLayout, classProject } from '../../constants/className';
+import { CONTENT_PROJECT } from '../../constants/global';
+import { initialValuesFormProjectAddTask } from '../../constants/initialValues';
+import { validateFormProjectAddTask } from '../../constants/validate';
+import { openNotificationWithIcon } from '../../functions/global';
+import { Project, Task } from '../../types/global';
+import FormMember from './components/FormMember';
+import FormRoles from './components/FormRoles';
+import FormSetRole from './components/FormSetRole';
+import FormTask from './components/FormTask';
+import TaskDetail from './components/TaskDetail';
+import Tasks from './components/Tasks';
 
-import './Project.scss'
+import './Project.scss';
 
 type IProps = {
-    className: string
-}
+    className: string;
+};
 
-const content = CONTENT_PROJECT
-const className = classProject.project
+const content = CONTENT_PROJECT;
+const className = classProject.project;
 
 function ProjectPage(props: IProps) {
-    const params: any = useParams()
-    const dispatch = useDispatch()
+    const params: any = useParams();
+    const dispatch = useDispatch();
 
-    const [visible, setVisible] = useState<boolean>(false)
-    const [visibleDrawer, setVisibleDrawer] = useState<boolean>(false)
-    const [contentModal, setContentModal] = useState<any>(<></>)
-    const [contentDrawer, setContentDrawer] = useState<any>(<></>)
+    const [visible, setVisible] = useState<boolean>(false);
+    const [visibleDrawer, setVisibleDrawer] = useState<boolean>(false);
+    const [contentModal, setContentModal] = useState<any>(<></>);
+    const [contentDrawer, setContentDrawer] = useState<any>(<></>);
 
-    const projects: Array<Project> = useSelector((state: any) => state.projects)
-    const project: Project = useSelector((state: any) => state.project)
+    const projects: Array<Project> = useSelector((state: any) => state.projects);
+    const project: Project = useSelector((state: any) => state.project);
 
-    const [tasks, setTasks] = useState<Array<Task>>([])
+    const [tasks, setTasks] = useState<Array<Task>>([]);
 
     const getProject = async (pid: string) => {
         try {
-            const response = await projectsApi.getProjectsDetail(pid)
-            dispatch(add(response))
-            getTasks(pid)
+            const response = await projectsApi.getProjectsDetail(pid);
+            dispatch(add(response));
+            getTasks(pid);
         } catch (error: any) {
-            console.log(error)
+            console.log(error);
         }
-    }
+    };
 
     const patchProject = async (pid: string, value: string) => {
         try {
-            const response = await projectsApi.patchProjects(pid, { name: value })
-            dispatch(add(response))
-            dispatch(patchOneProject({ _pid: pid, value: value }))
+            const response = await projectsApi.patchProjects(pid, { name: value });
+            dispatch(add(response));
+            dispatch(patchOneProject({ _pid: pid, value: value }));
         } catch (error: any) {
-            console.log(error)
+            console.log(error);
         }
-    }
+    };
 
     const getTasks = async (pid: string) => {
         try {
-            const response: Array<Task> = await projectsApi.getTasks(pid)
-            setTasks(response)
+            const response: Array<Task> = await projectsApi.getTasks(pid);
+            setTasks(response);
         } catch (error: any) {
-            console.log(error)
+            console.log(error);
         }
-    }
+    };
 
     const postTask = async (pid: string, data: Task) => {
         try {
             const formData = {
                 name: data.name,
-            }
-            const response_post: Task = await projectsApi.postTasks(pid, formData)
-            const idTask = response_post._id || ''
+            };
+            const response_post: Task = await projectsApi.postTasks(pid, formData);
+            const idTask = response_post._id || '';
 
             if (data.assignee && response_post) {
                 for (const value of data.assignee) {
@@ -89,44 +89,44 @@ function ProjectPage(props: IProps) {
                         pid,
                         idTask,
                         { member: value }
-                    )
+                    );
                 }
 
-                delete data.assignee
+                delete data.assignee;
             }
 
             if (data && response_post) {
-                data.expires = Number(moment(data.expires).utc().format('x'))
+                data.expires = Number(moment(data.expires).utc().format('x'));
 
-                const response_patch: Task = await projectsApi.patchTasks(pid, idTask, data)
+                const response_patch: Task = await projectsApi.patchTasks(pid, idTask, data);
 
                 if (response_patch) {
-                    setVisible(false)
-                    getProject(pid)
-                    openNotificationWithIcon('success', 'Create Task successfully!', '')
+                    setVisible(false);
+                    getProject(pid);
+                    openNotificationWithIcon('success', 'Create Task successfully!', '');
                 }
             }
         } catch (error: any) {
-            console.log(error)
+            console.log(error);
         }
-    }
+    };
 
     const handleSubmit = (value: any, action: string, filter?: string) => {
         switch (action) {
             case 'add-task':
-                postTask(project._id, { ...value, status: filter })
-                break
+                postTask(project._id, { ...value, status: filter });
+                break;
 
             default:
-                break
+                break;
         }
-    }
+    };
 
     const handleActionDropdown = (value: any, filter?: string) => {
-        let temp = <></>
-        let title = ''
+        let temp = <></>;
+        let title = '';
 
-        setVisible(true)
+        setVisible(true);
 
         switch (value) {
             case 'add-task':
@@ -137,62 +137,62 @@ function ProjectPage(props: IProps) {
                         onSubmit={(valueForm) => handleSubmit(valueForm, value, filter)}
                         render={FormTask}
                     />
-                )
-                title = 'Add Task'
-                break
+                );
+                title = 'Add Task';
+                break;
             case 'add-member':
-                temp = <FormMember />
-                title = 'Members'
+                temp = <FormMember />;
+                title = 'Members';
 
-                break
+                break;
             case 'add-roles':
-                temp = <FormRoles />
-                title = 'Roles'
+                temp = <FormRoles />;
+                title = 'Roles';
 
-                break
+                break;
             case 'set-role':
-                temp = <FormSetRole />
-                title = 'Set Role for Members'
+                temp = <FormSetRole />;
+                title = 'Set Role for Members';
 
-                break
+                break;
             default:
-                break
+                break;
         }
 
-        setContentModal({ temp: temp, title: title })
-    }
+        setContentModal({ temp: temp, title: title });
+    };
 
     const handleTask = (value: Task, icon: string) => {
-        setVisibleDrawer(true)
+        setVisibleDrawer(true);
         setContentDrawer(
             <TaskDetail
                 task={value}
                 icon={icon}
                 changeTask={() => {
-                    getTasks(params.id)
+                    getTasks(params.id);
                 }}
                 memberProject={project.members}
                 setVisibleDrawer={() => setVisibleDrawer(false)}
             />
-        )
-    }
+        );
+    };
 
     useEffect(() => {
         if (projects && projects.length > 0) {
             projects.forEach((value) => {
                 if (value._id === params.id) {
-                    getTasks(value._id)
-                    dispatch(add(value))
+                    getTasks(value._id);
+                    dispatch(add(value));
                 }
-            })
+            });
         } else {
-            getProject(params.id)
+            getProject(params.id);
         }
-    }, [params])
+    }, [params]);
 
     useEffect(() => {
-        if (!visible) setContentModal({ temp: <></>, title: '' })
-    }, [visible])
+        if (!visible) setContentModal({ temp: <></>, title: '' });
+    }, [visible]);
 
     return (
         <Row className={`${props.className} ${className}`}>
@@ -219,7 +219,7 @@ function ProjectPage(props: IProps) {
                                     icon={value.icon}
                                     handleTask={handleTask}
                                 />
-                            )
+                            );
                         })}
                     </div>
                 </div>
@@ -228,7 +228,7 @@ function ProjectPage(props: IProps) {
                     contentModal={contentModal.temp}
                     visible={visible}
                     closeModal={(value: boolean) => {
-                        setVisible(value)
+                        setVisible(value);
                     }}
                     title={contentModal.title}
                 />
@@ -240,7 +240,7 @@ function ProjectPage(props: IProps) {
                 />
             </Col>
         </Row>
-    )
+    );
 }
 
-export default ProjectPage
+export default ProjectPage;
