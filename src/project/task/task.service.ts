@@ -95,11 +95,6 @@ export class TaskService {
     for (const subtask of task.subtask_order) {
       await this.remove(pId, subtask._id);
     }
-
-    this.eventEmitter.emit(
-      TaskUpdatedEvent.key,
-      new TaskUpdatedEvent(pId, id, ' deleted'),
-    );
   }
 
   // complete
