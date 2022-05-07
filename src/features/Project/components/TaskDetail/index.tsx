@@ -1,158 +1,175 @@
-import { Col, Row } from 'antd'
-import moment from 'moment'
-import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
-import projectsApi from '../../../../api/projectsApi'
-import { classProject } from '../../../../constants/className'
-import { initialValuesFormProjectAddSubTask } from '../../../../constants/initialValues'
-import { openNotificationWithIcon } from '../../../../functions/global'
-import { Task } from '../../../../types/global'
-import DateTask from './DateTask'
-import HeaderTask from './Header'
-import SelectTask from './SelectTask'
-import SubTask from './SubTask'
-import TextAreaTask from './TextAreaTask'
+import { Col, Row } from 'antd';
+import moment from 'moment';
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import projectsApi from '../../../../api/projectsApi';
+import { classProject } from '../../../../constants/className';
+import { initialValuesFormProjectAddSubTask } from '../../../../constants/initialValues';
+import { openNotificationWithIcon } from '../../../../functions/global';
+import { Task } from '../../../../types/global';
+import DateTask from './DateTask';
+import HeaderTask from './Header';
+import SelectTask from './SelectTask';
+import StatusTask from './StatusTask';
+import SubTask from './SubTask';
+import TextAreaTask from './TextAreaTask';
 
 type IProps = {
-    task: Task
-    icon: string
+    task: Task;
+    icon: string;
 
-    changeTask: Function
-    memberProject: Array<any>
-    setVisibleDrawer: Function
-}
+    changeTask: Function;
+    memberProject: Array<any>;
+    setVisibleDrawer: Function;
+    setLoading: Function;
+};
 
-const className = classProject.task
+const className = classProject.task;
 
 function TaskDetail(props: IProps) {
-    const params: any = useParams()
-    const [task, setTask] = useState<Task>(props.task)
+    const params: any = useParams();
+    const [task, setTask] = useState<Task>(props.task);
 
     const getTask = async (pid: string, id: string) => {
         try {
-            const response: Task = await projectsApi.getTasksDetail(pid, id)
-            setTask(response)
+            const response: Task = await projectsApi.getTasksDetail(pid, id);
+            setTask(response);
         } catch (error: any) {
-            console.log(error)
+            console.log(error);
         }
-    }
+    };
 
     const patchTask = async (pid: string, id: string, data: Task) => {
         try {
-            const response: Task = await projectsApi.patchTasks(pid, id, data)
+            const response: Task = await projectsApi.patchTasks(pid, id, data);
             if (response) {
-                props.changeTask()
-                getTask(pid, id)
+                props.changeTask();
+                getTask(pid, id);
             }
         } catch (error: any) {
-            console.log(error)
+            console.log(error);
         }
-    }
+    };
 
     const deleteTask = async (pid: string, id: string) => {
         try {
-            const response = await projectsApi.deleteTasks(pid, id)
-            props.changeTask()
-            props.setVisibleDrawer()
+            props.setLoading(true);
+
+            const response = await projectsApi.deleteTasks(pid, id);
+            props.changeTask();
+            if (response) {
+                props.setVisibleDrawer(false);
+                props.setLoading(false);
+            }
         } catch (error: any) {
-            console.log(error)
+            console.log(error);
         }
-    }
+    };
 
     const patchSubTask = async (pid: string, id: string, status: string) => {
         try {
             if (status === 'complete') {
-                const response: Task = await projectsApi.patchTasksComplete(pid, id)
-                openNotificationWithIcon('success', 'Task complete!', '')
+                const response: Task = await projectsApi.patchTasksComplete(pid, id);
+                openNotificationWithIcon('success', 'Task complete!', '');
             } else {
-                const response = await projectsApi.deleteTasks(pid, id)
-                openNotificationWithIcon('success', 'Delete Task successfully!', '')
+                const response = await projectsApi.deleteTasks(pid, id);
+                openNotificationWithIcon('success', 'Delete Task successfully!', '');
             }
-            props.changeTask()
-            getTask(pid, task._id || '')
+            props.changeTask();
+            getTask(pid, task._id || '');
         } catch (error: any) {
-            console.log(error)
+            console.log(error);
         }
-    }
+    };
 
     const postSubTask = async (pid: string, id: string, data: Task) => {
         try {
-            const response: Task = await projectsApi.postSubtasks(pid, id, data)
+            const response: Task = await projectsApi.postSubtasks(pid, id, data);
 
             if (response) {
-                props.changeTask()
-                getTask(pid, id)
-                openNotificationWithIcon('success', 'Create Subtask successfully!', '')
+                props.changeTask();
+                getTask(pid, id);
+                openNotificationWithIcon('success', 'Create Subtask successfully!', '');
             }
         } catch (error: any) {
-            console.log(error)
+            console.log(error);
         }
-    }
+    };
 
     const postAssignee = async (pid: string, id: string, data: { member: string }) => {
         try {
-            const response: Task = await projectsApi.postAssigneeTasks(pid, id, data)
+            const response: Task = await projectsApi.postAssigneeTasks(pid, id, data);
             if (response) {
-                props.changeTask()
-                getTask(pid, id)
+                props.changeTask();
+                getTask(pid, id);
             }
         } catch (error: any) {
-            console.log(error)
+            console.log(error);
         }
-    }
+    };
 
     const deleteAssignee = async (pid: string, id: string, uid: string) => {
         try {
-            const response: Task = await projectsApi.deleteAssigneeTasks(pid, id, uid)
-            setTask(response)
+            const response: Task = await projectsApi.deleteAssigneeTasks(pid, id, uid);
+            setTask(response);
         } catch (error: any) {
-            console.log(error)
+            console.log(error);
         }
-    }
+    };
     const change = (value: any, field: any, status?: 'add' | 'delete') => {
-        const id = props.task._id || ''
+        const id = props.task._id || '';
 
         if (value) {
-            let data: any = {}
+            let data: any = {};
             switch (field) {
                 case 'name':
-                    data.name = value
-                    patchTask(params.id, id, data)
+                    data.name = value;
+                    patchTask(params.id, id, data);
 
-                    break
+                    break;
+                case 'status':
+                    data.status = value;
+                    patchTask(params.id, id, data);
+
+                    break;
+                case 'description':
+                    data.description = value;
+                    patchTask(params.id, id, data);
+
+                    break;
                 case 'assignee':
                     if (status === 'delete') {
-                        deleteAssignee(params.id, id, value)
+                        deleteAssignee(params.id, id, value);
                     } else {
-                        postAssignee(params.id, id, { member: value })
+                        postAssignee(params.id, id, { member: value });
                     }
 
-                    break
+                    break;
                 case 'expires':
-                    data.expires = Number(moment(value).utc().format('x'))
-                    patchTask(params.id, id, data)
-                    break
+                    data.expires = Number(moment(value).utc().format('x'));
+                    patchTask(params.id, id, data);
+                    break;
                 case 'delete-task':
-                    deleteTask(params.id, value)
-                    break
+                    deleteTask(params.id, value);
+                    break;
                 default:
-                    break
+                    break;
             }
         }
-    }
+    };
 
     const handleSubTask = (value: Task) => {
-        const id = props.task._id || ''
-        postSubTask(params.id, id, value)
-    }
+        const id = props.task._id || '';
+        postSubTask(params.id, id, value);
+    };
 
     const handleChangeSubtask = (value: any, status: string) => {
-        patchSubTask(params.id, value._id, status)
-    }
+        patchSubTask(params.id, value._id, status);
+    };
 
     useEffect(() => {
-        setTask(props.task)
-    }, [props.task])
+        setTask(props.task);
+    }, [props.task]);
 
     return (
         <Row>
@@ -177,13 +194,18 @@ function TaskDetail(props: IProps) {
                     name={'expires'}
                     changeExpires={change}
                 />
-
+                <StatusTask
+                    className={`${className}-field`}
+                    task={task}
+                    label={'Status'}
+                    changeStatus={change}
+                />
                 <TextAreaTask
                     className={`${className}-field`}
                     task={task}
                     label={'Description'}
-                    name={'expires'}
-                    changeDescription={(value: any) => console.log(value)}
+                    name={'description'}
+                    changeDescription={change}
                 />
 
                 <SubTask
@@ -195,7 +217,7 @@ function TaskDetail(props: IProps) {
                 />
             </Col>
         </Row>
-    )
+    );
 }
 
-export default TaskDetail
+export default TaskDetail;
