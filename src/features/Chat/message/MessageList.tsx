@@ -53,18 +53,22 @@ export default function MessageList(prop: {
         }
     }, [isAutoScroll]);
     useEffect(() => {
+        console.log('Cap nhat tin nhan!');
         if (!messages) return;
         setTimeout(() => {
             setLoadable(true);
         }, 250);
     }, [messages]);
     useEffect(() => {
-        console.log(`${loadMore} - ${loadable}`);
         if (loadMore && loadable) {
             dispatch(MessageAction.loadMessage(prop.rId));
             setTimeout(() => setLoadable(true), 200);
         }
     }, [loadMore, loadable]);
+    useEffect(() => {
+        dispatch(MessageAction.loadMessage(prop.rId));
+        setTimeout(() => setLoadable(true), 200);
+    });
 
     return (
         <div className="MessageList" ref={ref} style={styles.root}>

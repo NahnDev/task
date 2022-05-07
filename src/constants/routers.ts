@@ -2,6 +2,7 @@ import React from 'react';
 import { SignIn, SignUp } from '../features/Auth/pages';
 import ChatScreen from '../features/Chat/ChatScreen';
 import { Messages, Notification } from '../features/Inbox/pages';
+import GoogleLoginPage from '../features/Auth/pages/GoogleLoginPage';
 
 const Home = React.lazy(() => import('../features/Home'));
 const Inbox = React.lazy(() => import('../features/Inbox'));
@@ -39,6 +40,11 @@ export const ROUTER_AUTH = [
     {
         path: 'register',
         component: SignUp,
+        isLogin: false,
+    },
+    {
+        path: 'google-login',
+        component: GoogleLoginPage,
         isLogin: false,
     },
 ];
