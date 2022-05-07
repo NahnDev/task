@@ -13,10 +13,12 @@ export class MailService {
       })
       .then();
   }
+
   sendActiveEmail(to: string, link: string) {
+    console.log(`Send email to ${to} : ${link}`);
     this.mailer.sendMail({
       to,
-      from: 'NLN OT task <thanhnhan.mientay@gmail.com>',
+      from: 'NLN OT task <nhan.thanhnhan@gmail.com>',
       subject: 'Verify account ',
       html: ` <div> Link co han day, bao lau quen roi: <a href="${link}"> Nhan vao day</a></div>`,
     });

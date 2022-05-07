@@ -130,6 +130,8 @@ export class AuthService {
 
   async register(createUserDto: CreateUserDto): Promise<User> {
     const user = await this.userService.create(createUserDto);
+    console.log('Chuan bi send mail');
+    console.log(user);
     this.mailService.sendActiveEmail(
       user.email,
       await this.buildActiveLink(user),
