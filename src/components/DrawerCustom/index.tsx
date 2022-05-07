@@ -1,19 +1,20 @@
-import { Drawer } from 'antd'
-import { useEffect } from 'react'
+import { Drawer, Spin } from 'antd';
+import { useEffect } from 'react';
 
-import './DrawerCustom.scss'
+import './DrawerCustom.scss';
 
 type IProps = {
-    visible: boolean
+    visible: boolean;
+    loading: boolean;
 
-    closeModal: Function
-    title?: string
+    closeModal: Function;
+    title?: string;
 
-    contentDrawer: any
-}
+    contentDrawer: any;
+};
 
 function DrawerCustom(props: IProps) {
-    useEffect(() => {}, [props.visible])
+    useEffect(() => {}, [props.visible]);
 
     return (
         <Drawer
@@ -25,9 +26,9 @@ function DrawerCustom(props: IProps) {
             getContainer={false}
             closable={false}
         >
-            {props.contentDrawer}
+            <Spin spinning={props.loading}>{props.contentDrawer}</Spin>
         </Drawer>
-    )
+    );
 }
 
-export default DrawerCustom
+export default DrawerCustom;

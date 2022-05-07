@@ -1,20 +1,20 @@
-import { Modal, Spin } from 'antd'
-import { useEffect } from 'react'
+import { Modal, Spin } from 'antd';
+import { useEffect } from 'react';
 
-import './ModalCustom.scss'
+import './ModalCustom.scss';
 
 type IProps = {
-    visible: boolean
-    loading?: boolean
+    visible: boolean;
+    loading?: boolean;
 
-    closeModal: Function
-    title: string
+    closeModal: Function;
+    title: string;
 
-    contentModal: any
-}
+    contentModal: any;
+};
 
 function ModalCustom(props: IProps) {
-    useEffect(() => {}, [props.visible])
+    useEffect(() => {}, [props.visible]);
 
     return (
         <Modal
@@ -27,7 +27,7 @@ function ModalCustom(props: IProps) {
         >
             <Spin spinning={props.loading}>{props.contentModal}</Spin>
         </Modal>
-    )
+    );
 }
 
-export default ModalCustom
+export default ModalCustom;

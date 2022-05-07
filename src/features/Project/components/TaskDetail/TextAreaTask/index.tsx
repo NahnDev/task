@@ -1,25 +1,25 @@
-import { Input, Row } from 'antd'
-import { useEffect, useState } from 'react'
-import { Task } from '../../../../../types/global'
+import { Input, Row } from 'antd';
+import { useEffect, useState } from 'react';
+import { Task } from '../../../../../types/global';
 
 type IProps = {
-    className?: string
-    placeholder?: string
-    name?: string
-    value?: any
-    label?: string
+    className?: string;
+    placeholder?: string;
+    name?: string;
+    value?: any;
+    label?: string;
 
-    task: Task
-    changeDescription: Function
-}
-const { TextArea } = Input
+    task: Task;
+    changeDescription: Function;
+};
+const { TextArea } = Input;
 
 function TextAreaTask(props: IProps) {
-    const [valueInput, setValueInput] = useState<string>(props.task.name)
+    const [valueInput, setValueInput] = useState<string>(props.task.name);
 
     useEffect(() => {
-        setValueInput(props.task.name)
-    }, [props.task])
+        setValueInput(props.task.description || '');
+    }, [props.task]);
 
     return (
         <Row justify="center" className={`${props.className}`}>
@@ -32,14 +32,14 @@ function TextAreaTask(props: IProps) {
                 rows={4}
                 name={props.task.name}
                 className={`${props.className}--area`}
-                defaultValue={props.task.name}
+                defaultValue={props.task.description}
                 value={valueInput}
                 onChange={(e) => setValueInput(e.target.value)}
                 onBlur={() => props.changeDescription(valueInput, 'description')}
                 bordered={false}
             />
         </Row>
-    )
+    );
 }
 
-export default TextAreaTask
+export default TextAreaTask;

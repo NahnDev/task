@@ -37,6 +37,7 @@ function ProjectPage(props: IProps) {
     const dispatch = useDispatch();
 
     const [visible, setVisible] = useState<boolean>(false);
+    const [loading, setLoading] = useState<boolean>(false);
     const [visibleDrawer, setVisibleDrawer] = useState<boolean>(false);
     const [contentModal, setContentModal] = useState<any>(<></>);
     const [contentDrawer, setContentDrawer] = useState<any>(<></>);
@@ -77,6 +78,7 @@ function ProjectPage(props: IProps) {
 
     const postTask = async (pid: string, data: Task) => {
         try {
+            setLoading(true);
             const formData = {
                 name: data.name,
             };
@@ -102,6 +104,7 @@ function ProjectPage(props: IProps) {
 
                 if (response_patch) {
                     setVisible(false);
+                    setLoading(false);
                     getProject(pid);
                     openNotificationWithIcon('success', 'Create Task successfully!', '');
                 }
@@ -172,7 +175,8 @@ function ProjectPage(props: IProps) {
                     getTasks(params.id);
                 }}
                 memberProject={project.members}
-                setVisibleDrawer={() => setVisibleDrawer(false)}
+                setVisibleDrawer={(value: boolean) => setVisibleDrawer(value)}
+                setLoading={(value: boolean) => setLoading(value)}
             />
         );
     };
@@ -224,7 +228,7 @@ function ProjectPage(props: IProps) {
                     </div>
                 </div>
                 <ModalCustom
-                    loading={false}
+                    loading={loading}
                     contentModal={contentModal.temp}
                     visible={visible}
                     closeModal={(value: boolean) => {
@@ -234,6 +238,7 @@ function ProjectPage(props: IProps) {
                 />
 
                 <DrawerCustom
+                    loading={loading}
                     visible={visibleDrawer}
                     closeModal={() => setVisibleDrawer(false)}
                     contentDrawer={contentDrawer}
