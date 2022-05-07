@@ -64,10 +64,16 @@ function SignIn(props: TProps) {
                         className={`${props.className}--gg`}
                         // handleClick={() => handleSignInGG()}
                     >
-                        <GooglePlusOutlined
-                            style={{ fontSize: '1.5em', marginRight: '0.5em', marginLeft: '0.5em' }}
-                        />
-                        Sign in with Google
+                        <Row justify="center" align="middle">
+                            <GooglePlusOutlined
+                                style={{
+                                    fontSize: '1.5em',
+                                    marginRight: '0.5em',
+                                    marginLeft: '0.5em',
+                                }}
+                            />
+                            Sign in with Google
+                        </Row>
                     </a>
                     <hr className={`${props.className}--hr`} />
 
